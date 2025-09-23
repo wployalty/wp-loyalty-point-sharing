@@ -82,3 +82,8 @@ add_action( 'plugins_loaded', function () {
 		\Wlps\App\Router::init();
 	}
 } );
+
+//setup call
+if ( class_exists( \Wlrmg\App\Helper\Plugin::class ) ) {
+	\Wlps\App\Setup::init();
+}

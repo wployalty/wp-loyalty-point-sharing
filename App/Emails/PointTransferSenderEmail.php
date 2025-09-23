@@ -52,19 +52,25 @@ class PointTransferSenderEmail extends WC_Email {
 	/**
 	 * Trigger this email
 	 */
-	public function trigger( $sender_name, $recipient_name, $points_amount, $confirm_link ) {
+	public function trigger( $sender_email, $sender_name, $recipient_name, $points_amount, $confirm_link ) {
 		$this->placeholders['{sender_name}']    = $sender_name;
 		$this->placeholders['{recipient_name}'] = $recipient_name;
 		$this->placeholders['{points_amount}']  = $points_amount;
 		$this->placeholders['{confirm_link}']   = $confirm_link;
 
-		$this->recipient = $sender_name; // <-- sender’s email here
+		$this->recipient = $sender_email;
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return;
 		}
 
-		$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
+		$this->send(
+			$this->get_recipient(),
+			$this->get_subject(),
+			$this->get_content(),
+			$this->get_headers(),
+			$this->get_attachments()
+		);
 	}
 
 	public function get_content_html() {

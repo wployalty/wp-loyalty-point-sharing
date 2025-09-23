@@ -113,13 +113,13 @@ defined( 'ABSPATH' ) or die;
                                     for="wlps-expire-email-template-label"><?php esc_html_e( 'Points Sharing Email Template Content', 'wp-loyalty-rules' ); ?></label>
                         </div>
                         <div class="wlps-email-template" id="wlps-email-template-editor">
-                            <a href="<?php echo isset( $manage_email_url ) ? esc_url( $manage_email_url ) : '#'; ?>"
+                            <a href="<?php echo isset( $manage_sender_email ) ? esc_url( $manage_sender_email ) : '#'; ?>"
                                target="_blank" class="redirect-to-loyalty">
 								<?php esc_html_e( "Manage sender email template", "wp-loyalty-rules" ); ?>
                             </a>
                         </div>
                         <div class="wlps-email-template" id="wlps-email-template-editor">
-                            <a href="<?php echo isset( $manage_email_url ) ? esc_url( $manage_email_url ) : '#'; ?>"
+                            <a href="<?php echo isset( $manage_receiver_email ) ? esc_url( $manage_receiver_email ) : '#'; ?>"
                                target="_blank" class="redirect-to-loyalty">
 								<?php esc_html_e( "Manage receiver email template", "wp-loyalty-rules" ); ?>
                             </a>

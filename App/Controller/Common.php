@@ -79,15 +79,20 @@ class Common {
 
 	public static function getSettingsPage() {
 		$args      = [
-			'current_page'     => 'settings',
-			'back_to_apps_url' => admin_url( 'admin.php?' . http_build_query( [ 'page' => WLR_PLUGIN_SLUG ] ) ) . '#/apps',
-			'back'             => WLPS_PLUGIN_URL . "Assets/svg/back.svg",
-			'previous'         => WLPS_PLUGIN_URL . "Assets/svg/previous.svg",
-			'option_settings'  => get_option( 'wlrps_settings', [] ),
-			'manage_email_url' => admin_url( 'admin.php?' . http_build_query( [
+			'current_page'          => 'settings',
+			'back_to_apps_url'      => admin_url( 'admin.php?' . http_build_query( [ 'page' => WLR_PLUGIN_SLUG ] ) ) . '#/apps',
+			'back'                  => WLPS_PLUGIN_URL . "Assets/svg/back.svg",
+			'previous'              => WLPS_PLUGIN_URL . "Assets/svg/previous.svg",
+			'option_settings'       => get_option( 'wlrps_settings', [] ),
+			'manage_sender_email'   => admin_url( 'admin.php?' . http_build_query( [
 					'page'    => 'wc-settings',
 					'tab'     => 'email',
-					'section' => 'wlrpointsharing'
+					'section' => 'WlpsSenderEmail'
+				] ) ),
+			'manage_receiver_email' => admin_url( 'admin.php?' . http_build_query( [
+					'page'    => 'wc-settings',
+					'tab'     => 'email',
+					'section' => 'WlpsReceiverEmail'
 				] ) ),
 		];
 		$file_path = get_theme_file_path( 'wp-loyalty-migration/Admin/settings.php' );

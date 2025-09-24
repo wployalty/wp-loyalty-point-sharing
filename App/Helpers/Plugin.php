@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlps\App\Helper;
+namespace Wlps\App\Helpers;
 defined( 'ABSPATH' ) || exit;
 
 class Plugin {

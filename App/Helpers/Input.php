@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlps\App\Helper;
+namespace Wlps\App\Helpers;
 
 use http\Exception\UnexpectedValueException;
 
@@ -18,6 +18,16 @@ class Input {
 		'post',
 		'cookie',
 	];
+	/**
+	 * Enable XSS flag
+	 *
+	 * Determines whether the XSS filter is always active when
+	 * GET, POST or COOKIE data is encountered.
+	 * Set automatically based on config setting.
+	 *
+	 * @var    bool
+	 */
+	protected $_enable_xss = true;
 	/**
 	 * List of available sanitize callbacks.
 	 *
@@ -129,5 +139,68 @@ class Input {
 		} while ( $old_data !== $data );
 
 		return is_string( $data ) ? $data : '';
+	}
+
+	/**
+	 * Fetch an item from the POST array
+	 *
+	 * @param null $index
+	 * @param null $default
+	 * @param null $xss_clean
+	 *
+	 * @return mixed
+	 */
+	function post( $index = null, $default = null, $xss_clean = null ) {
+		//phpcs:ignore WordPress.Security.NonceVerification.Missing
+		return $this->_fetch_from_array( $_POST, $index, $default, $xss_clean );
+	}
+
+	/**
+	 * Fetch from array
+	 *
+	 * @param $array
+	 * @param null $index
+	 * @param null $default
+	 * @param null $xss_clean
+	 *
+	 * @return array|string|null
+	 */
+	protected function _fetch_from_array( &$array, $index = null, $default = null, $xss_clean = null ) {
+		is_bool( $xss_clean ) or $xss_clean = $this->_enable_xss;
+		// If $index is NULL, it means that the whole $array is requested
+		$index = ( ! isset( $index ) || is_null( $index ) ) ? array_keys( $array ) : $index;
+		// allow fetching multiple keys at once
+		if ( is_array( $index ) ) {
+			$output = array();
+			foreach ( $index as $key ) {
+				$output[ $key ] = $this->_fetch_from_array( $array, $key, $default, $xss_clean );
+			}
+
+			return $output;
+		}
+		if ( isset( $array[ $index ] ) ) {
+			$value = $array[ $index ];
+		} elseif ( ( $count = preg_match_all( '/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches ) ) > 1 ) // Does the index contain array notation
+		{
+			$value = $array;
+			for ( $i = 0; $i < $count; $i ++ ) {
+				$key = trim( $matches[0][ $i ], '[]' );
+				if ( $key === '' ) // Empty notation will return the value as array
+				{
+					break;
+				}
+				if ( isset( $value[ $key ] ) ) {
+					$value = $value[ $key ];
+				} else {
+					return null;
+				}
+			}
+		} else {
+			return $default;
+		}
+
+		/*return ($xss_clean === TRUE) ? $this->xss_clean($value) : $value;*/
+
+		return $value;
 	}
 }

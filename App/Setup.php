@@ -2,7 +2,7 @@
 
 namespace Wlps\App;
 
-use Wlps\App\Helper\Plugin;
+use Wlps\App\Helpers\Plugin;
 use Wlps\App\Models\PointTransfers;
 
 defined( "ABSPATH" ) || exit;

@@ -78,7 +78,7 @@ add_action( 'plugins_loaded', function () {
 	if ( ! class_exists( '\Wlps\App\Router' ) ) {
 		return;
 	}
-	if ( \Wlps\App\Helper\Plugin::checkDependencies() ) {
+	if ( \Wlps\App\Helpers\Plugin::checkDependencies() ) {
 		\Wlps\App\Router::init();
 	}
 } );

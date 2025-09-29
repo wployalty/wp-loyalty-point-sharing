@@ -73,17 +73,19 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	return;
 }
 require_once __DIR__ . '/vendor/autoload.php';
-
+//setup call
+if ( class_exists( \Wlrmg\App\Helper\Plugin::class ) ) {
+	\Wlps\App\Setup::init();
+}
 add_action( 'plugins_loaded', function () {
 	if ( ! class_exists( '\Wlps\App\Router' ) ) {
+		return;
+	}
+	if ( ! class_exists( 'WooCommerce' ) ) {
+
 		return;
 	}
 	if ( \Wlps\App\Helpers\Plugin::checkDependencies() ) {
 		\Wlps\App\Router::init();
 	}
 } );
-
-//setup call
-if ( class_exists( \Wlrmg\App\Helper\Plugin::class ) ) {
-	\Wlps\App\Setup::init();
-}

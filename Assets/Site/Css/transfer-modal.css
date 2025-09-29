@@ -1,0 +1,5 @@
+/* Ensure alertify toasts always stay above custom modals */
+.alertify-notifier {
+    z-index: 999999 !important;
+}
+

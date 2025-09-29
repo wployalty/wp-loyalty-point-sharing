@@ -12,15 +12,14 @@ class PointTransfers extends Base {
 		$this->table       = self::$db->prefix . 'wlr_point_transfers';
 		$this->primary_key = 'id';
 		$this->fields      = [
-			'sender_email'      => '%s',
-			'recipient_email'   => '%s',
-			'points'            => '%d',
-			'status'            => '%s',
-			'token'             => '%s',
-			'token_expiry_date' => '%d',
-			'notes'             => '%s',
-			'created_at'        => '%d',
-			'updated_at'        => '%d',
+			'sender_email'    => '%s',
+			'recipient_email' => '%s',
+			'points'          => '%d',
+			'status'          => '%s',
+			'token'           => '%s',
+			'notes'           => '%s',
+			'created_at'      => '%d',
+			'updated_at'      => '%d',
 		];
 	}
 

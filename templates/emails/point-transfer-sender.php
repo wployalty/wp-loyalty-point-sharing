@@ -6,19 +6,22 @@ defined( 'ABSPATH' ) || exit;
 
 echo '<h2>' . esc_html( $email_heading ) . '</h2>';
 ?>
+
 <p>
-    Hi {sender_name},
+    Hi <?php echo esc_html( $sender_name ); ?>,
 </p>
 <p>
-    You are about to send <strong>{points_amount} {points_label}</strong> to <strong>{recipient_name}</strong>.
+    You are about to send
+    <strong><?php echo intval( $points_amount ); ?><?php echo esc_html( $points_label ); ?></strong>
+    to <strong><?php echo esc_html( $recipient_name ); ?></strong>.
 </p>
 <p>
     Please confirm by clicking the link below:
 </p>
 <p>
-    <a href="{confirm_link}" target="_blank">Confirm Transfer</a>
+    <a href="<?php echo esc_url( $confirm_link ); ?>" target="_blank">Confirm Transfer</a>
 </p>
 <p>
     Thank you,<br>
-    {site_name}
+	<?php echo esc_html( get_bloginfo( 'name' ) ); ?>
 </p>

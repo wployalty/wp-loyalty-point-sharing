@@ -2,11 +2,10 @@
 
 namespace Wlps\App\Emails;
 
-use WC_Email;
-
 defined( "ABSPATH" ) or die();
+require_once plugin_dir_path( WC_PLUGIN_FILE ) . 'includes/emails/class-wc-email.php';
 
-class PointTransferSenderEmail extends WC_Email {
+class PointTransferSenderEmail extends \WC_Email {
 
 	public function __construct() {
 		$this->id             = 'wlps_point_transfer_sender_email';
@@ -53,6 +52,11 @@ class PointTransferSenderEmail extends WC_Email {
 	 * Trigger this email
 	 */
 	public function trigger( $sender_email, $sender_name, $recipient_name, $points_amount, $confirm_link ) {
+		error_log( $sender_email );
+		error_log( $sender_name );
+		error_log( $recipient_name );
+		error_log( $points_amount );
+		error_log( $confirm_link );
 		$this->placeholders['{sender_name}']    = $sender_name;
 		$this->placeholders['{recipient_name}'] = $recipient_name;
 		$this->placeholders['{points_amount}']  = $points_amount;
@@ -74,20 +78,24 @@ class PointTransferSenderEmail extends WC_Email {
 	}
 
 	public function get_content_html() {
-		return wc_get_template_html( $this->template_html, [
-			'email_heading' => $this->get_heading(),
-			'sent_to_admin' => false,
-			'plain_text'    => false,
-			'email'         => $this,
-		], '', $this->template_base );
+		return $this->format_string( wc_get_template_html( $this->template_html, [
+			'email_heading'      => $this->get_heading(),
+			'additional_content' => $this->get_additional_content(),
+			'sent_to_admin'      => false,
+			'plain_text'         => false,
+			'email'              => $this,
+			'placeholders'       => $this->placeholders
+		], '', $this->template_base ) );
 	}
 
 	public function get_content_plain() {
-		return wc_get_template_html( $this->template_plain, [
-			'email_heading' => $this->get_heading(),
-			'sent_to_admin' => false,
-			'plain_text'    => true,
-			'email'         => $this,
-		], '', $this->template_base );
+		return $this->format_string( wc_get_template_html( $this->template_html, [
+			'email_heading'      => $this->get_heading(),
+			'additional_content' => $this->get_additional_content(),
+			'sent_to_admin'      => false,
+			'plain_text'         => true,
+			'email'              => $this,
+			'placeholder'        => $this->placeholders,
+		], '', $this->template_base ) );
 	}
 }

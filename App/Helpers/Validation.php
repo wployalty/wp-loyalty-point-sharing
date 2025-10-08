@@ -21,8 +21,7 @@ class Validation {
 		$settings_validator->stopOnFirstFail( false );
 
 		// Validation rules
-		$settings_validator->rule( 'required', [ 'enable_share_point' ] );
-		$settings_validator->rule( 'in', [ 'enable_point_point' ], [ 'yes', 'no' ] );
+		$settings_validator->rule( 'in', [ 'enable_share_point' ], [ 'yes', 'no' ] );
 
 		$settings_validator->rule( 'required', [ 'max_transfer_points' ] );
 		$settings_validator->rule( 'numeric', [ 'max_transfer_points' ] );
@@ -34,6 +33,27 @@ class Validation {
 		} else {
 			return $settings_validator->errors();
 		}
+	}
+
+	public static function validateTransferPointsInput( $recipient_email, $transfer_points ) {
+		$v = new Validator( [
+			'recipient_email' => $recipient_email,
+			'transfer_points' => $transfer_points,
+		] );
+
+		$v->labels( [
+			'recipient_email' => __( 'Recipient Email', 'wp-loyalty-point-sharing' ),
+			'transfer_points' => __( 'Points to Transfer', 'wp-loyalty-point-sharing' ),
+		] );
+
+		$v->rules( [
+			'required' => [ 'recipient_email', 'transfer_points' ],
+			'email'    => [ 'recipient_email' ],
+			'integer'  => [ 'transfer_points' ],
+			'min'      => [ [ 'transfer_points', 1 ] ],
+		] );
+
+		return $v->validate() ? true : $v->errors();
 	}
 
 }

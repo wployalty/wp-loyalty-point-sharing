@@ -79,7 +79,7 @@ $border-color: #E7E7EF;
     }
   }
 
-  #wlpe-expire-points {
+  #wlps-expire-points {
     .wlps-back-to-apps a {
       display: flex;
       min-width: max-content !important;
@@ -98,7 +98,7 @@ $border-color: #E7E7EF;
       gap: 7px;
     }
 
-    .wlpe-no-points {
+    .wlps-no-points {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -117,11 +117,11 @@ $border-color: #E7E7EF;
       text-align: center;
     }
 
-    .wlpe-email-search {
+    .wlps-email-search {
       cursor: $cursor;
     }
 
-    .wlpe-search-filter-block {
+    .wlps-search-filter-block {
       display: flex;
       gap: 10px;
     }
@@ -154,7 +154,7 @@ $border-color: #E7E7EF;
 
       }
 
-      .wlpe-filter {
+      .wlps-filter {
         width: 50%;
         background: $color-white;
         border: 1px solid $border-color;
@@ -170,7 +170,7 @@ $border-color: #E7E7EF;
       }
     }
 
-    .wlpe-filter-status-block {
+    .wlps-filter-status-block {
       width: 250px;
       background-color: $color-white;
       float: right;
@@ -181,7 +181,7 @@ $border-color: #E7E7EF;
       right: 15px;
     }
 
-    .wlpe-filter-status {
+    .wlps-filter-status {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -211,10 +211,10 @@ $border-color: #E7E7EF;
       }
     }
 
-    .wlpe-body-content {
+    .wlps-body-content {
       min-height: 60vh;
 
-      .wlpe-body-header {
+      .wlps-body-header {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         margin: 20px 25px 5px 20px;
@@ -232,7 +232,7 @@ $border-color: #E7E7EF;
         }
       }
 
-      .wlpe-data-row {
+      .wlps-data-row {
         background: $color-white;
         border: 1px solid $border-color;
         box-shadow: 0 0 24px rgba(12, 17, 58, 0.04);
@@ -250,7 +250,14 @@ $border-color: #E7E7EF;
           font-size: 14px;
         }
 
-        .customer {
+        .sender-email {
+          display: flex;
+          flex-direction: column;
+          word-break: break-word;
+          text-align: initial;
+        }
+
+        .recipient-email {
           display: flex;
           flex-direction: column;
           word-break: break-word;
@@ -271,51 +278,33 @@ $border-color: #E7E7EF;
             border-radius: 4px;
           }
 
-          .active {
+          .completed {
             background: #DDF8EC;
             color: #00C288;
           }
 
-          .open {
+          .pending {
             background: #F6F6FE;
             color: #4F47EB;
           }
 
-          .used {
-            background: #FDEEC4;
-            color: #F6BA09;
-          }
-
-          .expired {
+          .failed {
             background: #FFDCD6;
             color: #F5425D;
           }
+
+          .expired {
+            background: #FDEEC4;
+            color: #F6BA09;
+          }
         }
 
-        .available-points {
+        .points-shared {
           text-align: center;
           display: flex;
           align-items: center;
           justify-content: space-evenly;
           gap: 3px;
-        }
-
-        .used-points {
-          text-align: center
-        }
-
-
-        .expiery-date-block [class^='point-expiery-date'],
-        .expiery-date-block [class^='email-expiery-date'] {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          justify-content: center;
-        }
-
-
-        [id^='wlpe-edit-expiery-date-'] {
-          cursor: $cursor;
         }
       }
     }
@@ -350,7 +339,7 @@ $border-color: #E7E7EF;
       cursor: $cursor;
     }
 
-    .wlpe-pagination {
+    .wlps-pagination {
       display: flex;
       flex-direction: row-reverse;
       justify-content: space-between;
@@ -390,7 +379,7 @@ $border-color: #E7E7EF;
 
         }
 
-        .wlpe-current-page {
+        .wlps-current-page {
           background-color: $theme-color;
 
           a {
@@ -406,7 +395,7 @@ $border-color: #E7E7EF;
     }
   }
 
-  #wlpe-expire-points .wlpe-expire-points-content-holder,
+  #wlps-expire-points .wlps-expire-points-content-holder,
   #wlps-settings .wlps-setting-page-holder {
     background: $color-white;
     border: 1px solid $border-color;
@@ -414,7 +403,7 @@ $border-color: #E7E7EF;
     min-height: 80vh;
   }
 
-  #wlpe-expire-points .content-header,
+  #wlps-expire-points .content-header,
   #wlps-settings .wlps-settings-header {
     display: flex;
     justify-content: space-between;
@@ -424,12 +413,12 @@ $border-color: #E7E7EF;
     margin-right: 10px;
   }
 
-  #wlpe-expire-points .content-header .heading,
+  #wlps-expire-points .content-header .heading,
   #wlps-settings .wlps-settings-header .wlps-setting-heading {
     margin-left: 10px;
   }
 
-  #wlpe-expire-points .content-header .heading p,
+  #wlps-expire-points .content-header .heading p,
   #wlpe-settings .wlps-settings-header .wlps-setting-heading p {
     font-style: normal;
     font-weight: 700;

@@ -5,13 +5,7 @@ if (typeof (wlps_jquery) == 'undefined') {
 wlps = window.wlps || {};
 (function (wlps) {
     wlps.saveSettings = function () {
-        /*let editor = tinyMCE.activeEditor.getContent();*/
         let data = wlps_jquery('#wlps-main #wlps-settings #wlps-settings_form').serializeArray();
-        /*wlpe_jquery.each(data, function (i, field) {
-            if (field.name == 'email_template') {
-                field.value = editor;
-            }
-        });*/
         wlps_jquery('#wlps-main #wlps-settings #wlps-setting-submit-button').attr('disabled', true);
         wlps_jquery('#wlps-main #wlps-settings .wlps-error').remove();
         wlps_jquery("#wlps-main #wlps-settings #wlps-setting-submit-button span").html(wlps_localize_data.saving_button_label);
@@ -61,5 +55,27 @@ wlps = window.wlps || {};
             wlps_jquery('#wlps-main #wlps-settings #' + id + '_section').css('display', 'none');
         }
     }
+    /**
+     * filter status form action block
+     */
+    wlps.filterPoints = function (form_id, value) {
+        wlps_jquery(form_id + " input[name=\"point_sort\"]").val(value);
+        wlps_jquery(form_id).submit();
+    }
+    /**
+     * show filter status block
+     */
+    wlps.showFilter = function (e) {
+        if (wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').is(":visible")) {
+            wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
+        } else {
+            wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').show()
+        }
+    }
+    wlpe_jquery(document).on('click', '#wlps-main  #wlps-expire-points', function (e) {
+        if (e.target.className !== 'wlps-filter-section') {
+            wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
+        }
+    })
 })(window.wlps, wlps_jquery);
 

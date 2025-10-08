@@ -58,7 +58,6 @@ wlps.initSharePointsModal = function () {
 
                 // Info toast
                 alertify.set('notifier', 'position', 'top-right');
-                // alertify.message('📩 Check your email to confirm the transaction...');
 
                 let formArray = form.serializeArray();
                 let formData = {};
@@ -72,10 +71,15 @@ wlps.initSharePointsModal = function () {
                     method: 'POST',
                     data: formData,
                     success: function (response) {
-                        if (response.error) {
-                            alertify.error(response.message || 'Something went wrong!');
+                        const message =
+                            response.data?.message ||
+                            response.message ||
+                            'Something went wrong!';
+
+                        if (response.success === false) {
+                            alertify.error(message); //
                         } else {
-                            alertify.success(response.data?.message || '✅ Points transferred successfully!');
+                            alertify.success(message || 'Points transferred successfully!');
                             form[0].reset();
                             pointsError.hide();
                             submitBtn.prop('disabled', false);
@@ -84,7 +88,7 @@ wlps.initSharePointsModal = function () {
                     },
                     error: function (err) {
                         console.error(err);
-                        alertify.error('⚠️ Something went wrong. Please try again.');
+                        alertify.error('Something went wrong. Please try again.');
                     }
                 });
             });
@@ -106,6 +110,7 @@ wlps.showConfirmModal = function (message, requireInput, callback) {
 
     // Set message
     messageBox.text(message);
+    messageBox.show();
 
     // Show or hide input
     if (requireInput) {
@@ -119,7 +124,7 @@ wlps.showConfirmModal = function (message, requireInput, callback) {
     // Handle OK
     okBtn.off('click').on('click', function () {
         if (requireInput) {
-            const val = inputBox.val().trim().toUpperCase();
+            const val = inputBox.val().trim();
             if (val !== 'CONFIRM') {
                 messageBox.text('❌ You must type CONFIRM to proceed.');
                 inputBox.val('').focus();

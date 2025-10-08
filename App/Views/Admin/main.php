@@ -13,13 +13,13 @@ defined( 'ABSPATH' ) or die();
 				   'page' => WLPS_PLUGIN_SLUG,
 				   'view' => 'point_sharing'
 			   ) ) ) ); ?>"
-        ><i class="wlr wlrf-customers"></i><?php esc_html_e( 'Manage Point Sharing', 'wp-loyalty-rules' ) ?></a>
+        ><i class="wlr wlps-customers"></i><?php esc_html_e( 'Manage Point Sharing', 'wp-loyalty-rules' ) ?></a>
         <a class="<?php echo ( isset( $current_view ) && $current_view == "settings" ) ? 'nav-tab-active' : ''; ?>"
            href="<?php echo esc_url( admin_url( 'admin.php?' . http_build_query( array(
 				   'page' => WLPS_PLUGIN_SLUG,
 				   'view' => 'settings'
 			   ) ) ) ) ?>"
-        ><i class="wlr wlrf-settings"></i><?php esc_html_e( 'Settings', 'wp-loyalty-rules' ) ?></a>
+        ><i class="wlr wlps-settings"></i><?php esc_html_e( 'Settings', 'wp-loyalty-rules' ) ?></a>
     </div>
     <div>
 		<?php echo apply_filters( 'wlpe_extra_content', ( isset( $extra ) ? $extra : null ) );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

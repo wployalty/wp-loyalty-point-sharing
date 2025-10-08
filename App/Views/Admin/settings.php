@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) or die;
 ?>
 <div id="wlps-settings">
     <div class="wlps-setting-page-holder">
-        <div class="wlpe-spinner">
+        <div class="wlps-spinner">
             <span class="spinner"></span>
         </div>
         <form id="wlps-settings_form" method="post">
@@ -64,54 +64,11 @@ defined( 'ABSPATH' ) or die;
                                                class="wlps-expire-after"
                                                value="<?php echo esc_attr( $max_transfer_points ); ?>"/>
                                     </div>
-                                    <!-- not used soon to remove -->
-                                    <!--                                    <div class="wlpe-days">-->
-                                    <!--                                        <p>-->
-									<?php //esc_html_e( 'points', 'wp-loyalty-rules' ); ?><!--</p>-->
-                                    <!--                                    </div>-->
-                                    <!-- not used soon to remove -->
-                                    <!--                                    <input type="hidden" min="0" name="expire_period" class="wlpe-expired-period"-->
-                                    <!--                                           value="day"/>-->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--
-
-                    <div class="wlps-email-expiry-email">
-                        <div class="wlps-send-email-checkbox">
-							<?php // $enable_expire_email = isset( $options['enable_expire_email'] ) && ! empty( $options['enable_expire_email'] ) ? $options['enable_expire_email'] : 0; ?>
-                            <input type="checkbox" id="wlpe_enable_expire_email" name="enable_expire_email" value="1"
-                                   onclick="wlpe.toggleSection();" <? //php echo $enable_expire_email ? 'checked="checked"' : ""; ?>><label
-                                    for="wlpe_enable_expire_email"><?php // esc_html_e( 'Send an email notification before the expiry of points?', 'wp-loyalty-rules' ); ?></label>
-                        </div>
-                        <div class="wlps-email-notification"
-                             style="display: <?php // echo $enable_expire_email ? 'block' : 'none'; ?>">
-                            <div id="wlps_expire_email_block">
-                                <label
-                                        class="wlps-setting-label"><?php // esc_html_e( 'How many days before an expiry email notification be sent ?', 'wp-loyalty-rules' ); ?></label>
-                            </div>
-                            <div class="wlps_expire_email_after_value_block">
-                                <div class="wlpe-expire-time-1">
-                                    <div class="wlps-input-field">
-										<?php // $expire_email_after = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_email_after'] ) && ! empty( $options['expire_email_after'] ) ? $options['expire_email_after'] : 7 ?>
-                                        <input type="number" min="0" name="expire_email_after"
-                                               class="wlps-email-notification-value"
-                                               value="<?php // echo esc_attr( $expire_email_after ); ?>"/>
-                                    </div>
-                                    <div class="wlpe-days">
-                                        <p><?php // esc_html_e( 'in days', 'wp-loyalty-rules' ); ?></p>
-                                    </div>
-                                    <input type="hidden" min="0" name="expire_email_period"
-                                           class="wlps-email-notification-time"
-                                           value="day"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    -->
-                    <div class="wlps-email-expiry-email wlps-email-expiry-editor"
-                         style="display: <?php echo $enable_expire_email ? 'flex' : 'none'; ?>">
+                    <div class="wlps-email-expiry-email wlps-email-expiry-editor">
                         <div class="wlps-send-email-checkbox">
                             <label
                                     for="wlps-expire-email-template-label"><?php esc_html_e( 'Points Sharing Email Template Content', 'wp-loyalty-rules' ); ?></label>
@@ -131,35 +88,9 @@ defined( 'ABSPATH' ) or die;
                     </div>
                     <input type="hidden" name="action" value="wlps_save_settings">
                     <input type="hidden" name="wlps_nonce"
-                           value="<?php echo isset( $wlpe_setting_nonce ) && ! empty( $wlpe_setting_nonce ) ? esc_attr( $wlpe_setting_nonce ) : ''; ?>">
+                           value="<?php echo isset( $wlps_setting_nonce ) && ! empty( $wlps_setting_nonce ) ? esc_attr( $wlps_setting_nonce ) : ''; ?>">
                     <input type="hidden" name="option_key"
                            value="<?php echo ! empty( $save_key ) ? esc_attr( $save_key ) : 'wlps_settings' ?>">
-                    <div class="wlps-field-block" id="wlpe_enable_customer_page_expire_content_section"
-                         style="<?php
-					     echo isset( $options['enable_customer_page_expire_content'] ) &&
-					          $options['enable_customer_page_expire_content'] === 'yes' ? 'display:block' : 'display:none'; ?>">
-                        <div class="wlps-expire-time-block">
-                            <!--                            <div>-->
-                            <!--                                <label-->
-                            <!--                                        class="wlps-setting-label">-->
-							<?php //echo esc_html_e( 'How many days to consider for the "Upcoming Points Expiration" List ?', 'wp-loyalty-rules' ) ?><!--</label>-->
-                            <!--                            </div>-->
-                            <!--
-                            <div class="wlps_expire_after_value_block">
-                                <div class="wlps-expire-time-1">
-                                    <div class="wlps-input-field">
-                                        <input type="number" min="0" name="expire_date_range"
-                                               class="wlps-expire-after"
-                                               value="<?php // echo isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_date_range'] ) && ! empty( $options['expire_date_range'] ) ? (int) $options['expire_date_range'] : 30 ?>"/>
-                                    </div>
-                                    <div class="wlpe-days">
-                                        <p><?php // esc_html_e( 'days', 'wp-loyalty-rules' ); ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
-                        </div>
-                    </div>
                 </div>
             </div>
         </form>

@@ -13,7 +13,6 @@ class Router {
 		self::$controller = empty( self::$controller ) ? new Common() : self::$controller;
 		WlpsEmailManager::init();
 
-
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( self::$controller, 'addMenu' ), 11 );
 			add_action( 'admin_enqueue_scripts', array( self::$controller, 'addAssets' ) );
@@ -23,6 +22,7 @@ class Router {
 			\Wlps\App\Controller\Common::class,
 			'wlps_render_share_points_modal'
 		] );
+		add_filter( 'wlr_extra_action_list', [ Common::class, 'addExtraAction' ], 10, 1 );
 		add_action( 'wp_enqueue_scripts', array( self::$controller, 'addFrontendAssets' ) );
 		// safe to use WC_Email now
 		add_action( 'wp_ajax_wlps_transfer_points', [ \Wlps\App\Controller\Common::class, 'transferPoints' ] );

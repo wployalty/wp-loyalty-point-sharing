@@ -203,4 +203,18 @@ class Input {
 
 		return $value;
 	}
+
+	/**
+	 * Fetch an item from POST data with fallback to GET
+	 *
+	 * @param $index
+	 * @param null $xss_clean
+	 * @param null $default
+	 *
+	 * @return mixed
+	 */
+	function post_get( $index, $default = null, $xss_clean = null ) {
+		//phpcs:ignore WordPress.Security.NonceVerification.Missing
+		return isset( $_POST[ $index ] ) ? $this->post( $index, $default, $xss_clean ) : $this->get( $index, $default, $xss_clean );
+	}
 }

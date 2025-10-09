@@ -87,8 +87,6 @@ defined( 'ABSPATH' ) or die;
                         </div>
                     </div>
                     <input type="hidden" name="action" value="wlps_save_settings">
-                    <input type="hidden" name="wlps_nonce"
-                           value="<?php echo isset( $wlps_setting_nonce ) && ! empty( $wlps_setting_nonce ) ? esc_attr( $wlps_setting_nonce ) : ''; ?>">
                     <input type="hidden" name="option_key"
                            value="<?php echo ! empty( $save_key ) ? esc_attr( $save_key ) : 'wlps_settings' ?>">
                 </div>

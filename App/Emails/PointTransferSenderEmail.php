@@ -2,12 +2,14 @@
 
 namespace Wlps\App\Emails;
 
+use Wlr\App\Emails\Traits\Common;
 use Wlr\App\Helpers\Rewards;
 
 defined( "ABSPATH" ) or die();
 require_once plugin_dir_path( WC_PLUGIN_FILE ) . 'includes/emails/class-wc-email.php';
 
 class PointTransferSenderEmail extends \WC_Email {
+	use Common;
 
 	public function __construct() {
 		$this->id             = 'wlps_point_transfer_sender_email';
@@ -20,15 +22,16 @@ class PointTransferSenderEmail extends \WC_Email {
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
 
 		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
-			'{site_name}'      => get_bloginfo( 'name' ),
-			'{wlr_shop_url}'   => 'https://example.com',
-			'{sender_name}'    => '',
-			'{recipient_name}' => '',
-			'{points_amount}'  => '',
-			'{points_label}'   => __( 'points', 'wp-loyalty-point-sharing' ),
-			'{confirm_link}'   => '',
+			'{site_name}'          => get_bloginfo( 'name' ),
+			'{wlr_shop_url}'       => 'https://example.com',
+			'{wlr_sender_name}'    => 'tony',
+			'{wlr_recipient_name}' => 'alex',
+			'{wlr_points}'         => '10',
+			'{wlr_points_label}'   => __( 'points', 'wp-loyalty-point-sharing' ),
+			'{wlr_confirm_link}'   => '',
+			'{wlr_referral_url'    => 'http:example.com'
 		] );
-		add_action( 'wlr_send_point_transfer_sender_email', [ $this, 'trigger' ], 10, 5 );
+		add_action( 'wlr_send_point_transfer_sender_email', [ $this, 'trigger' ], 10, 2 );
 		parent::__construct();
 
 		$this->heading    = $this->get_option( 'heading', $this->get_default_heading() );
@@ -42,7 +45,7 @@ class PointTransferSenderEmail extends \WC_Email {
 	}
 
 	public function get_default_subject() {
-		return __( 'Confirm sending {points_amount} {points_label} to {recipient_name}', 'wp-loyalty-point-sharing' );
+		return __( 'Confirm sending {wlr_points} {wlr_points_label} to {wlr_recipient_name}', 'wp-loyalty-point-sharing' );
 	}
 
 	public function get_subject() {
@@ -54,31 +57,44 @@ class PointTransferSenderEmail extends \WC_Email {
 	/**
 	 * Trigger this email
 	 */
-	public function trigger( $sender_email, $sender_name, $recipient_name, $points_amount, $confirm_link ) {
+	public function trigger( $transfer, $confirm_link ) {
 		if ( ! class_exists( '\Wlps\App\Models\PointTransfers' ) ) {
 			return;
 		}
-		// Set placeholders
-		$this->placeholders['{sender_name}']    = $sender_name;
-		$this->placeholders['{recipient_name}'] = $recipient_name;
-		$this->placeholders['{points_amount}']  = $points_amount;
-		$this->placeholders['{confirm_link}']   = $confirm_link;
-
-		$this->recipient = $sender_email;
+		$this->recipient = sanitize_email( $transfer->sender_email );
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return;
 		}
 
+		$loyalUser       = $this->getLoyaltyUser( $transfer->recipient_email );
+		$ref_code        = ! empty( $loyal_user->refer_code ) ? $loyal_user->refer_code : '';
+		$available_point = ! empty( $loyalUser->points ) ? $loyalUser->points : 0;
+		$reward_helper   = Rewards::getInstance();
+		$point_label     = $reward_helper->getPointLabel( $available_point );
+
+
+		$this->placeholders = [
+			'{wlr_recipient_name}' => $this->getUserDisplayName( $transfer->recipient_email ),
+			'{wlr_sender_name}'    => $this->getUserDisplayName( $transfer->sender_email ),
+			'{wlr_points}'         => $transfer->points,
+			'{wlr_account_link}'   => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
+			'{wlr_referral_url}'   => $ref_code,
+			'{wlr_shop_url}'       => get_permalink( wc_get_page_id( 'shop' ) ),
+			'{wlr_points_label}'   => $point_label,
+			'{wlr_confirm_link}'   => $confirm_link,
+		];
+
+
 		$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );
 		$log_data   = [
-			'user_email'          => $sender_email,
+			'user_email'          => $transfer->sender_email,
 			'action_type'         => 'point_transfer',
-			'points'              => (int) $points_amount,
+			'points'              => (int) $transfer->points,
 			'action_process_type' => 'email_notification',
 			'created_at'          => $created_at,
-			'note'                => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $points_amount ),
-			'customer_note'       => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $points_amount ),
+			'note'                => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $transfer->points ),
+			'customer_note'       => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $transfer->points ),
 		];
 
 

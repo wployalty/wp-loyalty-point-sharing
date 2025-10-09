@@ -11,18 +11,18 @@ defined( 'ABSPATH' ) || exit;
 do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
 
-<p>Hi <?php echo esc_html( $placeholders['{sender_name}'] ?? '' ); ?>,</p>
+<p>Hi <?php echo esc_html( $placeholders['{wlr_sender_name}'] ?? '' ); ?>,</p>
 
 <p>
     You are about to send
-    <strong><?php echo intval( $placeholders['{points_amount}'] ?? 0 ); ?><?php echo esc_html( $placeholders['{points_label}'] ?? 'points' ); ?></strong>
-    to <strong><?php echo esc_html( $placeholders['{recipient_name}'] ?? '' ); ?></strong>.
+    <strong><?php echo intval( $placeholders['{wlr_points}'] ?? 0 ); ?><?php echo esc_html( $placeholders['{wlr_points_label}'] ?? 'points' ); ?></strong>
+    to <strong><?php echo esc_html( $placeholders['{wlr_recipient_name}'] ?? '' ); ?></strong>.
 </p>
 
 <p>Please confirm by clicking the button below:</p>
 
 <p>
-    <a href="<?php echo esc_url( $placeholders['{confirm_link}'] ?? '#' ); ?>" target="_blank" class="button">
+    <a href="<?php echo esc_url( $placeholders['{wlr_confirm_link}'] ?? '#' ); ?>" target="_blank" class="button">
         Confirm Transfer
     </a>
 </p>

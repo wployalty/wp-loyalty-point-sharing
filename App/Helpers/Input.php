@@ -49,6 +49,30 @@ class Input {
 		'content' => [ __CLASS__, 'sanitizeContent' ],
 	];
 
+	/**
+	 * Fetch an item from the GET array
+	 *
+	 * @param null $index
+	 * @param null $default
+	 * @param null $xss_clean
+	 *
+	 * @return mixed
+	 */
+	function getQuery( $index = null, $default = null, $xss_clean = null ) {
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return $this->_fetch_from_array( $_GET, $index, $default, $xss_clean );
+	}
+
+	/**
+	 * Get sanitized input form request.
+	 *
+	 * @param string $var Variable name.
+	 * @param mixed $default Default value.
+	 * @param string $type Input type.
+	 * @param string|false $sanitize Sanitize type.
+	 *
+	 * @return mixed
+	 */
 	public static function get( string $var, $default = '', string $type = 'params', $sanitize = 'text' ) {
 		if ( ! in_array( $type, self::$input_types ) ) {
 			throw new UnexpectedValueException( 'Expected a valid type on get method' );
@@ -215,6 +239,6 @@ class Input {
 	 */
 	function post_get( $index, $default = null, $xss_clean = null ) {
 		//phpcs:ignore WordPress.Security.NonceVerification.Missing
-		return isset( $_POST[ $index ] ) ? $this->post( $index, $default, $xss_clean ) : $this->get( $index, $default, $xss_clean );
+		return isset( $_POST[ $index ] ) ? $this->post( $index, $default, $xss_clean ) : $this->getQuery( $index, $default, $xss_clean );
 	}
 }

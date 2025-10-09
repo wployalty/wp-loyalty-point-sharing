@@ -3,11 +3,13 @@
 namespace Wlps\App\Emails;
 
 use WC_Email;
+use Wlr\App\Emails\Traits\Common;
 use Wlr\App\Helpers\Rewards;
 
 defined( "ABSPATH" ) or die();
 
 class PointTransferReceiverEmail extends WC_Email {
+	use Common;
 
 	public function __construct() {
 		$this->id             = 'wlps_point_transfer_receiver_email';
@@ -20,15 +22,16 @@ class PointTransferReceiverEmail extends WC_Email {
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
 
 		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
-			'{site_name}'      => get_bloginfo( 'name' ),
-			'{wlr_shop_url}'   => 'https://example.com',
-			'{sender_name}'    => '',
-			'{recipient_name}' => '',
-			'{points_amount}'  => '',
-			'{points_label}'   => __( 'points', 'wp-loyalty-point-sharing' ),
-			'{account_link}'   => '',
+			'{site_name}'          => get_bloginfo( 'name' ),
+			'{wlr_shop_url}'       => 'https://example.com',
+			'{wlr_sender_name}'    => '',
+			'{wlr_recipient_name}' => '',
+			'{wlr_points}'         => '',
+			'{wlr_points_label}'   => __( 'points', 'wp-loyalty-point-sharing' ),
+			'{wlr_account_link}'   => '',
+			'{wlr_referral_url}'   => 'http:example.com'
 		] );
-		add_action( 'wlr_send_point_transfer_reciever_email', [ $this, 'trigger' ], 10, 5 );
+		add_action( 'wlr_send_point_transfer_reciever_email', [ $this, 'trigger' ], 10, 3 );
 		parent::__construct();
 
 		$this->heading    = $this->get_option( 'heading', $this->get_default_heading() );
@@ -42,7 +45,7 @@ class PointTransferReceiverEmail extends WC_Email {
 	}
 
 	public function get_default_subject() {
-		return __( '{sender_name} sent you {points_amount} {points_label}', 'wp-loyalty-point-sharing' );
+		return __( '{wlr_sender_name} sent you {wlr_points} {wlr_points_label}', 'wp-loyalty-point-sharing' );
 	}
 
 	public function get_subject() {
@@ -54,36 +57,63 @@ class PointTransferReceiverEmail extends WC_Email {
 	/**
 	 * Trigger this email
 	 */
-	public function trigger( $recipient_email, $recipient_name, $sender_name, $points_amount, $account_link ) {
+	public function trigger( $recipient_email, $sender_email, $points_amount ) {
 		if ( ! class_exists( 'Wlps\App\Models\PointTransfers' ) ) {
 			return;
 		}
-		$this->placeholders['{recipient_name}'] = $recipient_name;
-		$this->placeholders['{sender_name}']    = $sender_name;
-		$this->placeholders['{points_amount}']  = $points_amount;
-		$this->placeholders['{account_link}']   = $account_link;
-
-		$this->recipient = $recipient_email;
-
+		$this->recipient = sanitize_email( $recipient_email );
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return;
 		}
+		$loyalUser       = $this->getLoyaltyUser( $recipient_email );
+		$ref_code        = ! empty( $loyal_user->refer_code ) ? $loyal_user->refer_code : '';
+		$available_point = ! empty( $loyalUser->points ) ? $loyalUser->points : 0;
+		$isAllowEmail    = intval( $loyalUser->is_allow_send_email ?? 0 );
+		$reward_helper   = Rewards::getInstance();
+		$point_label     = $reward_helper->getPointLabel( $available_point );
+
+		$this->placeholders = [
+			'{wlr_recipient_name}' => $this->getUserDisplayName( $recipient_email ),
+			'{wlr_referral_url}'   => $ref_code,
+			'{wlr_sender_name}'    => $this->getUserDisplayName( $sender_email ),
+			'{wlr_points}'         => $points_amount,
+			'{wlr_account_link}'   => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
+			'{wlr_points_label}'   => $point_label
+		];
+
 		$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );
 		$log_data   = [
 			'action_type'         => 'point_transfer',
 			'points'              => (int) $points_amount,
 			'action_process_type' => 'email_notification',
 			'created_at'          => $created_at,
-			'note'                => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $points_amount ),
-			'customer_note'       => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $points_amount ),
+			'note'                => '',
+			'customer_note'       => '',
 		];
 
-		if ( $this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() ) ) {
-			$log_data['note']          = sprintf( __( 'Point transfer email sent successfully', 'wp-loyalty-point-sharing' ) );
-			$log_data['customer_note'] = sprintf( __( 'Point transfer email sent successfully', 'wp-loyalty-point-sharing' ) );
+		if ( $isAllowEmail < 1 ) {
+			$log_data['note']          = sprintf( __( 'Email not sent — recipient (%1$s) opted out of notifications', 'wp-loyalty-point-sharing' ), $recipient_email );
+			$log_data['customer_note'] = $log_data['note'];
+			Rewards::getInstance()->add_note( $log_data );
+
+			return;
 		}
-		$reward_helper = Rewards::getInstance();
-		$reward_helper->add_note( $log_data );
+
+		$sent = $this->send(
+			$this->get_recipient(),
+			$this->get_subject(),
+			$this->get_content(),
+			$this->get_headers(),
+			$this->get_attachments()
+		);
+
+		$log_data['note'] = $sent
+			? sprintf( __( 'Point transfer email sent successfully to %1$s', 'wp-loyalty-point-sharing' ), $recipient_email )
+			: sprintf( __( 'Sending point transfer (%1$s) email failed to %2$s', 'wp-loyalty-point-sharing' ), $points_amount, $recipient_email );
+
+		$log_data['customer_note'] = $log_data['note'];
+
+		Rewards::getInstance()->add_note( $log_data );
 	}
 
 	public function get_content_html() {

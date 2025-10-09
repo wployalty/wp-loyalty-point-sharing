@@ -10,6 +10,7 @@ wlps = window.wlps || {};
         wlps_jquery('#wlps-main #wlps-settings .wlps-error').remove();
         wlps_jquery("#wlps-main #wlps-settings #wlps-setting-submit-button span").html(wlps_localize_data.saving_button_label);
         wlps_jquery("#wlps-main #wlps-settings .wlps-button-block .spinner").addClass("is-active");
+        data.push({name: 'wlps_nonce', value: wlps_localize_data.wlps_setting_nonce});
         wlps_jquery.ajax({
             data: data,
             type: 'post',
@@ -66,15 +67,15 @@ wlps = window.wlps || {};
      * show filter status block
      */
     wlps.showFilter = function (e) {
-        if (wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').is(":visible")) {
-            wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
+        if (wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').is(":visible")) {
+            wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
         } else {
-            wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').show()
+            wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').show()
         }
     }
-    wlpe_jquery(document).on('click', '#wlps-main  #wlps-expire-points', function (e) {
+    wlps_jquery(document).on('click', '#wlps-main  #wlps-expire-points', function (e) {
         if (e.target.className !== 'wlps-filter-section') {
-            wlpe_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
+            wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
         }
     })
 })(window.wlps, wlps_jquery);

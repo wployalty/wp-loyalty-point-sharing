@@ -12,7 +12,7 @@
         </button>
         <h3><?php esc_html_e( 'Transfer Your Points', 'wp-loyalty-point-sharing' ); ?></h3>
 
-        <form id="wlps-transfer-form" onsubmit="wlps.handleTransferFormSubmit();">
+        <form id="wlps-transfer-form" onsubmit="wlps.handleTransferFormSubmit(event);">
             <label for="transfer-email"><?php esc_html_e( 'Recipient Email', 'wp-loyalty-point-sharing' ); ?></label>
             <input type="email" id="transfer-email" name="transfer_email" required>
 

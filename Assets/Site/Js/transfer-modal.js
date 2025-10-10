@@ -14,7 +14,8 @@ wlps = window.wlps || {};
     };
 
     /** Form Submission Handler **/
-    wlps.handleTransferFormSubmit = function () {
+    wlps.handleTransferFormSubmit = function (event) {
+        if (event) event.preventDefault();
         const form = wlps_jquery('#wlps-transfer-form');
         const pointsInput = wlps_jquery('#transfer-points');
         const pointsError = wlps_jquery('#transfer-points-error');

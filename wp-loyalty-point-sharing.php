@@ -81,10 +81,6 @@ add_action( 'plugins_loaded', function () {
 	if ( ! class_exists( '\Wlps\App\Router' ) ) {
 		return;
 	}
-	if ( ! class_exists( 'WooCommerce' ) ) {
-
-		return;
-	}
 	if ( \Wlps\App\Helpers\Plugin::checkDependencies() ) {
 		\Wlps\App\Router::init();
 	}

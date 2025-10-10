@@ -7,6 +7,7 @@ use Wlr\App\Emails\Traits\Common;
 use Wlr\App\Helpers\Rewards;
 
 defined( "ABSPATH" ) or die();
+require_once plugin_dir_path( WC_PLUGIN_FILE ) . 'includes/emails/class-wc-email.php';
 
 class PointTransferReceiverEmail extends WC_Email {
 	use Common;

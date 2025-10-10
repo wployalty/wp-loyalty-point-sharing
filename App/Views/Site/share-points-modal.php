@@ -1,6 +1,6 @@
 <!-- Share Points Button -->
 <a href="#" id="wlps-open-share-modal" class="wlps-open-share"
-   onclick="wlps.openSharePointsModal(); ">
+   onclick="wlps.openSharePointsModal(event); ">
 	<?php esc_html_e( 'Share Points', 'wp-loyalty-point-sharing' ); ?>
 </a>
 

@@ -58,4 +58,15 @@ class PointTransfers extends Base {
 		);
 	}
 
+	public function markAs( $transferId, string $status, string $notes ) {
+		$this->updateRow( [
+			'status'     => $status,
+			'notes'      => $notes,
+			'updated_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
+		], [
+			'id' => $transferId,
+		] );
+	}
+
+
 }

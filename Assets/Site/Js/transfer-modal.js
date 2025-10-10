@@ -4,7 +4,8 @@ if (typeof wlps_jquery === 'undefined') {
 wlps = window.wlps || {};
 (function (wlps) {
     /** Open / Close Modal Functions **/
-    wlps.openSharePointsModal = function () {
+    wlps.openSharePointsModal = function (event) {
+        if (event) event.preventDefault();
         wlps_jquery('#wlps-share-points-modal').show();
     };
 

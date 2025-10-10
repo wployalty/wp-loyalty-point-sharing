@@ -10,6 +10,7 @@ use Wlps\App\Helpers\WC;
 use Wlr\App\Helpers\Woocommerce;
 
 class PointTransferController {
+	const TRANSFER_LINK_EXPIRY = 15;
 
 	public static function transferPoints() {
 		$input      = new Input();
@@ -98,7 +99,7 @@ class PointTransferController {
 			return;
 		}
 
-		if ( ! self::validateTransferToken( $transfer, $token ) ) {
+		if ( ! self::validateTransferToken( $transfer ) ) {
 			return;
 		}
 
@@ -111,12 +112,15 @@ class PointTransferController {
 
 		self::performPointTransfer( $transfer );
 
-		$transferModel->updateRow( [
-			'status'     => 'completed',
-			'notes'      => sprintf( __( 'Transfer successful: %d points sent to %s.', 'wp-loyalty-point-sharing' ), $transfer->points, $transfer->recipient_email ),
-			'updated_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
-		], [ 'id' => $transfer->id ] );
-
+		$transferModel->markAs(
+			$transfer->id,
+			'completed',
+			sprintf(
+				__( 'Transfer successful: %d points sent to %s.', 'wp-loyalty-point-sharing' ),
+				$transfer->points,
+				$transfer->recipient_email
+			)
+		);
 		wc_add_notice( __( 'Points transfer successful!', 'wp-loyalty-point-sharing' ), 'success' );
 		PointTransferController::sendRecieverEmail( $transfer );
 
@@ -127,12 +131,9 @@ class PointTransferController {
 		$isSharePointEnabled = isset( $settings['enable_share_point'] ) && $settings['enable_share_point'] === 'yes';
 
 		if ( ! $isSharePointEnabled ) {
-			$transferModel->updateRow( [
-				'status'     => 'failed',
-				'notes'      => __( 'Transfer failed: Share points feature is disabled in settings.', 'wp-loyalty-point-sharing' ),
-				'updated_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
-			], [ 'id' => $transfer->id ] );
-
+			$transferModel->markAs( $transfer->id, 'failed'
+				, sprintf( __( 'Transfer failed: Share points feature is disabled in settings.', 'wp-loyalty-point-sharing' ) )
+			);
 			wc_add_notice( __( 'Share Points feature is currently disabled. Transfer not processed.', 'wp-loyalty-point-sharing' ), 'error' );
 
 			return false;
@@ -142,8 +143,8 @@ class PointTransferController {
 	}
 
 
-	private static function validateTransferToken( $transfer, $token ) {
-		if ( empty( $token ) || ! $transfer ) {
+	private static function validateTransferToken( $transfer ) {
+		if ( empty( $transfer->token ) || ! $transfer ) {
 			wc_add_notice( __( 'Invalid or expired transfer link.', 'wp-loyalty-point-sharing' ), 'error' );
 
 			return false;
@@ -155,13 +156,9 @@ class PointTransferController {
 			return false;
 		}
 
-		if ( strtotime( gmdate( "Y-m-d H:i:s" ) ) > intval( $transfer->created_at ) + 15 * MINUTE_IN_SECONDS ) {
+		if ( strtotime( gmdate( "Y-m-d H:i:s" ) ) > intval( $transfer->created_at ) + PointTransferController::TRANSFER_LINK_EXPIRY * MINUTE_IN_SECONDS ) {
 			$pointTransfers = new PointTransfers();
-			$pointTransfers->updateRow( [
-				'status'     => 'expired',
-				'notes'      => __( 'Transfer failed due to expired confirmation link.', 'wp-loyalty-point-sharing' ),
-				'updated_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
-			], [ 'id' => $transfer->id ] );
+			$pointTransfers->markAs( $transfer->id, 'expired', sprintf( __( 'Transfer failed due to expired confirmation link.', 'wp-loyalty-point-sharing' ) ) );
 
 			wc_add_notice( __( 'This transfer link has expired.', 'wp-loyalty-point-sharing' ), 'error' );
 
@@ -182,11 +179,7 @@ class PointTransferController {
 
 		if ( $current_user->user_email !== $transfer->sender_email ) {
 			$pointTransfers = new PointTransfers();
-			$pointTransfers->updateRow( [
-				'status'     => 'failed',
-				'notes'      => __( 'Transfer failed: unauthorized user tried to confirm.', 'wp-loyalty-point-sharing' ),
-				'updated_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
-			], [ 'id' => $transfer->id ] );
+			$pointTransfers->markAs( $transfer->id, 'failed', sprintf( __( "Transfer failed: unauthorized user tried to confirm.", 'wp-loyalty-point-sharing' ) ) );
 
 			wc_add_notice( __( 'You are not authorized to confirm this transfer.', 'wp-loyalty-point-sharing' ), 'error' );
 
@@ -200,11 +193,7 @@ class PointTransferController {
 	private static function validateSenderAndRecipient( $transfer, $transferModel ) {
 		$base_helper = new Base();
 		if ( WC::isBannedUser( $transfer->recipient_email ) ) {
-			$transferModel->updateRow( [
-				'status'     => 'failed',
-				'notes'      => __( 'Transfer failed: recipient account is banned.', 'wp-loyalty-point-sharing' ),
-				'updated_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
-			], [ 'id' => $transfer->id ] );
+			$transferModel->markAs( $transfer->id, 'failed', sprintf( __( 'Transfer failed: recipient account is banned.', 'wp-loyalty-point-sharing' ) ) );
 
 			wc_add_notice( __( 'This user is banned due to security concerns.', 'wp-loyalty-point-sharing' ), 'error' );
 
@@ -213,11 +202,7 @@ class PointTransferController {
 
 		$user_points = $base_helper->getPointBalanceByEmail( $transfer->sender_email );
 		if ( $user_points < $transfer->points ) {
-			$transferModel->updateRow( [
-				'status'     => 'failed',
-				'notes'      => __( 'Transfer failed: Not Enough Points.', 'wp-loyalty-point-sharing' ),
-				'updated_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
-			], [ 'id' => $transfer->id ] );
+			$transferModel->markAs( $transfer->id, "failed", sprintf( __( 'Transfer failed: Not Enough Points.', 'wp-loyalty-point-sharing' ) ) );
 
 			wc_add_notice( __( 'Not enough points available for this transfer.', 'wp-loyalty-point-sharing' ), 'error' );
 
@@ -265,7 +250,7 @@ class PointTransferController {
 			);
 
 		} catch ( \Throwable $e ) {
-
+			error_log( $e->getMessage() );
 			wc_add_notice( __( 'An unexpected error occurred during the point transfer. Please try again later.', 'wp-loyalty-point-sharing' ), 'error' );
 		}
 	}
@@ -275,30 +260,37 @@ class PointTransferController {
 			return false;
 		}
 
-		$timestamp = strtotime( gmdate( "Y-m-d H:i:s" ) );
-		$token     = wp_generate_password( 32, false );
+		try {
+			$timestamp = strtotime( gmdate( "Y-m-d H:i:s" ) );
+			$token     = wp_generate_password( 32, false );
 
-		$pointTransfers = new PointTransfers();
-		$pointTransfers->saveData( [
-			'sender_email'    => $sender_email,
-			'recipient_email' => $recipient_email,
-			'points'          => $transfer_points,
-			'status'          => 'pending',
-			'notes'           => sprintf(
-				__( 'Transfer initiated — waiting for confirmation by %s.', 'wp-loyalty-point-sharing' ),
-				$recipient_email
-			),
-			'token'           => $token,
-			'created_at'      => $timestamp,
-			'updated_at'      => $timestamp,
-		] );
+			$pointTransfers = new PointTransfers();
+			$pointTransfers->saveData( [
+				'sender_email'    => $sender_email,
+				'recipient_email' => $recipient_email,
+				'points'          => $transfer_points,
+				'status'          => 'pending',
+				'notes'           => sprintf(
+					__( 'Transfer initiated — waiting for confirmation by %s.', 'wp-loyalty-point-sharing' ),
+					$recipient_email
+				),
+				'token'           => $token,
+				'created_at'      => $timestamp,
+				'updated_at'      => $timestamp,
+			] );
 
-		return (object) [
-			'sender_email'    => $sender_email,
-			'recipient_email' => $recipient_email,
-			'points'          => $transfer_points,
-			'token'           => $token,
-		];
+			return (object) [
+				'sender_email'    => $sender_email,
+				'recipient_email' => $recipient_email,
+				'points'          => $transfer_points,
+				'token'           => $token,
+			];
+
+		} catch ( \Throwable $e ) {
+			error_log( $e->getMessage() );
+
+			return false;
+		}
 	}
 
 	private static function sendSenderEmail( $transfer ) {

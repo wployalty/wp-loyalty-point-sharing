@@ -28,7 +28,7 @@ class Pagination {
 	protected $firstTagClose = '</li>';
 	protected $lastTagOpen = '<li>';
 	protected $lastTagClose = '</li>';
-	protected $curTagOpen = '<li class="wlpe-current-page"><a  href="#">';
+	protected $curTagOpen = '<li class="wlps-current-page"><a  href="#">';
 	protected $curTagClose = '</a></li>';
 	protected $nextTagOpen = '<li>';
 	protected $nextTagClose = '</li>';

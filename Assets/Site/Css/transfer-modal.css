@@ -1,78 +1,68 @@
-/* Ensure alertify toasts always stay above custom modals */
 .alertify-notifier {
-    z-index: 999999 !important;
+  z-index: 999999 !important;
 }
 
-/* Share Points Button */
 .wlps-open-share {
-    color: #007BFF;
-    text-decoration: none;
-    cursor: pointer;
+  color: #007BFF;
+  text-decoration: none;
+  cursor: pointer;
 }
-
 .wlps-open-share:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-/* Modal Overlay */
 .wlps-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
 }
-
-/* Modal Content */
 .wlps-modal-content {
-    background: #fff;
-    max-width: 500px;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
+  background: #fff;
+  max-width: 500px;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+}
+.wlps-modal-content.wlps-alert-content {
+  max-width: 400px;
+  margin: 15% auto;
+  text-align: center;
 }
 
-/* Alert modal has smaller width */
-.wlps-alert-content {
-    max-width: 400px;
-    margin: 15% auto;
-    text-align: center;
-}
-
-/* Close Buttons */
 .wlps-close-modal,
 .wlps-close-alert-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 16px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-/* Form Inputs */
 #wlps-transfer-form input,
 #wlps-alert-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
-/* Error messages */
 #transfer-points-error,
 #wlps-alert-message {
-    color: red;
-    font-size: 13px;
-    display: none;
+  color: red;
+  font-size: 13px;
+  display: none;
 }
 
-/* Alert modal buttons container */
 .wlps-alert-buttons {
-    margin-top: 15px;
+  margin-top: 15px;
 }
+
+/*# sourceMappingURL=transfer-modal.css.map */

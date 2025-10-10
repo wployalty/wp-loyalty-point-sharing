@@ -24,7 +24,7 @@ class AdminController {
 			wp_die( __( "You don't have permission to access this page.", 'wp-loyalty-point-sharing' ) );
 		}
 
-		$view = Input::get( 'view', 'actions' );
+		$view = Input::get( 'view', 'point_sharing' );
 
 		$params = [
 			'current_view' => $view,

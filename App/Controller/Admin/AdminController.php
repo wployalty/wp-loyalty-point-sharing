@@ -133,7 +133,7 @@ class AdminController {
 			'pagination'       => $pagination,
 			'per_page'         => $per_page,
 			'page_number'      => $current_page,
-			'app_url'          => admin_url( 'admin.php?page=' . WLPS_PLUGIN_SLUG ),
+			'app_url'          => admin_url( 'admin.php?' . http_build_query( [ 'page' => WLR_PLUGIN_SLUG ] ) ) . '#/apps',
 			'status_sort'      => $status_sort,
 			'filter_status'    => [
 				'all'       => __( 'All', 'wp-loyalty-point-sharing' ),

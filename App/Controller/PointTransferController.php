@@ -19,7 +19,7 @@ class PointTransferController {
 			$response['message'] = esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' );
 			wp_send_json( $response );
 		}
-		$data = $_POST;
+
 
 		$sender          = wp_get_current_user();
 		$sender_email    = $sender->user_email;

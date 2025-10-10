@@ -5,8 +5,8 @@ namespace Wlps\App;
 use Wlps\App\Controller\Admin\AdminController;
 use Wlps\App\Controller\Common;
 use Wlps\App\Controller\PointTransferController;
-use Wlps\App\Controller\Site\WlpsEmailManager;
-use Wlps\App\Models\PointTransfers;
+use Wlps\App\Controller\WlpsEmailManager;
+
 
 class Router {
 	public static function init() {

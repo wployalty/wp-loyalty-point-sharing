@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlps\App\Controller\Site;
+namespace Wlps\App\Controller;
 
 class WlpsEmailManager {
 	public static function init() {

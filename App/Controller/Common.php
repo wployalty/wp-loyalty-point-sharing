@@ -74,22 +74,6 @@ class Common {
 		}
 	}
 
-	public static function defaultEmailTemplate() {
-		return '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                <tbody>
-                    <tr>
-                        <td style="word-wrap: break-word;font-size: 0px;padding: 0px;" align="left">
-                            <div style="cursor:auto;font-family: Arial;font-size:16px;line-height:24px;text-align:left;">
-                                <h3 style="display: block;margin: 0 0 40px 0; color: #333;">' . esc_attr__( '{sender_name} has shared {points_amount} {points_label} with you!', 'wp-loyalty-rules' ) . '</h3>
-                                <p style="display: block;margin: 0 0 40px 0; color: #333;">' . esc_attr__( 'You have received {points_amount} {points_label} from {sender_name}. Check your account to see the updated balance.', 'wp-loyalty-rules' ) . '</p>
-                                <a href="{account_link}" target="_blank"> ' . esc_attr__( 'View My Points', 'wp-loyalty-rules' ) . '</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>';
-	}
-
 	public static function getLoyaltyUser( $email ) {
 		if ( empty( $email ) ) {
 			return false;

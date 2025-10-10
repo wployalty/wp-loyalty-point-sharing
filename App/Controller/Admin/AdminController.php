@@ -154,7 +154,7 @@ class AdminController {
 	}
 
 	public static function getSettingsPage() {
-		$options   = get_option( 'wlps_settings', array() );
+		$options   = get_option( 'wlps_settings', [] );
 		$args      = [
 			'current_page'          => 'settings',
 			'back_to_apps_url'      => admin_url( 'admin.php?' . http_build_query( [ 'page' => WLR_PLUGIN_SLUG ] ) ) . '#/apps',
@@ -184,8 +184,8 @@ class AdminController {
 
 	public static function saveSettings() {
 		$input               = new Input();
-		$response            = array();
-		$validate_data_error = array();
+		$response            = [];
+		$validate_data_error = [];
 		$wlps_nonce          = (string) $input->post( 'wlps_nonce' );
 		if ( ! Woocommerce::hasAdminPrivilege() || ! Woocommerce::verify_nonce( $wlps_nonce, 'wlps-setting-nonce' ) ) {
 			$response['error']   = true;
@@ -211,7 +211,6 @@ class AdminController {
 				$response['message']     = __( 'Settings not saved!', 'wp-loyalty-rules' );
 			}
 			if ( ! isset( $response['error'] ) || ! $response['error'] ) {
-				$data['email_template'] = isset( $_POST['email_template'] ) && ! empty( $_POST['email_template'] && trim( $_POST['email_template'] ) !== "" ) ? $_POST['email_template'] : Common::defaultEmailTemplate();
 				update_option( $key, $data, true );
 				do_action( 'wlps_after_save_settings', $data, $key );
 				$response['error']   = false;
@@ -233,8 +232,8 @@ class AdminController {
 			WLPS_PLUGIN_VERSION
 		);
 		wp_enqueue_script( WLPS_PLUGIN_SLUG . '-admin', WLPS_PLUGIN_URL . 'Assets/Admin/Js/wlps-admin.js', array( 'jquery' ), WLPS_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
-		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', array(), WLR_PLUGIN_VERSION );
-		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', array(), WLR_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
+		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION );
+		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
 		$localize = [
 			'home_url'            => get_home_url(),
 			'admin_url'           => admin_url(),

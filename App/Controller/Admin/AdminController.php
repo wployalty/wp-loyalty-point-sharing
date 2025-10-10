@@ -61,19 +61,16 @@ class AdminController {
 		$offset           = $per_page * ( $current_page - 1 );
 		switch ( $status_sort ) {
 			case 'pending':
-				$where = $wpdb->prepare( "status = %s AND id > 0", array( 'pending' ) );
+				$where = $wpdb->prepare( "status = %s AND id > 0", [ 'pending' ] );
 				break;
 			case 'expired':
-				$where = $wpdb->prepare( "status = %s AND id > 0", array( 'expired' ) );
+				$where = $wpdb->prepare( "status = %s AND id > 0", [ 'expired' ] );
 				break;
 			case 'completed':
-				$where = $wpdb->prepare( "status = %s AND id > 0", array( 'completed' ) );
+				$where = $wpdb->prepare( "status = %s AND id > 0", [ 'completed' ] );
 				break;
 			case 'failed':
-				$where = $wpdb->prepare( "status = %s AND id > 0", array(
-					'failed',
-					strtotime( gmdate( "Y-m-d H:i:s" ) )
-				) );
+				$where = $wpdb->prepare( "status = %s AND id > 0", [ 'failed' ] );
 				break;
 			case 'all':
 			default:
@@ -139,7 +136,8 @@ class AdminController {
 				'all'       => __( 'All', 'wp-loyalty-point-sharing' ),
 				'pending'   => __( 'Pending', 'wp-loyalty-point-sharing' ),
 				'completed' => __( 'Completed', 'wp-loyalty-point-sharing' ),
-				'expired'   => __( 'Expired', 'wp-loyalty-point-sharing' )
+				'expired'   => __( 'Expired', 'wp-loyalty-point-sharing' ),
+				'failed'    => __( 'Failed', 'wp-loyalty-point-sharing' )
 			],
 			'no_points_yet'    => WLPS_PLUGIN_URL . 'Assets/svg/no_points_yet.svg',
 			'search_email'     => WLPS_PLUGIN_URL . 'Assets/svg/search.svg',

@@ -1,6 +1,6 @@
 <!-- Share Points Button -->
 <a href="#" id="wlps-open-share-modal" class="wlps-open-share"
-   onclick="wlps.openSharePointsModal(); return false;">
+   onclick="wlps.openSharePointsModal(); ">
 	<?php esc_html_e( 'Share Points', 'wp-loyalty-point-sharing' ); ?>
 </a>
 
@@ -12,7 +12,7 @@
         </button>
         <h3><?php esc_html_e( 'Transfer Your Points', 'wp-loyalty-point-sharing' ); ?></h3>
 
-        <form id="wlps-transfer-form" onsubmit="wlps.handleTransferFormSubmit(); return false;">
+        <form id="wlps-transfer-form" onsubmit="wlps.handleTransferFormSubmit();">
             <label for="transfer-email"><?php esc_html_e( 'Recipient Email', 'wp-loyalty-point-sharing' ); ?></label>
             <input type="email" id="transfer-email" name="transfer_email" required>
 

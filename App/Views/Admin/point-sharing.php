@@ -15,8 +15,8 @@ $search_email   = ( isset( $search_email ) && ! empty( $search_email ) ) ? $sear
 $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_date_format : 'Y-m-d';
 ?>
 
-<div id="wlps-expire-points">
-    <div class="wlps-expire-points-content-holder">
+<div id="wlps-point-sharing">
+    <div class="wlps-point-sharing-content-holder">
         <form action="<?php echo esc_url( $base_url ); ?>" method="post"
               id="manage_customer_point_sharing_form"
               name="manage_customer_point_sharing">
@@ -40,8 +40,7 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                                  alt="search">
                         </a>
                     </div>
-                    <div class="wlps-filter" id="wlps-filter-status-block"
-                         onclick="wlps.showFilter()">
+                    <div class="wlps-filter" id="wlps-filter-status-block">
 						<?php if ( isset( $filter_status ) && ! empty( $filter_status ) && isset( $point_sort ) && ! empty( $point_sort ) ): ?>
 							<?php foreach ( $filter_status as $key => $status ): ?>
                                 <div class="wlps-filter-status">
@@ -60,9 +59,9 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                    value="<?php echo isset( $point_sort ) ? esc_attr( $point_sort ) : 'all'; ?>"/>
             <input type="hidden" name="page" value="<?php echo esc_attr( WLPS_PLUGIN_SLUG ); ?>"/>
             <input type="hidden" name="view" value="expire_points"/>
-            <input type="hidden" name="sort_order" id="user_expire_point_filter_order"
+            <input type="hidden" name="sort_order" id="user_point_share_filter_order"
                    value="<?php echo isset( $filter_order ) ? esc_attr( $filter_order ) : 'id'; ?>"/>
-            <input type="hidden" name="sort_order_dir" id="user_expire_point_filter_order_dir"
+            <input type="hidden" name="sort_order_dir" id="user_point_share_filter_order_dir"
                    value="<?php echo isset( $filter_order_dir ) ? esc_attr( $filter_order_dir ) : 'ASC'; ?>"/>
         </form>
 		<?php if ( empty( $items ) ):

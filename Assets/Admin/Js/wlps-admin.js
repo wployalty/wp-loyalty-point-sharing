@@ -63,20 +63,7 @@ wlps = window.wlps || {};
         wlps_jquery(form_id + " input[name=\"point_sort\"]").val(value);
         wlps_jquery(form_id).submit();
     }
-    /**
-     * show filter status block
-     */
-    wlps.showFilter = function (e) {
-        if (wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').is(":visible")) {
-            wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
-        } else {
-            wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').show()
-        }
-    }
-    wlps_jquery(document).on('click', '#wlps-main  #wlps-expire-points', function (e) {
-        if (e.target.className !== 'wlps-filter-section') {
-            wlps_jquery('#wlps-main #wlps-expire-points .wlps-filter-status-block').hide()
-        }
-    })
-})(window.wlps, wlps_jquery);
+
+})
+(wlps);
 

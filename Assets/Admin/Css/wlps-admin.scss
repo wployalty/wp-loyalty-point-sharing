@@ -79,7 +79,7 @@ $border-color: #E7E7EF;
     }
   }
 
-  #wlps-expire-points {
+  #wlps-point-sharing {
     .wlps-back-to-apps a {
       display: flex;
       min-width: max-content !important;
@@ -309,36 +309,6 @@ $border-color: #E7E7EF;
       }
     }
 
-    [class^="point-update-date-"],
-    [class^="email-update-date-"] {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-
-      input[type="date"] {
-        width: 50%;
-        font-size: 13px;
-      }
-    }
-
-    [class^="point-update-date-"] #wlpe-point-expire-save-date,
-    [class^="email-update-date-"] #wlpe-email-expire-save-date {
-      background-color: $theme-color;
-      color: $color-white;
-      font-size: 25px;
-      border-radius: 6px;
-      cursor: $cursor;
-    }
-
-    [class^="point-update-date-"] #wlpe-point-expire-close-date,
-    [class^="email-update-date-"] #wlpe-email-expire-close-date {
-      background-color: #E4E5E7;
-      color: #161F31;
-      font-size: 25px;
-      border-radius: 6px;
-      cursor: $cursor;
-    }
-
     .wlps-pagination {
       display: flex;
       flex-direction: row-reverse;
@@ -395,7 +365,7 @@ $border-color: #E7E7EF;
     }
   }
 
-  #wlps-expire-points .wlps-expire-points-content-holder,
+  #wlps-point-sharing .wlps-point-sharing-content-holder,
   #wlps-settings .wlps-setting-page-holder {
     background: $color-white;
     border: 1px solid $border-color;
@@ -403,7 +373,7 @@ $border-color: #E7E7EF;
     min-height: 80vh;
   }
 
-  #wlps-expire-points .content-header,
+  #wlps-point-sharing .content-header,
   #wlps-settings .wlps-settings-header {
     display: flex;
     justify-content: space-between;
@@ -413,12 +383,12 @@ $border-color: #E7E7EF;
     margin-right: 10px;
   }
 
-  #wlps-expire-points .content-header .heading,
+  #wlps-point-sharing .content-header .heading,
   #wlps-settings .wlps-settings-header .wlps-setting-heading {
     margin-left: 10px;
   }
 
-  #wlps-expire-points .content-header .heading p,
+  #wlps-point-sharing .content-header .heading p,
   #wlpe-settings .wlps-settings-header .wlps-setting-heading p {
     font-style: normal;
     font-weight: 700;
@@ -429,8 +399,7 @@ $border-color: #E7E7EF;
 
   #wlps-settings {
     .wlps-settings-notification-label,
-    .wlps-send-email-checkbox label,
-    .wlps-enable-expire-point-label {
+    .wlps-share-point-email-template label {
       font-weight: 700;
       font-size: 14px;
       line-height: 22px;
@@ -500,13 +469,12 @@ $border-color: #E7E7EF;
       flex-direction: column;
       gap: 25px;
 
-      .wlps-email-expiry-editor {
+      .wlps-share-point-email-editor {
         display: flex;
         gap: 1.5rem;
       }
 
-      .wlps-expire-after, .wlpe-expired-period,
-      .wlps-email-notification-value, .wlps-email-notification-time {
+      .wlps-point-share-max-points-value {
         margin-top: 10px;
         width: 100%;
         background: $color-white;
@@ -541,19 +509,17 @@ $border-color: #E7E7EF;
       color: #535863;
     }
 
-    .wlps-expire-time-block {
+    .wlps-point-share-block {
       margin-top: 15px;
     }
 
-    .wlps_expire_after_value_block,
-    .wlps_expire_email_after_value_block {
+    .wlps_point_share_value_block {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .wlps-expire-time-1,
-    .wlpe-expire-time-2 {
+    .wlps-share-point-max-points {
       width: 50%;
       display: flex;
       gap: 5px;

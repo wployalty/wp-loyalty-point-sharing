@@ -66,7 +66,7 @@
   border: 1px solid #E7E7EF;
   border-bottom-color: rgb(255, 255, 255);
 }
-#wlps-main #wlps-expire-points .wlps-back-to-apps a {
+#wlps-main #wlps-point-sharing .wlps-back-to-apps a {
   display: flex;
   min-width: max-content !important;
   cursor: pointer;
@@ -83,7 +83,7 @@
   color: rgb(255, 255, 255);
   gap: 7px;
 }
-#wlps-main #wlps-expire-points .wlps-no-points {
+#wlps-main #wlps-point-sharing .wlps-no-points {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,21 +91,21 @@
   margin-top: 7vh;
   min-height: 60vh;
 }
-#wlps-main #wlps-expire-points .no-points-label {
+#wlps-main #wlps-point-sharing .no-points-label {
   color: #161F31;
   font-weight: 700;
   font-size: 20px;
   line-height: 30px;
   text-align: center;
 }
-#wlps-main #wlps-expire-points .wlps-email-search {
+#wlps-main #wlps-point-sharing .wlps-email-search {
   cursor: pointer;
 }
-#wlps-main #wlps-expire-points .wlps-search-filter-block {
+#wlps-main #wlps-point-sharing .wlps-search-filter-block {
   display: flex;
   gap: 10px;
 }
-#wlps-main #wlps-expire-points .content-header .search {
+#wlps-main #wlps-point-sharing .content-header .search {
   background: #FFFFFF;
   border: 1px solid #E7E7EF;
   border-radius: 6px;
@@ -115,20 +115,20 @@
   height: 42px;
   padding: 0 3px;
 }
-#wlps-main #wlps-expire-points .content-header .search input[type=text] {
+#wlps-main #wlps-point-sharing .content-header .search input[type=text] {
   border: none;
   outline: none;
   box-shadow: none;
   font-size: 0.75rem;
 }
-#wlps-main #wlps-expire-points .content-header .search button {
+#wlps-main #wlps-point-sharing .content-header .search button {
   border: none;
   outline: none;
   box-shadow: none;
   background-color: #FFFFFF;
   width: fit-content;
 }
-#wlps-main #wlps-expire-points .content-header .wlps-filter {
+#wlps-main #wlps-point-sharing .content-header .wlps-filter {
   width: 50%;
   background: #FFFFFF;
   border: 1px solid #E7E7EF;
@@ -142,7 +142,7 @@
   position: relative;
   padding: 0 3px;
 }
-#wlps-main #wlps-expire-points .wlps-filter-status-block {
+#wlps-main #wlps-point-sharing .wlps-filter-status-block {
   width: 250px;
   background-color: #FFFFFF;
   float: right;
@@ -152,12 +152,12 @@
   position: absolute;
   right: 15px;
 }
-#wlps-main #wlps-expire-points .wlps-filter-status {
+#wlps-main #wlps-point-sharing .wlps-filter-status {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-#wlps-main #wlps-expire-points .wlps-filter-status button {
+#wlps-main #wlps-point-sharing .wlps-filter-status button {
   width: 100%;
   display: flex;
   justify-content: left;
@@ -170,18 +170,18 @@
   border-radius: 4px;
   background: #FFFFFF;
 }
-#wlps-main #wlps-expire-points .wlps-filter-status button:hover {
+#wlps-main #wlps-point-sharing .wlps-filter-status button:hover {
   background: #4F47EB;
   color: #FFFFFF;
 }
-#wlps-main #wlps-expire-points .wlps-filter-status .active-filter {
+#wlps-main #wlps-point-sharing .wlps-filter-status .active-filter {
   background: #4F47EB;
   color: #FFFFFF;
 }
-#wlps-main #wlps-expire-points .wlps-body-content {
+#wlps-main #wlps-point-sharing .wlps-body-content {
   min-height: 60vh;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-body-header {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-body-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   margin: 20px 25px 5px 20px;
@@ -192,10 +192,10 @@
   letter-spacing: 0.06em;
   color: #535863;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-body-header div {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-body-header div {
   text-align: center;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row {
   background: #FFFFFF;
   border: 1px solid #E7E7EF;
   box-shadow: 0 0 24px rgba(12, 17, 58, 0.04);
@@ -209,98 +209,71 @@
   grid-gap: 2px;
   text-align: center;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row div p {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row div p {
   font-size: 14px;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .sender-email {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .sender-email {
   display: flex;
   flex-direction: column;
   word-break: break-word;
   text-align: initial;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .recipient-email {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .recipient-email {
   display: flex;
   flex-direction: column;
   word-break: break-word;
   text-align: initial;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .point-status {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .point-status {
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .point-status p {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .point-status p {
   padding: 3px 5px;
   font-weight: 600;
   text-transform: capitalize;
   border-radius: 4px;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .point-status .completed {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .point-status .completed {
   background: #DDF8EC;
   color: #00C288;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .point-status .pending {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .point-status .pending {
   background: #F6F6FE;
   color: #4F47EB;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .point-status .failed {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .point-status .failed {
   background: #FFDCD6;
   color: #F5425D;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .point-status .expired {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .point-status .expired {
   background: #FDEEC4;
   color: #F6BA09;
 }
-#wlps-main #wlps-expire-points .wlps-body-content .wlps-data-row .points-shared {
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .points-shared {
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   gap: 3px;
 }
-#wlps-main #wlps-expire-points [class^=point-update-date-],
-#wlps-main #wlps-expire-points [class^=email-update-date-] {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-#wlps-main #wlps-expire-points [class^=point-update-date-] input[type=date],
-#wlps-main #wlps-expire-points [class^=email-update-date-] input[type=date] {
-  width: 50%;
-  font-size: 13px;
-}
-#wlps-main #wlps-expire-points [class^=point-update-date-] #wlpe-point-expire-save-date,
-#wlps-main #wlps-expire-points [class^=email-update-date-] #wlpe-email-expire-save-date {
-  background-color: #4F47EB;
-  color: #FFFFFF;
-  font-size: 25px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-#wlps-main #wlps-expire-points [class^=point-update-date-] #wlpe-point-expire-close-date,
-#wlps-main #wlps-expire-points [class^=email-update-date-] #wlpe-email-expire-close-date {
-  background-color: #E4E5E7;
-  color: #161F31;
-  font-size: 25px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-#wlps-main #wlps-expire-points .wlps-pagination {
+#wlps-main #wlps-point-sharing .wlps-pagination {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
 }
-#wlps-main #wlps-expire-points .wlps-pagination .pagination {
+#wlps-main #wlps-point-sharing .wlps-pagination .pagination {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-right: 25px;
   margin-bottom: 20px;
 }
-#wlps-main #wlps-expire-points .wlps-pagination .pagination li {
+#wlps-main #wlps-point-sharing .wlps-pagination .pagination li {
   background: #FFFFFF;
   border: 1px solid #E7E7EF;
   border-radius: 6px;
@@ -312,7 +285,7 @@
   cursor: pointer;
   font-size: 15px;
 }
-#wlps-main #wlps-expire-points .wlps-pagination .pagination a {
+#wlps-main #wlps-point-sharing .wlps-pagination .pagination a {
   text-decoration: none;
   color: inherit;
   outline: none;
@@ -321,23 +294,23 @@
   font-weight: 500;
   font-size: 1rem;
 }
-#wlps-main #wlps-expire-points .wlps-pagination .pagination .wlps-current-page {
+#wlps-main #wlps-point-sharing .wlps-pagination .pagination .wlps-current-page {
   background-color: #4F47EB;
 }
-#wlps-main #wlps-expire-points .wlps-pagination .pagination .wlps-current-page a {
+#wlps-main #wlps-point-sharing .wlps-pagination .pagination .wlps-current-page a {
   color: #FFFFFF;
 }
-#wlps-main #wlps-expire-points .dataTables_info {
+#wlps-main #wlps-point-sharing .dataTables_info {
   margin: 0 30px 5px 30px;
 }
-#wlps-main #wlps-expire-points .wlps-expire-points-content-holder,
+#wlps-main #wlps-point-sharing .wlps-point-sharing-content-holder,
 #wlps-main #wlps-settings .wlps-setting-page-holder {
   background: #FFFFFF;
   border: 1px solid #E7E7EF;
   border-radius: 0 8px 8px 8px;
   min-height: 80vh;
 }
-#wlps-main #wlps-expire-points .content-header,
+#wlps-main #wlps-point-sharing .content-header,
 #wlps-main #wlps-settings .wlps-settings-header {
   display: flex;
   justify-content: space-between;
@@ -346,11 +319,11 @@
   margin-top: 10px;
   margin-right: 10px;
 }
-#wlps-main #wlps-expire-points .content-header .heading,
+#wlps-main #wlps-point-sharing .content-header .heading,
 #wlps-main #wlps-settings .wlps-settings-header .wlps-setting-heading {
   margin-left: 10px;
 }
-#wlps-main #wlps-expire-points .content-header .heading p,
+#wlps-main #wlps-point-sharing .content-header .heading p,
 #wlps-main #wlpe-settings .wlps-settings-header .wlps-setting-heading p {
   font-style: normal;
   font-weight: 700;
@@ -359,8 +332,7 @@
   letter-spacing: 0.08em;
 }
 #wlps-main #wlps-settings .wlps-settings-notification-label,
-#wlps-main #wlps-settings .wlps-send-email-checkbox label,
-#wlps-main #wlps-settings .wlps-enable-expire-point-label {
+#wlps-main #wlps-settings .wlps-share-point-email-template label {
   font-weight: 700;
   font-size: 14px;
   line-height: 22px;
@@ -422,12 +394,11 @@
   flex-direction: column;
   gap: 25px;
 }
-#wlps-main #wlps-settings .wlps-setting-body .wlps-settings-body-content .wlps-email-expiry-editor {
+#wlps-main #wlps-settings .wlps-setting-body .wlps-settings-body-content .wlps-share-point-email-editor {
   display: flex;
   gap: 1.5rem;
 }
-#wlps-main #wlps-settings .wlps-setting-body .wlps-settings-body-content .wlps-expire-after, #wlps-main #wlps-settings .wlps-setting-body .wlps-settings-body-content .wlpe-expired-period,
-#wlps-main #wlps-settings .wlps-setting-body .wlps-settings-body-content .wlps-email-notification-value, #wlps-main #wlps-settings .wlps-setting-body .wlps-settings-body-content .wlps-email-notification-time {
+#wlps-main #wlps-settings .wlps-setting-body .wlps-settings-body-content .wlps-point-share-max-points-value {
   margin-top: 10px;
   width: 100%;
   background: #FFFFFF;
@@ -455,27 +426,23 @@
   letter-spacing: 0.02em;
   color: #535863;
 }
-#wlps-main #wlps-settings .wlps-expire-time-block {
+#wlps-main #wlps-settings .wlps-point-share-block {
   margin-top: 15px;
 }
-#wlps-main #wlps-settings .wlps_expire_after_value_block,
-#wlps-main #wlps-settings .wlps_expire_email_after_value_block {
+#wlps-main #wlps-settings .wlps_point_share_value_block {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-#wlps-main #wlps-settings .wlps-expire-time-1,
-#wlps-main #wlps-settings .wlpe-expire-time-2 {
+#wlps-main #wlps-settings .wlps-share-point-max-points {
   width: 50%;
   display: flex;
   gap: 5px;
 }
-#wlps-main #wlps-settings .wlps-expire-time-1 .wlps-input-filed input,
-#wlps-main #wlps-settings .wlpe-expire-time-2 .wlps-input-filed input {
+#wlps-main #wlps-settings .wlps-share-point-max-points .wlps-input-filed input {
   height: max-content;
 }
-#wlps-main #wlps-settings .wlps-expire-time-1 p,
-#wlps-main #wlps-settings .wlpe-expire-time-2 p {
+#wlps-main #wlps-settings .wlps-share-point-max-points p {
   display: flex;
   white-space: nowrap;
   padding-top: 10px;

@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) or die;
         </div>
         <form id="wlps-settings_form" method="post">
             <div class="wlps-settings-header">
-                <div class="wlpe-setting-heading"><p><?php esc_html_e( 'SETTINGS', 'wp-loyalty-rules' ) ?></p></div>
+                <div class="wlps-setting-heading"><p><?php esc_html_e( 'SETTINGS', 'wp-loyalty-rules' ) ?></p></div>
                 <div class="wlps-button-block">
                     <div class="wlps-back-to-apps">
                         <a class="button" target="_self"
@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) or die;
                                    value="<?php echo esc_attr( $enable_share_point ); ?>"
                                    onclick="wlps.enableSharePoint('wlps_enable_share_point');"
 								<?php echo isset( $options['enable_share_point'] ) && ! empty( $options['enable_share_point'] ) && ( $options['enable_share_point'] == 'yes' ) ?
-									'checked="checked"' : ""; ?>><label class="wlps-enable-expire-point-label"
+									'checked="checked"' : ""; ?>><label class="wlps-enable-share-point-label"
                                                                         for="wlps_enable_share_point"><?php esc_html_e( 'Enable Points Sharing feature ?', 'wp-loyalty-rules' ); ?></label>
                         </div>
                     </div>
@@ -51,27 +51,27 @@ defined( 'ABSPATH' ) or die;
                             <label
                                     class="wlps-settings-notification-label"><?php esc_html_e( 'Set maximum number of points to be transferred', 'wp-loyalty-rules' ); ?></label>
                         </div>
-                        <div class="wlps-expire-time-block">
+                        <div class="wlps-point-share-block">
                             <div>
                                 <label
                                         class="wlps-setting-label"><?php esc_html_e( 'How Much Maximum points user can send in one request ?', 'wp-loyalty-rules' ) ?></label>
                             </div>
-                            <div class="wlps_expire_after_value_block">
-                                <div class="wlps-expire-time-1">
+                            <div class="wlps_point_share_value_block">
+                                <div class="wlps-point-share-max-points">
                                     <div class="wlps-input-field">
 										<?php $max_transfer_points = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['max_transfer_points'] ) && ! empty( $options['max_transfer_points'] ) ? $options['max_transfer_points'] : 45 ?>
                                         <input type="number" min="0" name="max_transfer_points"
-                                               class="wlps-expire-after"
+                                               class="wlps-point-share-max-points-value"
                                                value="<?php echo esc_attr( $max_transfer_points ); ?>"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="wlps-email-expiry-email wlps-email-expiry-editor">
-                        <div class="wlps-send-email-checkbox">
+                    <div class="wlps-email-expiry-email wlps-share-point-email-editor">
+                        <div class="wlps-share-point-email-template">
                             <label
-                                    for="wlps-expire-email-template-label"><?php esc_html_e( 'Points Sharing Email Template Content', 'wp-loyalty-rules' ); ?></label>
+                                    for="wlps-share-point-email-template-label"><?php esc_html_e( 'Points Sharing Email Template Content', 'wp-loyalty-rules' ); ?></label>
                         </div>
                         <div class="wlps-email-template" id="wlps-email-template-editor">
                             <a href="<?php echo isset( $manage_sender_email ) ? esc_url( $manage_sender_email ) : '#'; ?>"

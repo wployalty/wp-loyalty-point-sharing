@@ -41,11 +41,11 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                         </a>
                     </div>
                     <div class="wlps-filter" id="wlps-filter-status-block">
-						<?php if ( isset( $filter_status ) && ! empty( $filter_status ) && isset( $point_sort ) && ! empty( $point_sort ) ): ?>
+						<?php if ( isset( $filter_status ) && ! empty( $filter_status ) && isset( $status_sort ) && ! empty( $status_sort ) ): ?>
 							<?php foreach ( $filter_status as $key => $status ): ?>
                                 <div class="wlps-filter-status">
                                     <button
-                                            type="button" <?php echo $key === $point_sort ? 'class="active-filter"' : '' ?>
+                                            type="button" <?php echo $key === $status_sort ? 'class="active-filter"' : '' ?>
                                             onclick="wlps.filterPoints('#wlps-main #manage_customer_point_sharing_form','<?php echo esc_js( $key ); ?>')"
                                             value="<?php echo esc_attr( $key ); ?>"><?php esc_html_e( $status, 'wp-loyalty-rules' ) //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
                                     </button>
@@ -55,8 +55,8 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="point_sort"
-                   value="<?php echo isset( $point_sort ) ? esc_attr( $point_sort ) : 'all'; ?>"/>
+            <input type="hidden" name="status_sort"
+                   value="<?php echo isset( $status_sort ) ? esc_attr( $status_sort ) : 'all'; ?>"/>
             <input type="hidden" name="page" value="<?php echo esc_attr( WLPS_PLUGIN_SLUG ); ?>"/>
             <input type="hidden" name="view" value="expire_points"/>
             <input type="hidden" name="sort_order" id="user_point_share_filter_order"

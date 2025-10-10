@@ -60,7 +60,7 @@ wlps = window.wlps || {};
      * filter status form action block
      */
     wlps.filterPoints = function (form_id, value) {
-        wlps_jquery(form_id + " input[name=\"point_sort\"]").val(value);
+        wlps_jquery(form_id + " input[name=\"status_sort\"]").val(value);
         wlps_jquery(form_id).submit();
     }
 

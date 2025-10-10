@@ -55,11 +55,11 @@ class AdminController {
 		$search           = sanitize_text_field( $search );
 		$filter_order     = (string) $input->post_get( 'sort_order', 'id' );
 		$filter_order_dir = (string) $input->post_get( 'sort_order_dir', 'ASC' );
-		$point_sort       = (string) $input->post_get( 'point_sort', 'all' );
+		$status_sort      = (string) $input->post_get( 'status_sort', 'all' );
 		$per_page         = (int) $input->get( 'per_page', 10 );
 		$current_page     = (int) $input->get( 'page_number', 1 );
 		$offset           = $per_page * ( $current_page - 1 );
-		switch ( $point_sort ) {
+		switch ( $status_sort ) {
 			case 'pending':
 				$where = $wpdb->prepare( "status = %s AND id > 0", array( 'pending' ) );
 				break;
@@ -111,10 +111,10 @@ class AdminController {
 			'totalRows'   => $total_count,
 			'perPage'     => $per_page,
 			'baseURL'     => admin_url( 'admin.php?' . http_build_query( [
-					'page'       => WLPS_PLUGIN_SLUG,
-					'view'       => 'point_sharing',
-					'point_sort' => $point_sort,
-					'search'     => $search
+					'page'        => WLPS_PLUGIN_SLUG,
+					'view'        => 'point_sharing',
+					'status_sort' => $status_sort,
+					'search'      => $search
 				] ) ),
 			'currentPage' => $current_page,
 		];
@@ -134,7 +134,7 @@ class AdminController {
 			'per_page'         => $per_page,
 			'page_number'      => $current_page,
 			'app_url'          => admin_url( 'admin.php?page=' . WLPS_PLUGIN_SLUG ),
-			'point_sort'       => $point_sort,
+			'status_sort'      => $status_sort,
 			'filter_status'    => [
 				'all'       => __( 'All', 'wp-loyalty-point-sharing' ),
 				'pending'   => __( 'Pending', 'wp-loyalty-point-sharing' ),

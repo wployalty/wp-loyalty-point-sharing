@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) or die;
                 <div class="wlps-button-block">
                     <div class="wlps-back-to-apps">
                         <a class="button" target="_self"
-                           href="<?php echo isset( $app_url ) ? esc_url( $app_url ) : '#'; ?>">
+                           href="<?php echo isset( $back_to_apps_url ) ? esc_url( $back_to_apps_url ) : '#'; ?>">
                             <img src="<?php echo ( isset( $back ) && ! empty( $back ) ) ? esc_url( $back ) : ''; //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>"
                                  alt="<?php esc_html_e( "Back", "wp-loyalty-rules" ); ?>">
 							<?php esc_html_e( 'Back to WPLoyalty', 'wp-loyalty-rules' ); ?></a>

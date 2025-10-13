@@ -1,6 +1,8 @@
 <?php
 
-namespace Wlps\App\Helpers;
+namespace Wlps\App\Emails\Helpers;
+use const Wlps\App\Helpers\WC_VERSION;
+
 defined( 'ABSPATH' ) || exit;
 
 class Plugin {

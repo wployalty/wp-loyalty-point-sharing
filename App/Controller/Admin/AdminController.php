@@ -2,11 +2,10 @@
 
 namespace Wlps\App\Controller\Admin;
 
-use Wlps\App\Controller\Common;
-use Wlps\App\Helpers\Input;
-use Wlps\App\Helpers\Validation;
-use Wlps\App\Helpers\WC;
-use Wlps\App\Helpers\Pagination;
+use Wlps\App\Emails\Helpers\Input;
+use Wlps\App\Emails\Helpers\Pagination;
+use Wlps\App\Emails\Helpers\Validation;
+use Wlps\App\Emails\Helpers\WC;
 use Wlr\App\Helpers\Woocommerce;
 
 class AdminController {
@@ -41,8 +40,11 @@ class AdminController {
 				break;
 
 		}
-
+		$template_path = get_theme_file_path( 'wp-loyalty-point-sharing/Admin/main.php' );
 		$file_path = WLPS_VIEW_PATH . '/Admin/main.php';
+		if(!file_exists($template_path)){
+			$file_path = $template_path;
+		}
 		WC::renderTemplate( $file_path, $params );
 	}
 
@@ -222,6 +224,7 @@ class AdminController {
 	}
 
 	public static function addAssets() {
+
 		$suffix = '.min';
 		wp_enqueue_style(
 			WLPS_PLUGIN_SLUG . '-admin-style',

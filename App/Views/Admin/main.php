@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or die();
 ?>
 <div id="wlps-main">
     <div class="wlps-main-header">
-        <h1><?php echo esc_html( WLPS_PLUGIN_NAME ); ?> </h1>
+        <h1><?php echo esc_html__( 'WPLoyalty - Point Sharing','wp-loyalty-point-sharing'); ?> </h1>
         <div><b><?php echo esc_html( 'v' . WLPS_PLUGIN_VERSION ); ?></b></div>
     </div>
     <div class="wlps-tabs">

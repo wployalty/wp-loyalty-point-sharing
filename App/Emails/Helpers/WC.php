@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlps\App\Helpers;
+namespace Wlps\App\Emails\Helpers;
 
 use Wlr\App\Models\Users;
 

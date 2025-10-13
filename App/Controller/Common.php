@@ -2,7 +2,7 @@
 
 namespace Wlps\App\Controller;
 
-use Wlps\App\Helpers\WC;
+use Wlps\App\Emails\Helpers\WC;
 use Wlr\App\Helpers\Base;
 use Wlr\App\Helpers\Woocommerce;
 use Wlr\App\Models\Users;

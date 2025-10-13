@@ -2,11 +2,11 @@
 
 namespace Wlps\App\Controller;
 
-use Wlps\App\Helpers\Input;
-use Wlps\App\Helpers\Validation;
+use Wlps\App\Emails\Helpers\Input;
+use Wlps\App\Emails\Helpers\Validation;
+use Wlps\App\Emails\Helpers\WC;
 use Wlps\App\Models\PointTransfers;
 use Wlr\App\Helpers\Base;
-use Wlps\App\Helpers\WC;
 use Wlr\App\Helpers\Woocommerce;
 
 class PointTransferController {

@@ -3,6 +3,18 @@ if (typeof wlps_jquery === 'undefined') {
 }
 wlps = window.wlps || {};
 (function (wlps) {
+
+    /** Points Validation Function **/
+    wlps.validatePoints = function (points) {
+        const availableUserPoints = wlps_frontend_data.available_user_points;
+        const maxPoints = wlps_frontend_data.max_transfer_points;
+
+        if (points < 1) return 'Points must be at least 1.';
+        if (points > availableUserPoints) return `You only have ${availableUserPoints} points available.`;
+        if (points > maxPoints) return `Maximum is ${maxPoints} points.`;
+        return ''; // valid
+    };
+
     /** Open / Close Modal Functions **/
     wlps.openSharePointsModal = function (event) {
         if (event) event.preventDefault();
@@ -21,21 +33,11 @@ wlps = window.wlps || {};
         const pointsError = wlps_jquery('#transfer-points-error');
         const submitBtn = form.find('button[type="submit"]');
 
-
         const points = parseInt(pointsInput.val()) || 0;
-        const availableUserPoints = wlps_frontend_data.available_user_points;
-        const maxPoints = wlps_frontend_data.max_transfer_points;
+        const errorMsg = wlps.validatePoints(points);
 
-        if (points > availableUserPoints) {
-            pointsError.text(`You only have ${availableUserPoints} points available`).show();
-            submitBtn.prop('disabled', true);
-            return;
-        } else if (points > maxPoints) {
-            pointsError.text(`Maximum is ${maxPoints} points.`).show();
-            submitBtn.prop('disabled', true);
-            return;
-        } else if (points < 1) {
-            pointsError.text(`Points must be at least 1.`).show();
+        if (errorMsg) {
+            pointsError.text(errorMsg).show();
             submitBtn.prop('disabled', true);
             return;
         } else {
@@ -115,7 +117,7 @@ wlps = window.wlps || {};
         });
     };
 
-// /** Live Validation for points input while typing **/
+    /** Live Validation for points input while typing **/
     wlps_jquery(document).ready(function () {
         const pointsInput = wlps_jquery('#transfer-points');
         const pointsError = wlps_jquery('#transfer-points-error');
@@ -123,17 +125,10 @@ wlps = window.wlps || {};
 
         pointsInput.on('input', function () {
             const points = parseInt(pointsInput.val()) || 0;
-            const availableUserPoints = wlps_frontend_data.available_user_points;
-            const maxPoints = wlps_frontend_data.max_transfer_points;
+            const errorMsg = wlps.validatePoints(points);
 
-            if (points > availableUserPoints) {
-                pointsError.text(`You only have ${availableUserPoints} points available`).show();
-                submitBtn.prop('disabled', true);
-            } else if (points > maxPoints) {
-                pointsError.text(`Maximum is ${maxPoints} points.`).show();
-                submitBtn.prop('disabled', true);
-            } else if (points < 1) {
-                pointsError.text(`Points must be at least 1.`).show();
+            if (errorMsg) {
+                pointsError.text(errorMsg).show();
                 submitBtn.prop('disabled', true);
             } else {
                 pointsError.hide();
@@ -141,5 +136,5 @@ wlps = window.wlps || {};
             }
         });
     });
-})
-(wlps);
+
+})(wlps);

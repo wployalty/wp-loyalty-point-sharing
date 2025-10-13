@@ -74,7 +74,7 @@ class PointTransferReceiverEmail extends WC_Email {
 		$point_label     = $reward_helper->getPointLabel( $available_point );
 
 		$this->placeholders = [
-			'{wlr_recipient_name}' => $this->getUserDisplayName( $recipient_email ),
+			'{wlr_recipient_name}' => $this->getUserDisplayName( $recipient_email ) ?: $recipient_email,
 			'{wlr_referral_url}'   => $ref_code,
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $sender_email ),
 			'{wlr_points}'         => $points_amount,

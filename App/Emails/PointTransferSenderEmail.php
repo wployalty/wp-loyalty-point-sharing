@@ -75,7 +75,7 @@ class PointTransferSenderEmail extends \WC_Email {
 
 
 		$this->placeholders = [
-			'{wlr_recipient_name}' => $this->getUserDisplayName( $transfer->recipient_email ),
+			'{wlr_recipient_name}' => $this->getUserDisplayName( $transfer->recipient_email ) ?: $transfer->recipient_email,
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $transfer->sender_email ),
 			'{wlr_points}'         => $transfer->points,
 			'{wlr_account_link}'   => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),

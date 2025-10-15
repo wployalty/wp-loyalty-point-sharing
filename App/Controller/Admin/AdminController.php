@@ -2,15 +2,14 @@
 
 namespace Wlps\App\Controller\Admin;
 
-use Wlps\App\Emails\Helpers\Input;
-use Wlps\App\Emails\Helpers\Pagination;
-use Wlps\App\Emails\Helpers\Validation;
-use Wlps\App\Emails\Helpers\WC;
-use Wlr\App\Helpers\Woocommerce;
+use Wlps\App\Helpers\Input;
+use Wlps\App\Helpers\Pagination;
+use Wlps\App\Helpers\Validation;
+use Wlps\App\Helpers\WlpsUtil;
 
 class AdminController {
 	public static function addMenu() {
-		if ( WC::hasAdminPrivilege() ) {
+		if ( WlpsUtil::hasAdminPrivilege() ) {
 			add_menu_page( __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), 'manage_woocommerce', WLPS_PLUGIN_SLUG, [
 				self::class,
 				'renderMainPage'
@@ -19,7 +18,7 @@ class AdminController {
 	}
 
 	public static function renderMainPage() {
-		if ( ! WC::hasAdminPrivilege() ) {
+		if ( ! WlpsUtil::hasAdminPrivilege() ) {
 			wp_die( __( "You don't have permission to access this page.", 'wp-loyalty-point-sharing' ) );
 		}
 
@@ -40,26 +39,26 @@ class AdminController {
 				break;
 
 		}
-		$template_path = get_theme_file_path( 'wp-loyalty-point-sharing/Admin/main.php' );
-		$file_path = WLPS_VIEW_PATH . '/Admin/main.php';
-		if(!file_exists($template_path)){
-			$file_path = $template_path;
+
+		$file_path = get_theme_file_path( 'wp-loyalty-point-sharing/Admin/main.php' );
+		if ( ! file_exists( $file_path ) ) {
+			$file_path = WLPS_VIEW_PATH . '/Admin/main.php';
 		}
-		WC::renderTemplate( $file_path, $params );
+
+		return WlpsUtil::renderTemplate( $file_path, $params );
 	}
 
 	public static function getActivityPage() {
-		$woocommerce_helper = new WC();
-		$input              = new Input();
+
 		global $wpdb;
 
-		$search           = (string) $input->post_get( 'search', '' );
+		$search           = (string) Input::get( 'search', '' );
 		$search           = sanitize_text_field( $search );
-		$filter_order     = (string) $input->post_get( 'sort_order', 'id' );
-		$filter_order_dir = (string) $input->post_get( 'sort_order_dir', 'ASC' );
-		$status_sort      = (string) $input->post_get( 'status_sort', 'all' );
-		$per_page         = (int) $input->get( 'per_page', 10 );
-		$current_page     = (int) $input->get( 'page_number', 1 );
+		$filter_order     = (string) Input::get( 'sort_order', 'id' );
+		$filter_order_dir = (string) Input::get( 'sort_order_dir', 'ASC' );
+		$status_sort      = (string) Input::get( 'status_sort', 'all' );
+		$per_page         = (int) Input::get( 'per_page', 10 );
+		$current_page     = (int) Input::get( 'page_number', 1 );
 		$offset           = $per_page * ( $current_page - 1 );
 		switch ( $status_sort ) {
 			case 'pending':
@@ -102,7 +101,7 @@ class AdminController {
 		$items = $wpdb->get_results( "SELECT * FROM $table_name WHERE $where $order_by $limit_offset" );
 
 		foreach ( $items as $item ) {
-			$item->created_at = isset( $item->created_at ) && $item->created_at > 0 ? $woocommerce_helper->beforeDisplayDate( $item->created_at ) : '';
+			$item->created_at = isset( $item->created_at ) && $item->created_at > 0 ? WlpsUtil::beforeDisplayDate( $item->created_at ) : '';
 		}
 
 		// Pagination parameters
@@ -148,9 +147,12 @@ class AdminController {
 			'wp_date_format'   => get_option( 'date_format', 'Y-m-d H:i:s' ),
 		];
 
-		$file_path = WLPS_VIEW_PATH . '/Admin/point-sharing.php';
+		$file_path = get_theme_file_path( 'wp-loyalty-point-sharing/Admin/point-sharing.php' );
+		if ( ! file_exists( $file_path ) ) {
+			$file_path = WLPS_VIEW_PATH . '/Admin/point-sharing.php';
+		}
 
-		return WC::renderTemplate( $file_path, $page_details, false );
+		return WlpsUtil::renderTemplate( $file_path, $page_details, false );
 	}
 
 	public static function getSettingsPage() {
@@ -179,7 +181,7 @@ class AdminController {
 		}
 
 
-		return WC::renderTemplate( $file_path, $args, false );
+		return WlpsUtil::renderTemplate( $file_path, $args, false );
 	}
 
 	public static function saveSettings() {
@@ -187,7 +189,7 @@ class AdminController {
 		$response            = [];
 		$validate_data_error = [];
 		$wlps_nonce          = (string) $input->post( 'wlps_nonce' );
-		if ( ! Woocommerce::hasAdminPrivilege() || ! Woocommerce::verify_nonce( $wlps_nonce, 'wlps-setting-nonce' ) ) {
+		if ( ! WlpsUtil::hasAdminPrivilege() || ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-setting-nonce' ) ) {
 			$response['error']   = true;
 			$response['message'] = esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' );
 			wp_send_json( $response );
@@ -224,6 +226,9 @@ class AdminController {
 	}
 
 	public static function addAssets() {
+		if ( Input::get( 'page' ) != WLPS_PLUGIN_SLUG ) {
+			return;
+		}
 
 		$suffix = '.min';
 		wp_enqueue_style(
@@ -241,7 +246,7 @@ class AdminController {
 			'ajax_url'            => admin_url( 'admin-ajax.php' ),
 			'saving_button_label' => __( "Saving...", "wp-loyalty-rules" ),
 			'saved_button_label'  => __( "Save Changes", "wp-loyalty-rules" ),
-			'wlps_setting_nonce'  => Woocommerce::create_nonce( 'wlps-setting-nonce' ),
+			'wlps_setting_nonce'  => WlpsUtil::create_nonce( 'wlps-setting-nonce' ),
 		];
 		wp_localize_script( WLPS_PLUGIN_SLUG . '-admin', 'wlps_localize_data', $localize );
 	}

@@ -1,11 +1,11 @@
 <?php
 
-namespace Wlps\App\Emails\Helpers;
+namespace Wlps\App\Helpers;
 
 use Wlr\App\Models\Users;
 
-class WC {
-	public static $banned_user;
+class WlpsUtil {
+	public static $banned_user, $instance;
 
 	public static function hasAdminPrivilege() {
 		if ( current_user_can( 'manage_woocommerce' ) ) {
@@ -13,6 +13,26 @@ class WC {
 		} else {
 			return false;
 		}
+	}
+
+	public static function create_nonce( $action = - 1 ) {
+		return wp_create_nonce( $action );
+	}
+
+	public static function verify_nonce( $nonce, $action = - 1 ) {
+		if ( wp_verify_nonce( $nonce, $action ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static function getInstance( array $config = array() ) {
+		if ( ! self::$instance ) {
+			self::$instance = new self( $config );
+		}
+
+		return self::$instance;
 	}
 
 	public static function renderTemplate( string $file, array $data = [], bool $display = true ) {
@@ -70,7 +90,7 @@ class WC {
 		return static::$banned_user[ $user_email ] = ( ! empty( $user ) && is_object( $user ) && isset( $user->is_banned_user ) );
 	}
 
-	function beforeDisplayDate( $date, $format = '' ) {
+	public static function beforeDisplayDate( $date, $format = '' ) {
 		if ( empty( $format ) ) {
 			$format = get_option( 'date_format', 'Y-m-d H:i:s' );
 		}
@@ -81,7 +101,7 @@ class WC {
 			return $date;
 		}
 
-		$converted_time = $this->convert_utc_to_wp_time( gmdate( 'Y-m-d H:i:s', $date ), $format );
+		$converted_time = self::convert_utc_to_wp_time( gmdate( 'Y-m-d H:i:s', $date ), $format );
 		if ( apply_filters( 'wlr_translate_display_date', true ) ) {
 			$datetime = \DateTime::createFromFormat( $format, $converted_time );
 			if ( $datetime !== false ) {
@@ -95,14 +115,14 @@ class WC {
 		return $converted_time;
 	}
 
-	function convert_utc_to_wp_time( $datetime, $format = 'Y-m-d H:i:s', $modify = '' ) {
+	public static function convert_utc_to_wp_time( $datetime, $format = 'Y-m-d H:i:s', $modify = '' ) {
 		try {
 			$timezone     = new \DateTimeZone( 'UTC' );
 			$current_time = new \DateTime( $datetime, $timezone );
 			if ( ! empty( $modify ) ) {
 				$current_time->modify( $modify );
 			}
-			$wp_time_zone = new \DateTimeZone( $this->get_wp_time_zone() );
+			$wp_time_zone = new \DateTimeZone( self::get_wp_time_zone() );
 			$current_time->setTimezone( $wp_time_zone );
 			$converted_time = $current_time->format( $format );
 		} catch ( \Exception $e ) {
@@ -112,7 +132,7 @@ class WC {
 		return $converted_time;
 	}
 
-	function get_wp_time_zone() {
+	public static function get_wp_time_zone() {
 		if ( ! function_exists( 'wp_timezone_string' ) ) {
 			$timezone_string = get_option( 'timezone_string' );
 			if ( $timezone_string ) {

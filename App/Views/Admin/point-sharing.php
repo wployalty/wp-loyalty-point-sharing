@@ -6,7 +6,6 @@
  * */
 
 defined( 'ABSPATH' ) or die;
-$woocommerce    = \Wlr\App\Helpers\Woocommerce::getInstance();
 $base_url       = isset( $base_url ) ? $base_url : '';
 $app_url        = isset( $app_url ) ? $app_url : '#';
 $back           = ( isset( $back ) && ! empty( $back ) ) ? $back : '';

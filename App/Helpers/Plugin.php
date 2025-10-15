@@ -1,7 +1,7 @@
 <?php
 
-namespace Wlps\App\Emails\Helpers;
-use const Wlps\App\Helpers\WC_VERSION;
+namespace Wlps\App\Helpers;
+
 
 defined( 'ABSPATH' ) || exit;
 

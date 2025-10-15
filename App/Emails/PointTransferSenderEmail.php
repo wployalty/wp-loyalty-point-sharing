@@ -29,7 +29,8 @@ class PointTransferSenderEmail extends \WC_Email {
 			'{wlr_points}'         => '10',
 			'{wlr_points_label}'   => __( 'points', 'wp-loyalty-point-sharing' ),
 			'{wlr_confirm_link}'   => '',
-			'{wlr_referral_url'    => 'http:example.com'
+			'{wlr_referral_url}'   => 'http:example.com',
+			'{wlr_user_points}'    => 0,
 		] );
 		add_action( 'wlr_send_point_transfer_sender_email', [ $this, 'trigger' ], 10, 2 );
 		parent::__construct();
@@ -75,14 +76,17 @@ class PointTransferSenderEmail extends \WC_Email {
 
 
 		$this->placeholders = [
+			'{site_name}'          => get_bloginfo( 'name' ),
 			'{wlr_recipient_name}' => $this->getUserDisplayName( $transfer->recipient_email ) ?: $transfer->recipient_email,
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $transfer->sender_email ),
 			'{wlr_points}'         => $transfer->points,
 			'{wlr_account_link}'   => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
 			'{wlr_referral_url}'   => $ref_code,
 			'{wlr_shop_url}'       => get_permalink( wc_get_page_id( 'shop' ) ),
+			'{wlr_store_name}'     => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_points_label}'   => $point_label,
 			'{wlr_confirm_link}'   => $confirm_link,
+			'{wlr_user_points}'    => $loyal_user->points ?? 0,
 		];
 
 
@@ -108,6 +112,42 @@ class PointTransferSenderEmail extends \WC_Email {
 		$reward_helper->add_note( $log_data );
 	}
 
+	public function getShortCodesList() {
+		$short_codes = [];
+		foreach ( $this->placeholders as $short_code => $default_value ) {
+			$short_codes[] = [
+				'short_code'    => $short_code,
+				'description'   => $this->getShortCodeDescription( $short_code ),
+				'default_value' => $default_value
+			];
+		}
+
+		return $short_codes;
+	}
+
+	protected function getShortCodeDescription( $short_code ) {
+		$short_code_descriptions = [
+			'{wlr_points}'         => __( 'The number of points that are going to transfer', 'wp-loyalty-point-sharing' ),
+			'{wlr_points_label}'   => __( 'The label for points (e.g., points, credits)', 'wp-loyalty-point-sharing' ),
+			'{wlr_shop_url}'       => __( 'The URL to the shop page of the website', 'wp-loyalty-point-sharing' ),
+			'{wlr_confirm_link}'   => __( 'The URL to confirm the transfer point sharing', 'wp-loyalty-point-sharing' ),
+			'{wlr_recipient_name}' => __( 'The Recipient who is recieving the points', 'wp-loyalty-point-sharing' ),
+			'{wlr_sender_name}'    => __( 'The Sender who sends the points', 'wp-loyalty-point-sharing' ),
+
+			//loyalty common
+			'{wlr_referral_url}'   => __( 'The referral URL for the customer to share with friends', 'wp-loyalty-point-sharing' ),
+			'{wlr_user_points}'    => __( 'The current points balance of the customer', 'wp-loyalty-point-sharing' ),
+			'{wlr_user_name}'      => __( 'The display name of the customer', 'wp-loyalty-point-sharing' ),
+			'{wlr_store_name}'     => __( 'The name of the store or website', 'wp-loyalty-point-sharing' ),
+			// common
+			'{site_name}'          => __( 'The title of the website', 'wp-loyalty-point-sharing' ),
+			'{site_address}'       => __( 'The address of the website', 'wp-loyalty-point-sharing' ),
+			'{site_url}'           => __( 'The URL of the website', 'wp-loyalty-point-sharing' ),
+			'{store_email}'        => __( 'The store\'s contact email address', 'wp-loyalty-point-sharing' )
+		];
+
+		return in_array( $short_code, array_keys( $short_code_descriptions ) ) ? $short_code_descriptions[ $short_code ] : '';
+	}
 
 	public function get_content_html() {
 		return $this->format_string( wc_get_template_html( $this->template_html, [

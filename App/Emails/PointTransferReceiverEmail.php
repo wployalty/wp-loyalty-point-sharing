@@ -25,12 +25,14 @@ class PointTransferReceiverEmail extends WC_Email {
 		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
 			'{site_name}'          => get_bloginfo( 'name' ),
 			'{wlr_shop_url}'       => 'https://example.com',
-			'{wlr_sender_name}'    => '',
-			'{wlr_recipient_name}' => '',
+			'{wlr_store_name}'     => 'shop',
+			'{wlr_sender_name}'    => 'Thomas',
+			'{wlr_recipient_name}' => 'Judy',
 			'{wlr_points}'         => '',
 			'{wlr_points_label}'   => __( 'points', 'wp-loyalty-point-sharing' ),
-			'{wlr_account_link}'   => '',
-			'{wlr_referral_url}'   => 'http:example.com'
+			'{wlr_account_link}'   => 'https://example.com',
+			'{wlr_referral_url}'   => 'https://example.com',
+			'{wlr_user_point}'     => 0,
 		] );
 		add_action( 'wlr_send_point_transfer_reciever_email', [ $this, 'trigger' ], 10, 3 );
 		parent::__construct();
@@ -74,12 +76,16 @@ class PointTransferReceiverEmail extends WC_Email {
 		$point_label     = $reward_helper->getPointLabel( $available_point );
 
 		$this->placeholders = [
+			'{site_name}'          => get_bloginfo( 'name' ),
 			'{wlr_recipient_name}' => $this->getUserDisplayName( $recipient_email ) ?: $recipient_email,
 			'{wlr_referral_url}'   => $ref_code,
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $sender_email ),
+			'{wlr_store_name}'     => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_points}'         => $points_amount,
 			'{wlr_account_link}'   => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
-			'{wlr_points_label}'   => $point_label
+			'{wlr_points_label}'   => $point_label,
+			'{wlr_shop_url}'       => get_permalink( wc_get_page_id( 'shop' ) ),
+			'{wlr_user_point}'     => $loyal_user->points ?? 0
 		];
 
 		$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );
@@ -115,6 +121,43 @@ class PointTransferReceiverEmail extends WC_Email {
 		$log_data['customer_note'] = $log_data['note'];
 
 		Rewards::getInstance()->add_note( $log_data );
+	}
+
+	public function getShortCodesList() {
+		$short_codes = [];
+		foreach ( $this->placeholders as $short_code => $default_value ) {
+			$short_codes[] = [
+				'short_code'    => $short_code,
+				'description'   => $this->getShortCodeDescription( $short_code ),
+				'default_value' => $default_value
+			];
+		}
+
+		return $short_codes;
+	}
+
+	protected function getShortCodeDescription( $short_code ) {
+		$short_code_descriptions = [
+			'{wlr_points}'         => __( 'The number of points that are going to transfer', 'wp-loyalty-point-sharing' ),
+			'{wlr_recipient_name}' => __( 'The Recipient who is recieved the points', 'wp-loyalty-point-sharing' ),
+			'{wlr_sender_name}'    => __( 'The Sender who sends the points', 'wp-loyalty-point-sharing' ),
+			'{wlr_points_label}'   => __( 'The label for points (e.g., points, credits)', 'wp-loyalty-point-sharing' ),
+			'{wlr_shop_url}'       => __( 'The URL to the shop page of the website', 'wp-loyalty-point-sharing' ),
+			'{wlr_account_link}'   => __( 'The URL to access the account page', 'wp-loyalty-point-sharing' ),
+
+			//loyalty common
+			'{wlr_referral_url}'   => __( 'The referral URL for the customer to share with friends', 'wp-loyalty-point-sharing' ),
+			'{wlr_user_point}'     => __( 'The current points balance of the customer', 'wp-loyalty-point-sharing' ),
+			'{wlr_user_name}'      => __( 'The display name of the customer', 'wp-loyalty-point-sharing' ),
+			'{wlr_store_name}'     => __( 'The name of the store or website', 'wp-loyalty-point-sharing' ),
+			// common
+			'{site_name}'          => __( 'The title of the website', 'wp-loyalty-point-sharing' ),
+			'{site_address}'       => __( 'The address of the website', 'wp-loyalty-point-sharing' ),
+			'{site_url}'           => __( 'The URL of the website', 'wp-loyalty-point-sharing' ),
+			'{store_email}'        => __( 'The store\'s contact email address', 'wp-loyalty-point-sharing' )
+		];
+
+		return in_array( $short_code, array_keys( $short_code_descriptions ) ) ? $short_code_descriptions[ $short_code ] : '';
 	}
 
 	public function get_content_html() {

@@ -2,12 +2,11 @@
 
 namespace Wlps\App\Controller;
 
-use Wlps\App\Emails\Helpers\Input;
-use Wlps\App\Emails\Helpers\Validation;
-use Wlps\App\Emails\Helpers\WC;
+use Wlps\App\Helpers\Input;
+use Wlps\App\Helpers\Validation;
+use Wlps\App\Helpers\WlpsUtil;
 use Wlps\App\Models\PointTransfers;
 use Wlr\App\Helpers\Base;
-use Wlr\App\Helpers\Woocommerce;
 
 class PointTransferController {
 	const TRANSFER_LINK_EXPIRY = 15;
@@ -17,9 +16,8 @@ class PointTransferController {
 	const PENDING = "pending";
 
 	public static function transferPoints() {
-		$input      = new Input();
-		$wlps_nonce = (string) $input->post( 'wlps_transfer_points_nonce' );
-		if ( ! Woocommerce::hasAdminPrivilege() || ! Woocommerce::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
+		$wlps_nonce = (string) Input::get( 'wlps_transfer_points_nonce', '', 'post' );
+		if ( ! WlpsUtil::hasAdminPrivilege() || ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
 			$response['error']   = true;
 			$response['message'] = esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' );
 			wp_send_json( $response );
@@ -28,8 +26,8 @@ class PointTransferController {
 
 		$sender          = wp_get_current_user();
 		$sender_email    = $sender->user_email;
-		$recipient_email = $input->get( 'transfer_email', '', 'post' );
-		$transfer_points = $input->get( 'transfer_points', '', 'post' );
+		$recipient_email = Input::get( 'transfer_email', '', 'post' );
+		$transfer_points = Input::get( 'transfer_points', '', 'post' );
 
 		$validation_result = Validation::validateTransferPointsInput( $recipient_email, $transfer_points );
 
@@ -74,7 +72,7 @@ class PointTransferController {
 			return false;
 		}
 
-		if ( WC::isBannedUser( $recipient_email ) ) {
+		if ( WlpsUtil::isBannedUser( $recipient_email ) ) {
 			wp_send_json_error( [ 'message' => __( 'The recipient user is banned cannot transfer points.', 'wp-loyalty-point-sharing' ) ] );
 
 			return false;
@@ -91,12 +89,12 @@ class PointTransferController {
 	}
 
 	public static function handleConfirmTransfer() {
-		$input  = new Input();
-		$action = $input->get( 'wlps_action', '', 'query' );
+
+		$action = Input::get( 'wlps_action', '', 'query' );
 		if ( $action !== 'confirm_transfer' ) {
 			return;
 		}
-		$token         = sanitize_text_field( $input->get( 'token', '', 'query' ) ?? '' );
+		$token         = sanitize_text_field( Input::get( 'token', '', 'query' ) ?? '' );
 		$transferModel = new PointTransfers();
 		$transfer      = $transferModel->findByToken( $token );
 		if ( ! self::checkSharePointEnabled( $transferModel, $transfer ) ) {
@@ -196,7 +194,7 @@ class PointTransferController {
 
 	private static function validateSenderAndRecipient( $transfer, $transferModel ) {
 		$base_helper = new Base();
-		if ( WC::isBannedUser( $transfer->recipient_email ) ) {
+		if ( WlpsUtil::isBannedUser( $transfer->recipient_email ) ) {
 			$transferModel->markAs( $transfer->id, PointTransferController::FAILED, sprintf( __( 'Transfer failed: recipient account is banned.', 'wp-loyalty-point-sharing' ) ) );
 
 			wc_add_notice( __( 'This user is banned due to security concerns.', 'wp-loyalty-point-sharing' ), 'error' );

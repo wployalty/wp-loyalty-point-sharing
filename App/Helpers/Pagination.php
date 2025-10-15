@@ -6,7 +6,7 @@
  * */
 
 
-namespace Wlps\App\Emails\Helpers;
+namespace Wlps\App\Helpers;
 
 use Wlr\App\Helpers\Input;
 

@@ -18,7 +18,7 @@
  */
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
-use Wlps\App\Emails\Helpers\Plugin;
+use Wlps\App\Helpers\Plugin;
 use Wlps\App\Router;
 use Wlps\App\Setup;
 
@@ -77,7 +77,8 @@ if ( class_exists( Setup::class ) ) {
 	Setup::init();
 }
 add_action( 'plugins_loaded', function () {
-	if ( ! class_exists( '\Wlps\App\Router' ) || !class_exists( '\Wlps\App\Emails\Helpers\Plugin' ) ) {
+	if ( ! class_exists( '\Wlps\App\Router' ) || ! class_exists( '\Wlps\App\Helpers\Plugin' ) ) {
+
 		return;
 	}
 	if ( Plugin::checkDependencies() ) {

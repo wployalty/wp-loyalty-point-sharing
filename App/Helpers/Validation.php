@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlps\App\Emails\Helpers;
+namespace Wlps\App\Helpers;
 
 use Valitron\Validator;
 

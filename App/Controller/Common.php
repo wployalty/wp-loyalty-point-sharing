@@ -2,9 +2,8 @@
 
 namespace Wlps\App\Controller;
 
-use Wlps\App\Emails\Helpers\WC;
+use Wlps\App\Helpers\WlpsUtil;
 use Wlr\App\Helpers\Base;
-use Wlr\App\Helpers\Woocommerce;
 use Wlr\App\Models\Users;
 
 defined( 'ABSPATH' ) or die();
@@ -20,7 +19,7 @@ class Common {
 		$base_helper  = new Base();
 		$settings     = get_option( 'wlps_settings', [] );
 		$max_transfer = isset( $settings['max_transfer_points'] ) ? (int) $settings['max_transfer_points'] : 0;
-		$user_email   = WC::getLoginUserEmail();
+		$user_email   = WlpsUtil::getLoginUserEmail();
 		$user_points  = $base_helper->getUserPoint( $user_email );
 
 		// JS
@@ -37,7 +36,7 @@ class Common {
 			'saved_button_label'         => __( "Save Changes", "wp-loyalty-rules" ),
 			'max_transfer_points'        => $max_transfer,
 			'available_user_points'      => $user_points,
-			'wlps_transfer_points_nonce' => Woocommerce::create_nonce( "wlps-transfer-points-nonce" )
+			'wlps_transfer_points_nonce' => WlpsUtil::create_nonce( "wlps-transfer-points-nonce" )
 		);
 		wp_localize_script( WLPS_PLUGIN_SLUG . '-frontend', 'wlps_frontend_data', $localize );
 	}
@@ -64,12 +63,21 @@ class Common {
 	}
 
 	public static function renderSharePointModal() {
-		$settings            = get_option( 'wlps_settings', [] );
-		$isSharePointEnabled = isset( $settings['enable_share_point'] );
-		if ( $isSharePointEnabled ) {
-			$file = WLPS_VIEW_PATH . '/Site/share-points-modal.php';
-			if ( file_exists( $file ) ) {
-				include $file;
+		$settings               = get_option( 'wlps_settings', [] );
+		$is_share_point_enabled = ! empty( $settings['enable_share_point'] );
+
+		if ( $is_share_point_enabled ) {
+
+			$file_path = get_theme_file_path( 'wp-loyalty-point-sharing/Site/share-points-modal.php' );
+
+			if ( ! file_exists( $file_path ) ) {
+
+				$file_path = WLPS_VIEW_PATH . '/Site/share-points-modal.php';
+				error_log( $file_path );
+			}
+
+			if ( file_exists( $file_path ) ) {
+				include $file_path;
 			}
 		}
 	}
@@ -86,6 +94,12 @@ class Common {
 				'value'    => $email
 			]
 		], '*', [], false, true );
+	}
+
+	public static function addEmailId( $emailIds ) {
+		$wlpsEmailIds = [ 'wlps_point_transfer_receiver_email', 'wlps_point_transfer_sender_email' ];
+
+		return array_merge( $emailIds, $wlpsEmailIds );
 	}
 
 }

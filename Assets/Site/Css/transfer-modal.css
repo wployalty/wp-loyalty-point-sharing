@@ -11,6 +11,15 @@
   text-decoration: underline;
 }
 
+/* Targets the first child div inside #wlr-available-points */
+#wlr-available-points > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  /* your styles here */
+}
+
 .wlps-modal {
   display: none;
   position: fixed;

@@ -20,6 +20,15 @@
   }
 }
 
+/* Targets the first child div inside #wlr-available-points */
+#wlr-available-points > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+
 // ==========================
 // Modal Overlay
 // ==========================

@@ -185,44 +185,58 @@ class AdminController {
 	}
 
 	public static function saveSettings() {
-		$input               = new Input();
-		$response            = [];
-		$validate_data_error = [];
-		$wlps_nonce          = (string) $input->post( 'wlps_nonce' );
+		// Check admin privilege & nonce
+		$wlps_nonce = (string) Input::get( 'wlps_nonce', '', 'post' );
 		if ( ! WlpsUtil::hasAdminPrivilege() || ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-setting-nonce' ) ) {
-			$response['error']   = true;
-			$response['message'] = esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' );
-			wp_send_json( $response );
+			wp_send_json_error( [
+				'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
+			] );
 		}
-		$key = (string) $input->post( 'option_key' );
-		$key = Validation::validateInputAlpha( $key );
-		if ( ! empty( $key ) ) {
-			$data                  = $input->post();
-			$need_to_remove_fields = array( 'option_key', 'action', 'wlps_nonce' );
-			foreach ( $need_to_remove_fields as $field ) {
-				unset( $data[ $field ] );
-			}
-			$validate_data = Validation::validateSettingsTab( $_REQUEST ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			if ( is_array( $validate_data ) ) {
-				$response['error'] = true;
 
-				foreach ( $validate_data as $validate_key => $validate ) {
-					$validate_data_error[ $validate_key ] = current( $validate );
-				}
-				$response['field_error'] = ( $validate_data_error );
-				$response['message']     = __( 'Settings not saved!', 'wp-loyalty-rules' );
-			}
-			if ( ! isset( $response['error'] ) || ! $response['error'] ) {
-				update_option( $key, $data, true );
-				do_action( 'wlps_after_save_settings', $data, $key );
-				$response['error']   = false;
-				$response['message'] = esc_html__( 'Settings saved successfully!', 'wp-loyalty-rules' );
-			}
-		} else {
-			$response['error']   = true;
-			$response['message'] = esc_html__( 'Settings not saved!', 'wp-loyalty-rules' );
+		// Validate option key
+		$key = (string) Input::get( 'option_key', '', 'post' );
+		$key = Validation::validateInputAlpha( $key );
+		if ( empty( $key ) ) {
+			wp_send_json_error( [
+				'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
+			] );
 		}
-		wp_send_json( $response );
+
+		// Clean input data
+		$data             = Input::post();
+		$fields_to_remove = [ 'option_key', 'action', 'wlps_nonce' ];
+		foreach ( $fields_to_remove as $field ) {
+			unset( $data[ $field ] );
+		}
+
+		// Validate settings tab
+		$validate_data = Validation::validateSettingsTab( $_REQUEST ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( is_array( $validate_data ) && ! empty( $validate_data ) ) {
+			$field_errors = [];
+			foreach ( $validate_data as $validate_key => $validate ) {
+				$field_errors[ $validate_key ] = current( $validate );
+			}
+
+			wp_send_json_error( [
+				'field_error' => $field_errors,
+				'message'     => __( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
+			] );
+		}
+
+		// Save settings
+		$updated = update_option( $key, $data, true );
+		if ( $updated ) {
+			do_action( 'wlps_after_save_settings', $data, $key );
+
+			wp_send_json_success( [
+				'message' => esc_html__( 'Settings saved successfully!', 'wp-loyalty-point-sharing' ),
+			] );
+		}
+
+		// If update failed
+		wp_send_json_error( [
+			'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
+		] );
 	}
 
 	public static function addAssets() {
@@ -244,8 +258,8 @@ class AdminController {
 			'home_url'            => get_home_url(),
 			'admin_url'           => admin_url(),
 			'ajax_url'            => admin_url( 'admin-ajax.php' ),
-			'saving_button_label' => __( "Saving...", "wp-loyalty-rules" ),
-			'saved_button_label'  => __( "Save Changes", "wp-loyalty-rules" ),
+			'saving_button_label' => __( "Saving...", "wp-loyalty-point-sharing" ),
+			'saved_button_label'  => __( "Save Changes", "wp-loyalty-point-sharing" ),
 			'wlps_setting_nonce'  => WlpsUtil::create_nonce( 'wlps-setting-nonce' ),
 		];
 		wp_localize_script( WLPS_PLUGIN_SLUG . '-admin', 'wlps_localize_data', $localize );

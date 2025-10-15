@@ -27,7 +27,7 @@ class Input {
 	 *
 	 * @var    bool
 	 */
-	protected $_enable_xss = true;
+	protected static $_enable_xss = true;
 	/**
 	 * List of available sanitize callbacks.
 	 *
@@ -174,9 +174,9 @@ class Input {
 	 *
 	 * @return mixed
 	 */
-	function post( $index = null, $default = null, $xss_clean = null ) {
+	public static function post( $index = null, $default = null, $xss_clean = null ) {
 		//phpcs:ignore WordPress.Security.NonceVerification.Missing
-		return $this->_fetch_from_array( $_POST, $index, $default, $xss_clean );
+		return self::_fetch_from_array( $_POST, $index, $default, $xss_clean );
 	}
 
 	/**
@@ -189,15 +189,15 @@ class Input {
 	 *
 	 * @return array|string|null
 	 */
-	protected function _fetch_from_array( &$array, $index = null, $default = null, $xss_clean = null ) {
-		is_bool( $xss_clean ) or $xss_clean = $this->_enable_xss;
+	protected static function _fetch_from_array( &$array, $index = null, $default = null, $xss_clean = null ) {
+		is_bool( $xss_clean ) or $xss_clean = self::$_enable_xss;
 		// If $index is NULL, it means that the whole $array is requested
 		$index = ( ! isset( $index ) || is_null( $index ) ) ? array_keys( $array ) : $index;
 		// allow fetching multiple keys at once
 		if ( is_array( $index ) ) {
 			$output = array();
 			foreach ( $index as $key ) {
-				$output[ $key ] = $this->_fetch_from_array( $array, $key, $default, $xss_clean );
+				$output[ $key ] = self::_fetch_from_array( $array, $key, $default, $xss_clean );
 			}
 
 			return $output;
@@ -239,6 +239,6 @@ class Input {
 	 */
 	function post_get( $index, $default = null, $xss_clean = null ) {
 		//phpcs:ignore WordPress.Security.NonceVerification.Missing
-		return isset( $_POST[ $index ] ) ? $this->post( $index, $default, $xss_clean ) : $this->getQuery( $index, $default, $xss_clean );
+		return isset( $_POST[ $index ] ) ? self::post( $index, $default, $xss_clean ) : $this->getQuery( $index, $default, $xss_clean );
 	}
 }

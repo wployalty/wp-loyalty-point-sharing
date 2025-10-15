@@ -20,18 +20,19 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
               id="manage_customer_point_sharing_form"
               name="manage_customer_point_sharing">
             <div class="content-header">
-                <div class="heading"><p><?php esc_html_e( 'MANAGE POINTS SHARING', 'wp-loyalty-rules' ) ?></p></div>
+                <div class="heading"><p><?php esc_html_e( 'MANAGE POINTS SHARING', 'wp-loyalty-point-sharing' ) ?></p>
+                </div>
                 <div class="wlps-search-filter-block">
                     <div class="wlps-back-to-apps">
                         <a class="button" target="_self"
                            href="<?php echo esc_url( $app_url ); ?>">
                             <img src="<?php echo esc_url( $back ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage?>"
-                                 alt="<?php esc_attr_e( "Back", "wp-loyalty-rules" ); ?>">
-							<?php esc_html_e( 'Back to WPLoyalty', 'wp-loyalty-rules' ); ?></a>
+                                 alt="<?php esc_attr_e( "Back", "wp-loyalty-point-sharing" ); ?>">
+							<?php esc_html_e( 'Back to WPLoyalty', 'wp-loyalty-point-sharing' ); ?></a>
                     </div>
                     <div class="search">
                         <input type="text" name="search"
-                               placeholder="<?php esc_attr_e( 'Search by customer email address', 'wp-loyalty-rules' ) ?>"
+                               placeholder="<?php esc_attr_e( 'Search by customer email address', 'wp-loyalty-point-sharing' ) ?>"
                                value="<?php echo esc_attr( $search ); ?>"/>
                         <a onclick="wlps_jquery('#manage_customer_point_sharing_form').submit();"
                            class="wlps-email-search">
@@ -46,7 +47,7 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                                     <button
                                             type="button" <?php echo $key === $status_sort ? 'class="active-filter"' : '' ?>
                                             onclick="wlps.filterPoints('#wlps-main #manage_customer_point_sharing_form','<?php echo esc_js( $key ); ?>')"
-                                            value="<?php echo esc_attr( $key ); ?>"><?php esc_html_e( $status, 'wp-loyalty-rules' ) //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
+                                            value="<?php echo esc_attr( $key ); ?>"><?php esc_html_e( $status, 'wp-loyalty-point-sharing' ) //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
                                     </button>
                                 </div>
 							<?php endforeach; ?>
@@ -72,18 +73,18 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
 					?>" alt="">
                 </div>
                 <div class="no-points-label">
-					<?php esc_html_e( 'No transactions yet. You will see points and their expiry here after you have enabled this feature.', 'wp-loyalty-rules' ) ?>
+					<?php esc_html_e( 'No transactions yet. You will see points and their expiry here after you have enabled this feature.', 'wp-loyalty-point-sharing' ) ?>
                 </div>
             </div>
 		<?php else: ?>
             <div class="wlps-body-content">
                 <div class="wlps-body-header">
-                    <div><b><?php esc_html_e( 'No', 'wp-loyalty-rules' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Senders Email', 'wp-loyalty-rules' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Recipient Email', 'wp-loyalty-rules' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Points Shared', 'wp-loyalty-rules' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Status', 'wp-loyalty-rules' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Created At', 'wp-loyalty-rules' ); ?></b></div>
+                    <div><b><?php esc_html_e( 'No', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div><b><?php esc_html_e( 'Senders Email', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div><b><?php esc_html_e( 'Recipient Email', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div><b><?php esc_html_e( 'Points Shared', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div><b><?php esc_html_e( 'Status', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div><b><?php esc_html_e( 'Created At', 'wp-loyalty-point-sharing' ); ?></b></div>
                 </div>
 
                 <div class="wlps-body-data">
@@ -114,7 +115,7 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
 						<?php endforeach; ?>
 					<?php else: ?>
                         <div class="wlps-no-points">
-                            <p><?php esc_html_e( 'No point sharing records found.', 'wp-loyalty-rules' ); ?></p>
+                            <p><?php esc_html_e( 'No point sharing records found.', 'wp-loyalty-point-sharing' ); ?></p>
                         </div>
 					<?php endif; ?>
                 </div>

@@ -32,8 +32,8 @@ class Common {
 			'home_url'                   => get_home_url(),
 			'admin_url'                  => admin_url(),
 			'ajax_url'                   => admin_url( 'admin-ajax.php' ),
-			'saving_button_label'        => __( "Saving...", "wp-loyalty-rules" ),
-			'saved_button_label'         => __( "Save Changes", "wp-loyalty-rules" ),
+			'saving_button_label'        => __( "Saving...", "wp-loyalty-point-sharing" ),
+			'saved_button_label'         => __( "Save Changes", "wp-loyalty-point-sharing" ),
 			'max_transfer_points'        => $max_transfer,
 			'available_user_points'      => $user_points,
 			'wlps_transfer_points_nonce' => WlpsUtil::create_nonce( "wlps-transfer-points-nonce" )

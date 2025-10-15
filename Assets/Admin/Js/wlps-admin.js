@@ -16,32 +16,36 @@ wlps = window.wlps || {};
             type: 'post',
             url: wlps_localize_data.ajax_url,
             error: function (request, error) {
+                alertify.error('AJAX request failed: ' + error);
             },
             success: function (json) {
                 alertify.set('notifier', 'position', 'top-right');
                 wlps_jquery('#wlps-main #wlps-settings #wlps-setting-submit-button').attr('disabled', false);
                 wlps_jquery("#wlps-main #wlps-settings #wlps-setting-submit-button span").html(wlps_localize_data.saved_button_label);
                 wlps_jquery("#wlps-main #wlps-settings .wlps-button-block .spinner").removeClass("is-active");
-                if (json.error) {
-                    if (json.message) {
-                        alertify.error(json.message);
+
+                if (!json.success) { // check success property
+                    if (json.data.message) {
+                        alertify.error(json.data.message);
                     }
 
-                    if (json.field_error) {
-                        wlps_jquery.each(json.field_error, function (index, value) {
-                            //alertify.error(value);
-                            wlps_jquery(`#wlps-main #wlps-settings #wlps-settings_form .wlps_${index}_value_block`).after('<span class="wlps-error" style="color: red;">' + value + '</span>');
+                    if (json.data.field_error) {
+                        wlps_jquery.each(json.data.field_error, function (index, value) {
+                            wlps_jquery(`#wlps-main #wlps-settings #wlps-settings_form .wlps_${index}_value_block`)
+                                .after('<span class="wlps-error" style="color: red;">' + value + '</span>');
                         });
                     }
                 } else {
-                    alertify.success(json.message);
+                    if (json.data.message) {
+                        alertify.success(json.data.message);
+                    }
                     setTimeout(function () {
-                        wlps_jquery("#wlps-main #wlps-settings .wlps-button-block .spinner").removeClass("is-active");
                         location.reload();
                     }, 800);
                 }
-                if (json.redirect) {
-                    window.location.href = json.redirect;
+
+                if (json.data.redirect) {
+                    window.location.href = json.data.redirect;
                 }
             }
         });

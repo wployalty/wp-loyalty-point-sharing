@@ -64,11 +64,21 @@ wlps = window.wlps || {};
                 method: 'POST',
                 data: formData,
                 success: function (response) {
-                    const message = response.data?.message || response.message || 'Something went wrong!';
-                    if (response.success === false) {
+                    const data = response.data || {};
+                    const message = data.message || 'Something went wrong!';
+
+                    if (!response.success) {
+                        if (data.field_error) {
+                            for (const key in data.field_error) {
+                                const errorText = data.field_error[key];
+                                wlps_jquery(`#wlps-transfer-form .wlps_${key}_value_block`).after(
+                                    `<span class="wlps-error" style="color:red;">${errorText}</span>`
+                                );
+                            }
+                        }
                         alertify.error(message);
                     } else {
-                        alertify.success(message || 'Points transferred successfully!');
+                        alertify.success(message);
                         form[0].reset();
                         pointsError.hide();
                         submitBtn.prop('disabled', false);

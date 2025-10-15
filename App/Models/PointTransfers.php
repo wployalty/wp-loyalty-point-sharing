@@ -58,7 +58,10 @@ class PointTransfers extends Base {
 		);
 	}
 
-	public function markAs( $transferId, string $status, string $notes ) {
+	public function updateStatus( $transferId, string $status, string $notes ) {
+		if ( empty( $transferId ) || empty( $status ) || empty( $notes ) ) {
+			return;
+		}
 		$this->updateRow( [
 			'status'     => $status,
 			'notes'      => $notes,

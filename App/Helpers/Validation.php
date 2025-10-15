@@ -14,8 +14,8 @@ class Validation {
 
 		// Labels
 		$labels_array = array(
-			'enable_share_point'  => __( "Enable Expire Point", "wp-loyalty-rules" ),
-			'max_transfer_points' => __( "Maximum Transfer Points", "wp-loyalty-rules" ),
+			'enable_share_point'  => __( "Enable Expire Point", "wp-loyalty-point-sharing" ),
+			'max_transfer_points' => __( "Maximum Transfer Points", "wp-loyalty-point-sharing" ),
 		);
 		$settings_validator->labels( $labels_array );
 		$settings_validator->stopOnFirstFail( false );

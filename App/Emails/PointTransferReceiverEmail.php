@@ -99,6 +99,7 @@ class PointTransferReceiverEmail extends WC_Email {
 		];
 
 		if ( $isAllowEmail < 1 ) {
+			/* translators: %1$s: email not sent */
 			$log_data['note']          = sprintf( __( 'Email not sent — recipient (%1$s) opted out of notifications', 'wp-loyalty-point-sharing' ), $recipient_email );
 			$log_data['customer_note'] = $log_data['note'];
 			Rewards::getInstance()->add_note( $log_data );
@@ -113,7 +114,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			$this->get_headers(),
 			$this->get_attachments()
 		);
-
+		/* translators: %1$s: email sent */
 		$log_data['note'] = $sent
 			? sprintf( __( 'Point transfer email sent successfully to %1$s', 'wp-loyalty-point-sharing' ), $recipient_email )
 			: sprintf( __( 'Sending point transfer (%1$s) email failed to %2$s', 'wp-loyalty-point-sharing' ), $points_amount, $recipient_email );

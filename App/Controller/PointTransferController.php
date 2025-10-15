@@ -109,6 +109,7 @@ class PointTransferController {
 		$transferModel->updateStatus(
 			$transfer->id,
 			PointTransferController::COMPLETED,
+			/* translators: point transfer successful */
 			sprintf(
 				__( 'Transfer successful: %d points sent to %s.', 'wp-loyalty-point-sharing' ),
 				$transfer->points,
@@ -126,6 +127,7 @@ class PointTransferController {
 
 		if ( ! $isSharePointEnabled ) {
 			$transferModel->updateStatus( $transfer->id, PointTransferController::FAILED
+				/* translators: 1: transfer failed */
 				, sprintf( __( 'Transfer failed: Share points feature is disabled in settings.', 'wp-loyalty-point-sharing' ) )
 			);
 			wc_add_notice( __( 'Share Points feature is currently disabled. Transfer not processed.', 'wp-loyalty-point-sharing' ), 'error' );
@@ -222,6 +224,7 @@ class PointTransferController {
 					'user_email'          => $sender_email,
 					'action_type'         => 'share_point_debit',
 					'action_process_type' => 'reduce_point',
+					/* translators: transferred points to user */
 					'note'                => sprintf(
 						__( '%1$s transferred %2$d points to %3$s', 'wp-loyalty-point-sharing' ),
 						$sender_email,
@@ -249,6 +252,7 @@ class PointTransferController {
 					'user_email'          => $recipient_email,
 					'action_type'         => 'share_point_credit',
 					'action_process_type' => 'add_point',
+					/* translators: 1: recieved points from another user */
 					'note'                => sprintf(
 						__( '%1$s received %2$d points from %3$s', 'wp-loyalty-point-sharing' ),
 						$recipient_email,
@@ -268,7 +272,6 @@ class PointTransferController {
 			);
 
 		} catch ( \Throwable $e ) {
-			error_log( $e->getMessage() );
 			wc_add_notice( __( 'An unexpected error occurred during the point transfer. Please try again later.', 'wp-loyalty-point-sharing' ), 'error' );
 		}
 	}
@@ -288,6 +291,7 @@ class PointTransferController {
 				'recipient_email' => $recipient_email,
 				'points'          => $transfer_points,
 				'status'          => PointTransferController::PENDING,
+				/* translators:waiting for confirmation by user */
 				'notes'           => sprintf(
 					__( 'Transfer initiated — waiting for confirmation by %s.', 'wp-loyalty-point-sharing' ),
 					$recipient_email
@@ -305,8 +309,6 @@ class PointTransferController {
 			];
 
 		} catch ( \Throwable $e ) {
-			error_log( $e->getMessage() );
-
 			return false;
 		}
 	}

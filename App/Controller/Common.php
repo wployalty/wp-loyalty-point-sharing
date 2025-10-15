@@ -73,7 +73,6 @@ class Common {
 			if ( ! file_exists( $file_path ) ) {
 
 				$file_path = WLPS_VIEW_PATH . '/Site/share-points-modal.php';
-				error_log( $file_path );
 			}
 
 			if ( file_exists( $file_path ) ) {

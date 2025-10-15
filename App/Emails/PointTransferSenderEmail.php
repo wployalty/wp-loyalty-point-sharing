@@ -97,7 +97,9 @@ class PointTransferSenderEmail extends \WC_Email {
 			'points'              => (int) $transfer->points,
 			'action_process_type' => 'email_notification',
 			'created_at'          => $created_at,
+			/* translators: %1$s: number of points being transferred */
 			'note'                => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $transfer->points ),
+			/* translators: %1$s: number of points being transferred */
 			'customer_note'       => sprintf( __( 'Sending point transfer (%1$s) email failed', 'wp-loyalty-point-sharing' ), $transfer->points ),
 		];
 

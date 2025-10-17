@@ -17,7 +17,7 @@ class PointTransferController {
 
 	public static function transferPoints() {
 		$wlps_nonce = (string) Input::get( 'wlps_transfer_points_nonce', '', 'post' );
-		if ( ! WlpsUtil::hasAdminPrivilege() || ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
+		if ( ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
 			wp_send_json_error( [
 				'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
 			] );

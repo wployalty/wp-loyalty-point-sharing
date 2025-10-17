@@ -24,7 +24,7 @@ class Validation {
 		$settings_validator->rule( 'in', [ 'enable_share_point' ], [ 'yes', 'no' ] );
 
 		$settings_validator->rule( 'required', [ 'max_transfer_points' ] );
-		$settings_validator->rule( 'numeric', [ 'max_transfer_points' ] );
+		$settings_validator->rule( 'integer', [ 'max_transfer_points' ] );
 		$settings_validator->rule( 'min', [ 'max_transfer_points' ], 1 );
 
 		// Validate

@@ -22,7 +22,9 @@ wlps = window.wlps || {};
     };
 
     wlps.closeSharePointsModal = function () {
+        const form = wlps_jquery('#wlps-transfer-form');
         wlps_jquery('#wlps-share-points-modal').hide();
+        form[0].reset();
     };
 
     /** Form Submission Handler **/

@@ -211,22 +211,20 @@ class AdminController {
 		}
 
 		// Validate settings tab
-		$validate_data = Validation::validateSettingsTab( $_REQUEST ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$validate_data = Validation::validateSettingsTab( $data ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( is_array( $validate_data ) && ! empty( $validate_data ) ) {
-			$field_errors = [];
-			foreach ( $validate_data as $validate_key => $validate ) {
-				$field_errors[ $validate_key ] = current( $validate );
-			}
+			$first_field_errors  = reset( $validate_data );
+			$first_error_message = current( $first_field_errors );
 
 			wp_send_json_error( [
-				'field_error' => $field_errors,
-				'message'     => __( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
+				'message' => $first_error_message,
 			] );
 		}
 
 		// Save settings
 		$updated = update_option( $key, $data, true );
-		if ( $updated ) {
+
+		if ( $updated !== false || get_option( $key ) === $data ) {
 			do_action( 'wlps_after_save_settings', $data, $key );
 
 			wp_send_json_success( [
@@ -234,7 +232,6 @@ class AdminController {
 			] );
 		}
 
-		// If update failed
 		wp_send_json_error( [
 			'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
 		] );

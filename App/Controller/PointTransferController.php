@@ -19,7 +19,7 @@ class PointTransferController {
 		$wlps_nonce = (string) Input::get( 'wlps_transfer_points_nonce', '', 'post' );
 		if ( ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
 			wp_send_json_error( [
-				'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
+				'message' => esc_html__( 'Cannot Transfer Points nonce verification failed', 'wp-loyalty-point-sharing' ),
 			] );
 		}
 

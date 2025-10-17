@@ -19,7 +19,7 @@ class AdminController {
 
 	public static function renderMainPage() {
 		if ( ! WlpsUtil::hasAdminPrivilege() ) {
-			wp_die( __( "You don't have permission to access this page.", 'wp-loyalty-point-sharing' ) );
+			wp_die( esc_html__( "You don't have permission to access this page.", 'wp-loyalty-point-sharing' ) );
 		}
 
 		$view = Input::get( 'view', 'point_sharing' );
@@ -94,11 +94,12 @@ class AdminController {
 
 		$table_name = $wpdb->prefix . 'wlr_point_transfers';
 
-		// Fetch total count for pagination
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$total_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE $where" );
 
-		// Fetch items for current page
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$items = $wpdb->get_results( "SELECT * FROM $table_name WHERE $where $order_by $limit_offset" );
+
 
 		foreach ( $items as $item ) {
 			$item->created_at = isset( $item->created_at ) && $item->created_at > 0 ? WlpsUtil::beforeDisplayDate( $item->created_at ) : '';

@@ -107,17 +107,25 @@ class PointTransferReceiverEmail extends WC_Email {
 			return;
 		}
 
-		$sent = $this->send(
+		$sent             = $this->send(
 			$this->get_recipient(),
 			$this->get_subject(),
 			$this->get_content(),
 			$this->get_headers(),
 			$this->get_attachments()
 		);
-		/* translators: %1$s: email sent */
 		$log_data['note'] = $sent
-			? sprintf( __( 'Point transfer email sent successfully to %1$s', 'wp-loyalty-point-sharing' ), $recipient_email )
-			: sprintf( __( 'Sending point transfer (%1$s) email failed to %2$s', 'wp-loyalty-point-sharing' ), $points_amount, $recipient_email );
+			? sprintf(
+			/* translators: 1: recipient email address */
+				__( 'Point transfer email sent successfully to %1$s', 'wp-loyalty-point-sharing' ),
+				$recipient_email
+			)
+			: sprintf(
+			/* translators: 1: points amount, 2: recipient email address */
+				__( 'Sending point transfer (%1$s) email failed to %2$s', 'wp-loyalty-point-sharing' ),
+				$points_amount,
+				$recipient_email
+			);
 
 		$log_data['customer_note'] = $log_data['note'];
 

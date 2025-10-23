@@ -238,16 +238,14 @@ class PointTransferController {
 
 					'note' => sprintf(
 					/* translators: 1: sender email, 2: number of points transferred, 3: recipient email */
-						__( '%1$s transferred %2$d points to %3$s', 'wp-loyalty-point-sharing' ),
-						$sender_email,
+						__( 'Transferred %2$d points to %3$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$recipient_email
 					),
 
 					'customer_note' => sprintf(
 					/* translators: 1: sender email, 2: number of points sent, 3: recipient email */
-						__( '%1$s sent %2$d points to %3$s', 'wp-loyalty-point-sharing' ),
-						$sender_email,
+						__( 'Sent %2$d points to %3$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$recipient_email
 					),
@@ -268,16 +266,14 @@ class PointTransferController {
 
 					'note' => sprintf(
 					/* translators: 1: recipient email, 2: number of points received, 3: sender email */
-						__( '%1$s received %2$d points from %3$s', 'wp-loyalty-point-sharing' ),
-						$recipient_email,
+						__( 'Received %2$d points from %3$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$sender_email
 					),
 
 					'customer_note' => sprintf(
 					/* translators: 1: recipient email, 2: number of points received, 3: sender email */
-						__( '%1$s received %2$d points from %3$s', 'wp-loyalty-point-sharing' ),
-						$recipient_email,
+						__( 'Received %2$d points from %3$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$sender_email
 					),
@@ -309,7 +305,7 @@ class PointTransferController {
 				'notes'           => sprintf(
 				/* translators: 1: recipient email address waiting for confirmation */
 					__( 'Transfer initiated — waiting for confirmation by %1$s.', 'wp-loyalty-point-sharing' ),
-					$recipient_email
+					$sender_email
 				),
 
 				'token'      => $token,

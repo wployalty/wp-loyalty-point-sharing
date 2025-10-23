@@ -110,14 +110,14 @@ class PointTransferReceiverEmail extends WC_Email {
 			return;
 		}
 
-		$sent             = $this->send(
+		$sent                      = $this->send(
 			$this->get_recipient(),
 			$this->get_subject(),
 			$this->get_content(),
 			$this->get_headers(),
 			$this->get_attachments()
 		);
-		$log_data['note'] = $sent
+		$log_data['note']          = $sent
 			? sprintf(
 			/* translators: 1: recipient email address */
 				__( 'Point transfer email sent successfully to %1$s', 'wp-loyalty-point-sharing' ),
@@ -129,7 +129,7 @@ class PointTransferReceiverEmail extends WC_Email {
 				$points_amount,
 				$recipient_email
 			);
-
+		$log_data['action_type']   = sprintf( __( 'Point Transfer Email', 'wp-loyalty-point-sharing' ) );
 		$log_data['customer_note'] = $log_data['note'];
 
 		Rewards::getInstance()->add_note( $log_data );

@@ -78,7 +78,7 @@ class PointTransferReceiverEmail extends WC_Email {
 		$this->placeholders = [
 			'{site_name}'          => get_bloginfo( 'name' ),
 			'{wlr_recipient_name}' => $this->getUserDisplayName( $recipient_email ) ?: $recipient_email,
-			'{wlr_referral_url}'   => $ref_code,
+			'{wlr_referral_url}'   => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $sender_email ),
 			'{wlr_store_name}'     => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_points}'         => $points_amount,
@@ -176,7 +176,6 @@ class PointTransferReceiverEmail extends WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this,
-			'placeholders'       => $this->placeholders
 		], '', $this->template_base ) );
 	}
 
@@ -187,7 +186,6 @@ class PointTransferReceiverEmail extends WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this,
-			'placeholder'        => $this->placeholders,
 		], '', $this->template_base ) );
 	}
 }

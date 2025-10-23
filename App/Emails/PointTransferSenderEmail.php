@@ -68,8 +68,8 @@ class PointTransferSenderEmail extends \WC_Email {
 			return;
 		}
 
-		$loyalUser       = $this->getLoyaltyUser( $transfer->recipient_email );
-		$ref_code        = ! empty( $loyal_user->refer_code ) ? $loyal_user->refer_code : '';
+		$loyalUser       = $this->getLoyaltyUser( $transfer->sender_email );
+		$ref_code        = ! empty( $loyalUser->refer_code ) ? $loyalUser->refer_code : '';
 		$available_point = ! empty( $loyalUser->points ) ? $loyalUser->points : 0;
 		$reward_helper   = Rewards::getInstance();
 		$point_label     = $reward_helper->getPointLabel( $available_point );
@@ -81,14 +81,13 @@ class PointTransferSenderEmail extends \WC_Email {
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $transfer->sender_email ),
 			'{wlr_points}'         => $transfer->points,
 			'{wlr_account_link}'   => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
-			'{wlr_referral_url}'   => $ref_code,
+			'{wlr_referral_url}'   => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_shop_url}'       => get_permalink( wc_get_page_id( 'shop' ) ),
 			'{wlr_store_name}'     => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_points_label}'   => $point_label,
 			'{wlr_confirm_link}'   => $confirm_link,
-			'{wlr_user_points}'    => $loyal_user->points ?? 0,
+			'{wlr_user_points}'    => $loyalUser->points ?? 0,
 		];
-
 
 		$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );
 		$log_data   = [
@@ -158,7 +157,6 @@ class PointTransferSenderEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this,
-			'placeholders'       => $this->placeholders
 		], '', $this->template_base ) );
 	}
 
@@ -169,7 +167,6 @@ class PointTransferSenderEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this,
-			'placeholder'        => $this->placeholders,
 		], '', $this->template_base ) );
 	}
 }

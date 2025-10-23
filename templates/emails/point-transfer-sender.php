@@ -11,25 +11,30 @@ defined( 'ABSPATH' ) || exit;
 do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
 
-<p>Hi <?php echo esc_html( $placeholders['{wlr_sender_name}'] ?? '' ); ?>,</p>
+<p>Hi <?php echo esc_html( '{wlr_sender_name}' ?? '' ); ?>,</p>
 
 <p>
     You are about to send
-    <strong><?php echo intval( $placeholders['{wlr_points}'] ?? 0 ); ?><?php echo esc_html( $placeholders['{wlr_points_label}'] ?? 'points' ); ?></strong>
-    to <strong><?php echo esc_html( $placeholders['{wlr_recipient_name}'] ?? '' ); ?></strong>.
+    <strong>{wlr_points} {wlr_points_label}</strong>
+    to <strong>{wlr_recipient_name}</strong>.
 </p>
 
 <p>Please confirm by clicking the button below:</p>
 
 <p>
-    <a href="<?php echo esc_url( $placeholders['{wlr_confirm_link}'] ?? '#' ); ?>" target="_blank" class="button">
+    <a href="{wlr_confirm_link}" target="_blank" class="button">
         Confirm Transfer
     </a>
 </p>
 
 <p>
+    View your referral link:
+    <a href="{wlr_referral_url}" target="_blank">{wlr_referral_url}</a>
+</p>
+
+<p>
     Thank you,<br>
-	<?php echo esc_html( $placeholders['{site_name}'] ?? get_bloginfo( 'name' ) ); ?>
+	<?php echo esc_html( '{site_name}' ?? get_bloginfo( 'name' ) ); ?>
 </p>
 
 <?php

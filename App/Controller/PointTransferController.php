@@ -190,6 +190,15 @@ class PointTransferController {
 
 	private static function validateSenderAndRecipient( $transfer, $transferModel ) {
 		$base_helper = new Base();
+
+		if ( WlpsUtil::isBannedUser( $transfer->sender_email ) ) {
+			$transferModel->updateStatus( $transfer->id, PointTransferController::FAILED, sprintf( __( 'Transfer failed: sender account is banned.', 'wp-loyalty-point-sharing' ) ) );
+
+			wc_add_notice( __( 'Your account is banned due to security concerns.', 'wp-loyalty-point-sharing' ), 'error' );
+
+			return false;
+		}
+
 		if ( WlpsUtil::isBannedUser( $transfer->recipient_email ) ) {
 			$transferModel->updateStatus( $transfer->id, PointTransferController::FAILED, sprintf( __( 'Transfer failed: recipient account is banned.', 'wp-loyalty-point-sharing' ) ) );
 

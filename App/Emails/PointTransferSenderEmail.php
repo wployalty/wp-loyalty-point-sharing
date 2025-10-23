@@ -77,6 +77,9 @@ class PointTransferSenderEmail extends \WC_Email {
 
 		$this->placeholders = [
 			'{site_name}'          => get_bloginfo( 'name' ),
+			'{site_address}'       => get_bloginfo( 'description' ),
+			'{site_url}'           => home_url(),
+			'{store_email}'        => get_option( 'admin_email' ),
 			'{wlr_recipient_name}' => $this->getUserDisplayName( $transfer->recipient_email ) ?: $transfer->recipient_email,
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $transfer->sender_email ),
 			'{wlr_points}'         => $transfer->points,

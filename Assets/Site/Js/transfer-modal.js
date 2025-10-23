@@ -23,8 +23,10 @@ wlps = window.wlps || {};
 
     wlps.closeSharePointsModal = function () {
         const form = wlps_jquery('#wlps-transfer-form');
+        const pointsError = wlps_jquery('#transfer-points-error');
         wlps_jquery('#wlps-share-points-modal').hide();
         form[0].reset();
+        pointsError.text('').hide();
     };
 
     /** Form Submission Handler **/
@@ -52,6 +54,9 @@ wlps = window.wlps || {};
             if (!confirmed) return;
 
             alertify.set('notifier', 'position', 'top-right');
+
+            const originalBtnText = submitBtn.text();
+            submitBtn.prop('disabled', true).text('Transferring...');
 
             const formArray = form.serializeArray();
             const formData = {};
@@ -83,13 +88,15 @@ wlps = window.wlps || {};
                         alertify.success(message);
                         form[0].reset();
                         pointsError.hide();
-                        submitBtn.prop('disabled', false);
                         wlps.closeSharePointsModal();
                     }
+
+                    submitBtn.prop('disabled', false).text(originalBtnText);
                 },
                 error: function (err) {
                     console.error(err);
                     alertify.error('Something went wrong. Please try again.');
+                    submitBtn.prop('disabled', false).text(originalBtnText);
                 }
             });
         });

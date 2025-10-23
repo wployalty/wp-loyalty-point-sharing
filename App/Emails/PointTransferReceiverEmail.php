@@ -77,6 +77,9 @@ class PointTransferReceiverEmail extends WC_Email {
 
 		$this->placeholders = [
 			'{site_name}'          => get_bloginfo( 'name' ),
+			'{site_address}'       => get_bloginfo( 'description' ),
+			'{site_url}'           => home_url(),
+			'{store_email}'        => get_option( 'admin_email' ),
 			'{wlr_recipient_name}' => $this->getUserDisplayName( $recipient_email ) ?: $recipient_email,
 			'{wlr_referral_url}'   => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_sender_name}'    => $this->getUserDisplayName( $sender_email ),

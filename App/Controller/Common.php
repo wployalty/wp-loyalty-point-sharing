@@ -38,7 +38,18 @@ class Common {
 			'available_user_points'      => $user_points,
 			'wlps_transfer_points_nonce' => WlpsUtil::create_nonce( "wlps-transfer-points-nonce" )
 		);
+
+		$wlps_translations = [
+			'points_min_error'       => __( 'Points must be at least 1.', 'wp-loyalty-point-sharing' ),
+			'points_max_user_error'  => __( 'You only have %d points available.', 'wp-loyalty-point-sharing' ),
+			'points_max_limit_error' => __( 'Maximum is %d points.', 'wp-loyalty-point-sharing' ),
+			'confirm_modal_message'  => __( 'Type CONFIRM to proceed with points transfer:', 'wp-loyalty-point-sharing' ),
+			'confirm_modal_error'    => __( 'You must type CONFIRM to proceed.', 'wp-loyalty-point-sharing' ),
+			'ajax_error'             => __( 'Something went wrong. Please try again.', 'wp-loyalty-point-sharing' ),
+			'button_transferring'    => __( 'Transferring...', 'wp-loyalty-point-sharing' ),
+		];
 		wp_localize_script( WLPS_PLUGIN_SLUG . '-frontend', 'wlps_frontend_data', $localize );
+		wp_localize_script( WLPS_PLUGIN_SLUG . '-frontend', 'wlps_frontend_translations', $wlps_translations );
 	}
 
 	/**

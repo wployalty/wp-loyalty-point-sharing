@@ -9,9 +9,9 @@ wlps = window.wlps || {};
         const availableUserPoints = wlps_frontend_data.available_user_points;
         const maxPoints = wlps_frontend_data.max_transfer_points;
 
-        if (points < 1) return 'Points must be at least 1.';
-        if (points > availableUserPoints) return `You only have ${availableUserPoints} points available.`;
-        if (points > maxPoints) return `Maximum is ${maxPoints} points.`;
+        if (points < 1) return wlps_frontend_translations.points_min_error;
+        if (points > availableUserPoints) return wlps_frontend_translations.points_max_user_error.replace('%d', availableUserPoints);
+        if (points > maxPoints) return wlps_frontend_translations.points_max_user_error.replace('%d', maxPoints);
         return ''; // valid
     };
 
@@ -50,13 +50,13 @@ wlps = window.wlps || {};
         }
 
         // Show confirmation modal
-        wlps.showConfirmModal('Type CONFIRM to proceed with points transfer:', true, function (confirmed) {
+        wlps.showConfirmModal(wlps_frontend_translations.confirm_modal_message, true, function (confirmed) {
             if (!confirmed) return;
 
             alertify.set('notifier', 'position', 'top-right');
 
             const originalBtnText = submitBtn.text();
-            submitBtn.prop('disabled', true).text('Transferring...');
+            submitBtn.prop('disabled', true).text(wlps_frontend_translations.button_transferring);
 
             const formArray = form.serializeArray();
             const formData = {};
@@ -72,7 +72,7 @@ wlps = window.wlps || {};
                 data: formData,
                 success: function (response) {
                     const data = response.data || {};
-                    const message = data.message || 'Something went wrong!';
+                    const message = data.message || wlps_frontend_translations.ajax_error;
 
                     if (!response.success) {
                         if (data.field_error) {
@@ -95,7 +95,7 @@ wlps = window.wlps || {};
                 },
                 error: function (err) {
                     console.error(err);
-                    alertify.error('Something went wrong. Please try again.');
+                    alertify.error(wlps_frontend_translations.ajax_error);
                     submitBtn.prop('disabled', false).text(originalBtnText);
                 }
             });
@@ -118,7 +118,7 @@ wlps = window.wlps || {};
 
         okBtn.off('click').on('click', function () {
             if (requireInput && inputBox.val().trim() !== 'CONFIRM') {
-                messageBox.text('You must type CONFIRM to proceed.');
+                messageBox.text(wlps_frontend_translations.confirm_modal_error);
                 inputBox.val('').focus();
                 return;
             }

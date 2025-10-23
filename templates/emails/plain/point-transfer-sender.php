@@ -14,4 +14,4 @@ echo "You have successfully shared {wlr_points} {wlr_points_label} with {wlr_rec
 echo "Check your updated points balance here: {wlr_account_url}\n\n";
 
 echo "Thank you,\n";
-echo "{site_name}\n";
+echo "{site_title}\n";

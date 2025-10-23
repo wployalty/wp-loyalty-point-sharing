@@ -22,7 +22,7 @@ class PointTransferSenderEmail extends \WC_Email {
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
 
 		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
-			'{site_name}'          => get_bloginfo( 'name' ),
+			'{site_title}'         => get_bloginfo( 'name' ),
 			'{wlr_shop_url}'       => 'https://example.com',
 			'{wlr_sender_name}'    => 'tony',
 			'{wlr_recipient_name}' => 'alex',
@@ -76,7 +76,7 @@ class PointTransferSenderEmail extends \WC_Email {
 
 
 		$this->placeholders = [
-			'{site_name}'          => get_bloginfo( 'name' ),
+			'{site_title}'         => get_bloginfo( 'name' ),
 			'{site_address}'       => get_bloginfo( 'description' ),
 			'{site_url}'           => home_url(),
 			'{store_email}'        => get_option( 'admin_email' ),
@@ -145,7 +145,7 @@ class PointTransferSenderEmail extends \WC_Email {
 			'{wlr_user_name}'      => __( 'The display name of the customer', 'wp-loyalty-point-sharing' ),
 			'{wlr_store_name}'     => __( 'The name of the store or website', 'wp-loyalty-point-sharing' ),
 			// common
-			'{site_name}'          => __( 'The title of the website', 'wp-loyalty-point-sharing' ),
+			'{site_title}'         => __( 'The title of the website', 'wp-loyalty-point-sharing' ),
 			'{site_address}'       => __( 'The address of the website', 'wp-loyalty-point-sharing' ),
 			'{site_url}'           => __( 'The URL of the website', 'wp-loyalty-point-sharing' ),
 			'{store_email}'        => __( 'The store\'s contact email address', 'wp-loyalty-point-sharing' )

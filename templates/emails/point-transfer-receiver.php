@@ -28,7 +28,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 
 <p>
     Thank you,<br>
-    {site_name}
+    {site_title}
 </p>
 
 <?php

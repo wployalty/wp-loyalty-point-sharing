@@ -34,7 +34,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 
 <p>
     Thank you,<br>
-	<?php echo esc_html( '{site_name}' ?? get_bloginfo( 'name' ) ); ?>
+	<?php echo esc_html( '{site_title}' ?? get_bloginfo( 'name' ) ); ?>
 </p>
 
 <?php

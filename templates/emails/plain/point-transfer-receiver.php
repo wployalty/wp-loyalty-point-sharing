@@ -14,4 +14,4 @@ echo "You have received {wlr_points} {wlr_points_label} from {wlr_sender_name}.\
 echo "Check your updated points balance here: {wlr_account_url}\n\n";
 
 echo "Thank you,\n";
-echo "{site_name}\n";
+echo "{site_title}\n";

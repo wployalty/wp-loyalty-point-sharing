@@ -3,12 +3,30 @@
 }
 
 .wlps-open-share {
-  color: #007BFF;
+  display: inline-block;
+  padding: 10px 10px;
+  background-color: #4F47EB;
+  color: #fff;
+  font-weight: 600;
   text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid #4F47EB;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 .wlps-open-share:hover {
-  text-decoration: underline;
+  background-color: #0056b3;
+  border-color: #0056b3;
+  text-decoration: none;
+  color: #fff;
+}
+.wlps-open-share:active {
+  background-color: #4F47EB;
+  border-color: #4F47EB;
+}
+.wlps-open-share:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 71, 235, 0.3);
 }
 
 /* Targets the first child div inside #wlr-available-points */
@@ -17,7 +35,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-  /* your styles here */
 }
 
 .wlps-modal {

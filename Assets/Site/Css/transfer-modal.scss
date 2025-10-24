@@ -10,13 +10,39 @@
 // ==========================
 // Share Points Button
 // ==========================
+$primary-color: #4F47EB;
+$primary-hover: #0056b3;
+$primary-active: #4F47EB;
+$border-radius: 4px;
+$transition-speed: 0.3s;
+
 .wlps-open-share {
-  color: #007BFF;
+  display: inline-block;
+  padding: 10px 10px;
+  background-color: $primary-color;
+  color: #fff;
+  font-weight: 600;
   text-decoration: none;
+  border-radius: $border-radius;
+  border: 1px solid $primary-color;
   cursor: pointer;
+  transition: all $transition-speed ease;
 
   &:hover {
-    text-decoration: underline;
+    background-color: $primary-hover;
+    border-color: $primary-hover;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: $primary-active;
+    border-color: $primary-active;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
   }
 }
 

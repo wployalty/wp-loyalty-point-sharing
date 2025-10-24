@@ -11,24 +11,25 @@ defined( 'ABSPATH' ) || exit;
 do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
 
-<p>Hi <?php echo esc_html( '{wlr_sender_name}' ?? '' ); ?>,</p>
+<p>Hi <?php esc_html_e( '{wlr_sender_name}' ?? '' ); ?>,</p>
 
 <p>
-    You are about to send
-    <strong>{wlr_points} {wlr_points_label}</strong>
-    to <strong>{wlr_recipient_name}</strong>.
+	<?php esc_html_e( 'You are about to send', 'wp-loyalty-point-sharing' ); ?>
+    <strong><?php echo esc_html( '{wlr_points}' ); ?><?php echo esc_html( '{wlr_points_label}' ); ?></strong>
+	<?php esc_html_e( 'to', 'wp-loyalty-point-sharing' ); ?>
+    <strong><?php echo esc_html( '{wlr_recipient_name}' ); ?></strong>.
 </p>
 
-<p>Please confirm by clicking the button below:</p>
+<p><?php esc_html_e( 'Please confirm by clicking the button below:', 'wp-loyalty-point-sharing' ); ?></p>
 
 <p>
     <a href="{wlr_confirm_link}" target="_blank" class="button">
-        Confirm Transfer
+		<?php esc_html_e( 'Confirm Transfer', 'wp-loyalty-point-sharing' ); ?>
     </a>
 </p>
 
 <p>
-    View your referral link:
+	<?php esc_html_e( 'View your referral link:', 'wp-loyalty-point-sharing' ); ?>
     <a href="{wlr_referral_url}" target="_blank">{wlr_referral_url}</a>
 </p>
 

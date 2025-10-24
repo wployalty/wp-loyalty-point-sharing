@@ -104,23 +104,31 @@ class PointTransferController {
 			return;
 		}
 
-		self::performPointTransfer( $transfer );
+		$transfer_success = self::performPointTransfer( $transfer );
 
-		$transferModel->updateStatus(
-			$transfer->id,
-			PointTransferController::COMPLETED,
-			sprintf(
-			/* translators: 1: number of points transferred, 2: recipient's email address */
-				__( 'Transfer successful: %1$d points sent to %2$s.', 'wp-loyalty-point-sharing' ),
-				$transfer->points,
-				$transfer->recipient_email
-			)
-		);
+		if ( $transfer_success ) {
+			$transferModel->updateStatus(
+				$transfer->id,
+				PointTransferController::COMPLETED,
+				sprintf(
+					__( 'Transfer successful: %1$d points sent to %2$s.', 'wp-loyalty-point-sharing' ),
+					$transfer->points,
+					$transfer->recipient_email
+				)
+			);
 
-		wc_add_notice( __( 'Points transfer successful!', 'wp-loyalty-point-sharing' ), 'success' );
+			wc_add_notice( __( 'Points transfer successful!', 'wp-loyalty-point-sharing' ), 'success' );
 
-		PointTransferController::sendRecieverEmail( $transfer );
+			PointTransferController::sendRecieverEmail( $transfer );
+		} else {
+			$transferModel->updateStatus(
+				$transfer->id,
+				PointTransferController::FAILED,
+				__( 'Point transfer failed.', 'wp-loyalty-point-sharing' )
+			);
 
+			wc_add_notice( __( 'Point transfer failed. No points were sent.', 'wp-loyalty-point-sharing' ), 'error' );
+		}
 	}
 
 	private static function checkSharePointEnabled( $transferModel, $transfer ) {
@@ -227,8 +235,8 @@ class PointTransferController {
 			$recipient_email = $transfer->recipient_email;
 			$points          = intval( $transfer->points );
 
-			/* translators: 1: sender email, 2: number of points transferred, 3: recipient email */
-			$base_helper->addExtraPointAction(
+			/* translators:  1: number of points transferred, 2: recipient email */
+			$debit = $base_helper->addExtraPointAction(
 				'share_point_debit',
 				$points,
 				[
@@ -237,15 +245,15 @@ class PointTransferController {
 					'action_process_type' => 'reduce_point',
 
 					'note' => sprintf(
-					/* translators: 1: sender email, 2: number of points transferred, 3: recipient email */
-						__( 'Transferred %2$d points to %3$s', 'wp-loyalty-point-sharing' ),
+					/* translators: 1: number of points transferred, 2: recipient email */
+						__( 'Transferred %2$d points to %2$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$recipient_email
 					),
 
 					'customer_note' => sprintf(
-					/* translators: 1: sender email, 2: number of points sent, 3: recipient email */
-						__( 'Sent %2$d points to %3$s', 'wp-loyalty-point-sharing' ),
+					/* translators: 1: number of points sent, 2: recipient email */
+						__( 'Sent %2$d points to %2$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$recipient_email
 					),
@@ -255,8 +263,8 @@ class PointTransferController {
 			);
 
 			// Credit
-			/* translators: 1: recipient email, 2: number of points received, 3: sender email */
-			$base_helper->addExtraPointAction(
+			/* translators:  1: number of points received, 2: sender email */
+			$credit = $base_helper->addExtraPointAction(
 				'share_point_credit',
 				$points,
 				[
@@ -265,15 +273,15 @@ class PointTransferController {
 					'action_process_type' => 'add_point',
 
 					'note' => sprintf(
-					/* translators: 1: recipient email, 2: number of points received, 3: sender email */
-						__( 'Received %2$d points from %3$s', 'wp-loyalty-point-sharing' ),
+					/* translators: 1: number of points received, 2: sender email */
+						__( 'Received %2$d points from %2$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$sender_email
 					),
 
 					'customer_note' => sprintf(
-					/* translators: 1: recipient email, 2: number of points received, 3: sender email */
-						__( 'Received %2$d points from %3$s', 'wp-loyalty-point-sharing' ),
+					/* translators: 1: number of points received, 2: sender email */
+						__( 'Received %2$d points from %2$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$sender_email
 					),
@@ -282,8 +290,11 @@ class PointTransferController {
 				true
 			);
 
+			return $credit && $debit;
 		} catch ( \Throwable $e ) {
 			wc_add_notice( __( 'An unexpected error occurred during the point transfer. Please try again later.', 'wp-loyalty-point-sharing' ), 'error' );
+
+			return false;
 		}
 	}
 

@@ -69,7 +69,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			return;
 		}
 		$loyalUser       = $this->getLoyaltyUser( $recipient_email );
-		$ref_code        = ! empty( $loyal_user->refer_code ) ? $loyal_user->refer_code : '';
+		$ref_code        = ! empty( $loyalUser->refer_code ) ? $loyalUser->refer_code : '';
 		$available_point = ! empty( $loyalUser->points ) ? $loyalUser->points : 0;
 		$isAllowEmail    = intval( $loyalUser->is_allow_send_email ?? 0 );
 		$reward_helper   = Rewards::getInstance();
@@ -88,7 +88,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{wlr_account_link}'   => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
 			'{wlr_points_label}'   => $point_label,
 			'{wlr_shop_url}'       => get_permalink( wc_get_page_id( 'shop' ) ),
-			'{wlr_user_point}'     => $loyal_user->points ?? 0
+			'{wlr_user_point}'     => $loyalUser->points ?? 0
 		];
 
 		$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );

@@ -31,7 +31,7 @@ class WlpsEmailManager {
 		];
 
 		if ( in_array( $template, $my_templates ) ) {
-			return 'wployalty';
+			return 'wp-loyalty-point-sharing';
 		}
 
 		return $template_dir;

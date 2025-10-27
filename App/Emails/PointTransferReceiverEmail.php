@@ -21,8 +21,8 @@ class PointTransferReceiverEmail extends WC_Email {
 		$this->template_html  = 'emails/point-transfer-receiver.php';
 		$this->template_plain = 'emails/plain/point-transfer-receiver.php';
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
-
-		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
+		$this->template_path  = 'wp-loyalty-point-sharing/';
+		$this->placeholders   = apply_filters( $this->id . "_short_codes_list", [
 			'{site_title}'         => get_bloginfo( 'name' ),
 			'{wlr_shop_url}'       => 'https://example.com',
 			'{wlr_store_name}'     => 'shop',
@@ -179,7 +179,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this,
-		], '', $this->template_base ) );
+		], $this->template_path, $this->template_base ) );
 	}
 
 	public function get_content_plain() {
@@ -189,6 +189,6 @@ class PointTransferReceiverEmail extends WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this,
-		], '', $this->template_base ) );
+		], $this->template_path, $this->template_base ) );
 	}
 }

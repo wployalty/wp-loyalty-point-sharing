@@ -281,7 +281,7 @@ class PointTransferController {
 
 					'customer_note' => sprintf(
 					/* translators: 1: number of points received, 2: sender email */
-						__( 'Received %2$d points from %2$s', 'wp-loyalty-point-sharing' ),
+						__( 'Received %1$d points from %2$s', 'wp-loyalty-point-sharing' ),
 						$points,
 						$sender_email
 					),

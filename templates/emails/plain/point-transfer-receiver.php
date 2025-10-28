@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 echo "Hi {wlr_recipient_name},\n\n";
 
-echo "You have received {wlr_points} {wlr_points_label} from {wlr_sender_name}.\n\n";
+echo "You have received {wlr_transfer_points} {wlr_points_label} from {wlr_sender_name}.\n\n";
 
 echo "Check your updated points balance here: {wlr_account_url}\n\n";
 

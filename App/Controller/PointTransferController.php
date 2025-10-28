@@ -119,6 +119,7 @@ class PointTransferController {
 				$transfer->id,
 				PointTransferController::COMPLETED,
 				sprintf(
+				/* translators: 1: transfer success */
 					__( 'Transfer successful: %1$d points sent to %2$s.', 'wp-loyalty-point-sharing' ),
 					$transfer->points,
 					$transfer->recipient_email

@@ -48,11 +48,17 @@ class PointTransfers extends Base {
 	}
 
 	//Find Transfer by token
-	public function findByToken( $token ) {
-		$token = sanitize_text_field( $token ); // WordPress safe
+	public function findByIdAndToken( $id, $token ) {
+		$id    = intval( $id );
+		$token = sanitize_text_field( $token );
 
+		// Use prepared statement for safety
 		return $this->getWhere(
-			self::$db->prepare( "token = %s", $token ),
+			self::$db->prepare(
+				"id = %d AND token = %s",
+				$id,
+				$token
+			),
 			'*',
 			true
 		);

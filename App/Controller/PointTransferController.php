@@ -86,10 +86,18 @@ class PointTransferController {
 		if ( $action !== 'confirm_transfer' ) {
 			return;
 		}
-		$token         = sanitize_text_field( Input::get( 'token', '', 'query' ) ?? '' );
+		$id            = intval( Input::get( 'transfer_id', '', 'query' ) );
+		$token_raw     = sanitize_text_field( Input::get( 'token', '', 'query' ) ?? '' );
+		$token_hash    = hash( 'sha256', $token_raw );
 		$transferModel = new PointTransfers();
-		$transfer      = $transferModel->findByToken( $token );
+		$transfer      = $transferModel->findByIdAndToken( $id, $token_hash );
+		if ( ! $transfer ) {
+			wc_add_notice( __( 'Invalid or expired transfer link.', 'wp-loyalty-point-sharing' ), 'error' );
+
+			return;
+		}
 		if ( ! self::checkSharePointEnabled( $transferModel, $transfer ) ) {
+
 			return;
 		}
 
@@ -134,7 +142,6 @@ class PointTransferController {
 	private static function checkSharePointEnabled( $transferModel, $transfer ) {
 		$settings            = get_option( "wlps_settings", [] );
 		$isSharePointEnabled = isset( $settings['enable_share_point'] ) && $settings['enable_share_point'] === 'yes';
-
 		if ( ! $isSharePointEnabled ) {
 			$transferModel->updateStatus( $transfer->id, PointTransferController::FAILED
 				/* translators: 1: transfer failed */
@@ -304,11 +311,12 @@ class PointTransferController {
 		}
 
 		try {
-			$timestamp = strtotime( gmdate( "Y-m-d H:i:s" ) );
-			$token     = wp_generate_password( 32, false );
+			$timestamp  = strtotime( gmdate( "Y-m-d H:i:s" ) );
+			$raw_token  = bin2hex( random_bytes( 32 ) );
+			$token_hash = hash( 'sha256', $raw_token );
 
 			$pointTransfers = new PointTransfers();
-			$pointTransfers->saveData( [
+			$data           = $pointTransfers->saveData( [
 				'sender_email'    => $sender_email,
 				'recipient_email' => $recipient_email,
 				'points'          => $transfer_points,
@@ -319,16 +327,17 @@ class PointTransferController {
 					$sender_email
 				),
 
-				'token'      => $token,
+				'token'      => $token_hash,
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp,
 			] );
 
 			return (object) [
+				'transfer_id'     => $data,
 				'sender_email'    => $sender_email,
 				'recipient_email' => $recipient_email,
 				'points'          => $transfer_points,
-				'token'           => $token,
+				'token'           => $raw_token,
 			];
 
 		} catch ( \Throwable $e ) {
@@ -341,6 +350,7 @@ class PointTransferController {
 
 		$confirm_link = add_query_arg( [
 			'wlps_action' => 'confirm_transfer',
+			'transfer_id' => $transfer->transfer_id,
 			'token'       => $transfer->token,
 		], site_url() );
 

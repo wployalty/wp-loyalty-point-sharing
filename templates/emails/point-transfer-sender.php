@@ -14,10 +14,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 <p>Hi <?php esc_html_e( '{wlr_sender_name}' ?? '' ); ?>,</p>
 
 <p>
-	<?php esc_html_e( 'You are about to send', 'wp-loyalty-point-sharing' ); ?>
-    <strong><?php echo esc_html( '{wlr_transfer_points}' ); ?><?php echo esc_html( '{wlr_points_label}' ); ?></strong>
-	<?php esc_html_e( 'to', 'wp-loyalty-point-sharing' ); ?>
-    <strong><?php echo esc_html( '{wlr_recipient_name}' ); ?></strong>.
+	<?php esc_html_e( 'You are about to send {wlr_transfer_points} {wlr_points_label} to {wlr_recipient_name}', 'wp-loyalty-point-sharing' ); ?>
 </p>
 
 <p><?php esc_html_e( 'Please confirm by clicking the button below:', 'wp-loyalty-point-sharing' ); ?></p>

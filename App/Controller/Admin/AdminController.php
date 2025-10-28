@@ -22,7 +22,7 @@ class AdminController {
 			wp_die( esc_html__( "You don't have permission to access this page.", 'wp-loyalty-point-sharing' ) );
 		}
 
-		$view = Input::get( 'view', 'point_sharing' );
+		$view = Input::get( 'view', 'point_sharing', 'query' );
 
 		$params = [
 			'current_view' => $view,

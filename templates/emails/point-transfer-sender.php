@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
 
-<p>Hi <?php esc_html_e( "{wlr_sender_name}", 'wp-loyalty-point-sharing' ); ?>,</p>
+<p><?php esc_html_e( "Hi {wlr_sender_name}", 'wp-loyalty-point-sharing' ); ?>,</p>
 
 <p>
 	<?php esc_html_e( 'You are about to send {wlr_transfer_points} {wlr_points_label} to {wlr_recipient_name}', 'wp-loyalty-point-sharing' ); ?>
@@ -31,7 +31,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 </p>
 
 <p>
-    Thank you,<br>
+	<?php echo esc_html__( 'Thank you,', 'wp-loyalty-point-sharing' ); ?><br>
 	<?php echo esc_html( '{site_title}' ?? get_bloginfo( 'name' ) ); ?>
 </p>
 

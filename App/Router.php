@@ -20,7 +20,7 @@ class Router {
 				add_action( "wp_ajax_wlps_save_settings", [ AdminController::class, 'saveSettings' ] );
 			}
 		}
-		add_action( "wlps_share_point_modal", [ Common::class, 'renderSharePointModal' ] );
+		add_action( "wlr_share_points_modal", [ Common::class, 'renderSharePointModal' ] );
 		add_action( "wp_enqueue_scripts", [ Common::class, 'addFrontendAssets' ] );
 		add_filter( "wlr_extra_action_list", [ Common::class, 'addExtraAction' ], 10, 1 );
 		add_action( "wp_ajax_wlps_transfer_points", [ PointTransferController::class, 'transferPoints' ], 10 );

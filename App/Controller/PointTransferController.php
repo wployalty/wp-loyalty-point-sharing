@@ -15,6 +15,16 @@ class PointTransferController {
 	const EXPIRED = "expired";
 	const PENDING = "pending";
 
+	/**
+	 * Transfer Points to another user.
+	 *
+	 * Handles the AJAX request to transfer points from one user to another.
+	 * Validates input, creates a transfer record, and sends confirmation email.
+	 *
+	 * @hooked wp_ajax_wlps_transfer_points
+	 *
+	 * @return void
+	 */
 	public static function transferPoints() {
 		$wlps_nonce = (string) Input::get( 'wlps_transfer_points_nonce', '', 'post' );
 		if ( ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
@@ -56,6 +66,21 @@ class PointTransferController {
 		wp_send_json_success( [ 'message' => __( 'Confirmation email sent. Please check your inbox.', 'wp-loyalty-point-sharing' ) ] );
 	}
 
+	/**
+	 * Validate Transfer Request.
+	 *
+	 * Performs validation checks before allowing the transfer:
+	 * - Sender and recipient emails must not match.
+	 * - Sender must have email opt-in enabled.
+	 * - Recipient must not be banned.
+	 * - Sender must have enough points.
+	 *
+	 * @param WP_User $sender Current logged-in user object.
+	 * @param string $recipient_email Email of the recipient.
+	 * @param int $transfer_points Number of points to transfer.
+	 *
+	 * @return void
+	 */
 	private static function validateTransferRequest( $sender, $recipient_email, $transfer_points ) {
 		if ( $recipient_email === $sender->user_email ) {
 			wp_send_json_error( [ 'message' => __( 'Recipient email and logged in email must not be same.', 'wp-loyalty-point-sharing' ) ] );
@@ -80,6 +105,10 @@ class PointTransferController {
 		}
 	}
 
+	/**
+	 * Handle Confirm transfer.
+	 *
+	 */
 	public static function handleConfirmTransfer() {
 
 		$action = Input::get( 'wlps_action', '', 'query' );
@@ -140,6 +169,11 @@ class PointTransferController {
 		}
 	}
 
+	/**
+	 *Check whether the share points enabled in settings.
+	 *
+	 * @params transferModal, transfer
+	 */
 	private static function checkSharePointEnabled( $transferModel, $transfer ) {
 		$settings            = get_option( "wlps_settings", [] );
 		$isSharePointEnabled = isset( $settings['enable_share_point'] ) && $settings['enable_share_point'] === 'yes';
@@ -156,6 +190,17 @@ class PointTransferController {
 		return true;
 	}
 
+
+	/**
+	 * Validate Transfer Token.
+	 *
+	 * Ensures that the provided transfer token is valid, unexpired, and still pending.
+	 * Marks transfer as expired or invalid if token check fails.
+	 *
+	 * @param object $transfer Transfer record object.
+	 *
+	 * @return bool True if valid, false otherwise.
+	 */
 
 	private static function validateTransferToken( $transfer ) {
 		if ( empty( $transfer->token ) || ! $transfer ) {
@@ -182,6 +227,16 @@ class PointTransferController {
 		return true;
 	}
 
+	/**
+	 * Validate Authorized Sender.
+	 *
+	 * Ensures that the user confirming the transfer is the same person
+	 * who initiated it. Prevents unauthorized users from confirming.
+	 *
+	 * @param object $transfer Transfer record object.
+	 *
+	 * @return bool True if authorized, false otherwise.
+	 */
 
 	private static function validateAuthorizedSender( $transfer ) {
 		$current_user = wp_get_current_user();
@@ -203,6 +258,19 @@ class PointTransferController {
 		return true;
 	}
 
+	/**
+	 * Validate Sender and Recipient before confirming the point transfer.
+	 *
+	 * Performs validation checks to ensure both sender and recipient accounts are valid:
+	 * - Verifies that neither the sender nor the recipient is banned.
+	 * - Confirms that the sender has sufficient points to complete the transfer.
+	 * - Updates the transfer status and displays WooCommerce error notices for any failures.
+	 *
+	 * @param object $transfer Transfer record object containing sender, recipient, and point details.
+	 * @param PointTransfers $transferModel Instance of the PointTransfers model used to update transfer status.
+	 *
+	 * @return bool True if both sender and recipient are valid and the sender has enough points, false otherwise.
+	 */
 
 	private static function validateSenderAndRecipient( $transfer, $transferModel ) {
 		$base_helper = new Base();
@@ -235,6 +303,24 @@ class PointTransferController {
 		return true;
 	}
 
+	/**
+	 * Perform the actual point transfer between sender and recipient.
+	 *
+	 * Handles the logic to debit points from the sender and credit the same
+	 * amount to the recipient. This method ensures that both transactions
+	 * are processed atomically using the `Base` helper’s `addExtraPointAction()` method.
+	 *
+	 * If any exception occurs during the process, an error notice is added
+	 * and the method returns false.
+	 *
+	 * @param object $transfer Transfer record object containing sender, recipient, and point details.
+	 *                         Expected properties:
+	 *                         - sender_email (string)
+	 *                         - recipient_email (string)
+	 *                         - points (int)
+	 *
+	 * @return bool True if both debit and credit operations are successful, false otherwise.
+	 */
 
 	private static function performPointTransfer( $transfer ) {
 		try {
@@ -306,6 +392,30 @@ class PointTransferController {
 		}
 	}
 
+	/**
+	 * Create a new point transfer record.
+	 *
+	 * This method creates a pending transfer entry between a sender and recipient.
+	 * It generates a secure token for confirmation, saves the transfer data using
+	 * the PointTransfers model, and returns a structured object containing the transfer details.
+	 *
+	 * @param string $sender_email The email address of the user sending the points.
+	 * @param string $recipient_email The email address of the user receiving the points.
+	 * @param int $transfer_points The number of points to be transferred.
+	 *
+	 * @return object|false Returns an object containing:
+	 *                      - transfer_id (int)     The ID of the created transfer record.
+	 *                      - sender_email (string) The sender's email address.
+	 *                      - recipient_email (string) The recipient's email address.
+	 *                      - points (int)          The amount of points transferred.
+	 *                      - token (string)        The unhashed confirmation token.
+	 *                      Returns false if the operation fails or the model class is missing.
+	 *
+	 * @throws \Throwable If any unhandled exception occurs during record creation.
+	 * @since 1.0.0
+	 *
+	 */
+
 	private static function createTransferRecord( $sender_email, $recipient_email, $transfer_points ) {
 		if ( ! class_exists( "Wlps\App\Models\PointTransfers" ) ) {
 			return false;
@@ -346,6 +456,26 @@ class PointTransferController {
 		}
 	}
 
+	/**
+	 * Send a point transfer confirmation email to the sender.
+	 *
+	 * This method triggers a WooCommerce email notification for the sender
+	 * when a new point transfer is initiated. It builds a confirmation link
+	 * containing the transfer ID and secure token, then fires the
+	 * `wlr_send_point_transfer_sender_email` action to send the email.
+	 *
+	 * @param object $transfer The transfer data object containing:
+	 *                         - transfer_id (int)     The ID of the transfer record.
+	 *                         - sender_email (string) The sender's email address.
+	 *                         - recipient_email (string) The recipient's email address.
+	 *                         - points (int)          The number of points transferred.
+	 *                         - token (string)        The unhashed confirmation token.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 *
+	 */
+
 	private static function sendSenderEmail( $transfer ) {
 		\WC_Emails::instance();
 
@@ -361,6 +491,22 @@ class PointTransferController {
 			$confirm_link
 		);
 	}
+
+	/**
+	 * Send a point transfer email to the receiver
+	 *
+	 * This method triggers a WooCommerce email notification for the receiver
+	 * when a new point transfer is confirmed. It Builds a email to the receiver.
+	 *
+	 * @param object $transfer The transfer data object containing:
+	 *                         - sender_email (string) The sender's email address.
+	 *                         - recipient_email (string) The recipient's email address.
+	 *                         - points (int)          The number of points transferred.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 *
+	 */
 
 
 	public static function sendRecieverEmail( $transfer ) {

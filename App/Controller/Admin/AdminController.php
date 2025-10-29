@@ -8,6 +8,22 @@ use Wlps\App\Helpers\Validation;
 use Wlps\App\Helpers\WlpsUtil;
 
 class AdminController {
+	/**
+	 * Register the admin menu page for the "WPLoyalty: Point Sharing" feature.
+	 *
+	 * This method adds a new menu item to the WordPress admin sidebar for managing
+	 * the Point Sharing functionality. The menu is only visible to users with
+	 * administrative privileges (checked via `WlpsUtil::hasAdminPrivilege()`).
+	 *
+	 * It uses the `add_menu_page()` function to create the top-level menu item,
+	 * which links to the main admin page rendered by the `renderMainPage()` method.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @hooked admin_menu
+	 *
+	 */
 	public static function addMenu() {
 		if ( WlpsUtil::hasAdminPrivilege() ) {
 			add_menu_page( __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), 'manage_woocommerce', WLPS_PLUGIN_SLUG, [
@@ -16,6 +32,26 @@ class AdminController {
 			], 'dashicons-megaphone', 58 );
 		}
 	}
+
+	/**
+	 * Render the main admin page for the WPLoyalty Point Sharing module.
+	 *
+	 * This method serves as the primary entry point for the plugin’s admin interface.
+	 * It determines which view (tab) to render based on the `view` query parameter —
+	 * such as the Point Sharing activity view or the Settings page.
+	 *
+	 * It performs an admin privilege check using `WlpsUtil::hasAdminPrivilege()` to
+	 * ensure only authorized users can access this page. If unauthorized, the request
+	 * terminates with a permission error message.
+	 *
+	 * The method also supports theme-based template overrides:
+	 * - Custom theme path: `yourtheme/wp-loyalty-point-sharing/Admin/main.php`
+	 * - Default plugin fallback: `WLPS_VIEW_PATH/Admin/main.php`
+	 *
+	 * @return void Outputs the rendered admin page HTML.
+	 * @since 1.0.0
+	 *
+	 */
 
 	public static function renderMainPage() {
 		if ( ! WlpsUtil::hasAdminPrivilege() ) {
@@ -47,6 +83,24 @@ class AdminController {
 
 		return WlpsUtil::renderTemplate( $file_path, $params );
 	}
+
+	/**
+	 * Retrieve and render the Point Sharing activity page for the admin panel.
+	 *
+	 * This method handles:
+	 *  - Fetching point transfer records from the custom database table (`wlr_point_transfers`).
+	 *  - Filtering by status (`all`, `pending`, `completed`, `expired`, `failed`).
+	 *  - Searching by sender or recipient email.
+	 *  - Sorting by any valid column (e.g., ID, date, etc.).
+	 *  - Handling pagination.
+	 *  - Rendering the appropriate admin view template.
+	 *
+	 * @return string The rendered HTML content of the activity page.
+	 * @global wpdb $wpdb WordPress database access abstraction object.
+	 *
+	 * @since 1.0.0
+	 *
+	 */
 
 	public static function getActivityPage() {
 
@@ -156,6 +210,18 @@ class AdminController {
 		return WlpsUtil::renderTemplate( $file_path, $page_details, false );
 	}
 
+	/**
+	 * Retrieve and render the Point Sharing settings page for the admin panel.
+	 *
+	 * This method prepares data and paths required to display the settings page of the
+	 * "WPLoyalty: Point Sharing" plugin. It fetches stored plugin settings, constructs URLs
+	 * for managing related WooCommerce emails, and loads the appropriate admin template file.
+	 *
+	 * @return string The rendered HTML output of the settings page.
+	 * @since 1.0.0
+	 *
+	 */
+
 	public static function getSettingsPage() {
 		$options   = get_option( 'wlps_settings', [] );
 		$args      = [
@@ -184,6 +250,15 @@ class AdminController {
 
 		return WlpsUtil::renderTemplate( $file_path, $args, false );
 	}
+
+	/**
+	 * Save Settings to wp_options table
+	 *
+	 * This method saves the settings data of "Wp-loyalty-point-sharing" fields to wp_options under
+	 * wlps_settings key that will manage the wp-loyalty-point-sharing restrictions
+	 *
+	 * return @void
+	 */
 
 	public static function saveSettings() {
 		// Check admin privilege & nonce
@@ -236,6 +311,18 @@ class AdminController {
 			'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
 		] );
 	}
+
+	/**
+	 * Enqueue admin assets for the WPLoyalty Point Sharing plugin.
+	 *
+	 * This method loads the required CSS and JavaScript files only on the
+	 * plugin’s admin page. It also localizes data for use in JavaScript,
+	 * such as URLs and translatable strings.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 *
+	 */
 
 	public static function addAssets() {
 		if ( Input::get( 'page' ) != WLPS_PLUGIN_SLUG ) {

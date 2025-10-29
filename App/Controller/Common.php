@@ -75,6 +75,22 @@ class Common {
 		return $action_list;
 	}
 
+	/**
+	 * Add custom email IDs related to point transfers.
+	 *
+	 * This method appends the plugin's custom email identifiers to the existing
+	 * list of WooCommerce email IDs. These identifiers correspond to the
+	 * sender and receiver point transfer email notifications.
+	 *
+	 * Typically hooked into a filter like `woocommerce_email_classes` or
+	 * a custom plugin email registration process.
+	 *
+	 * @param array $emailIds Existing array of email IDs registered in WooCommerce or the plugin.
+	 *
+	 * @return array The merged array containing both existing and point transfer-related email IDs.
+	 * @since 1.0.0
+	 *
+	 */
 	public static function renderSharePointModal() {
 		$settings               = get_option( 'wlps_settings', [] );
 		$is_share_point_enabled = ! empty( $settings['enable_share_point'] );
@@ -94,6 +110,20 @@ class Common {
 		}
 	}
 
+	/**
+	 * Retrieve a loyalty user record by email address.
+	 *
+	 * This method fetches a single user record from the loyalty users table
+	 * based on the provided email address. It uses a query builder or model
+	 * abstraction (`Users` model) to perform the lookup safely.
+	 *
+	 * @param string $email The email address of the loyalty user to retrieve.
+	 *
+	 * @return object|false The user record object if found, or false if the email is empty or the user does not exist.
+	 * @since 1.0.0
+	 *
+	 */
+
 	public static function getLoyaltyUser( $email ) {
 		if ( empty( $email ) ) {
 			return false;
@@ -108,6 +138,22 @@ class Common {
 		], '*', [], false, true );
 	}
 
+	/**
+	 * Add custom email IDs related to point transfers.
+	 *
+	 * This method appends the plugin's custom email identifiers to the existing
+	 * list of WooCommerce email IDs. These identifiers correspond to the
+	 * sender and receiver point transfer email notifications.
+	 *
+	 * Typically hooked into a filter like `woocommerce_email_classes` or
+	 * a custom plugin email registration process.
+	 *
+	 * @param array $emailIds Existing array of email IDs registered in WooCommerce or the plugin.
+	 *
+	 * @return array The merged array containing both existing and point transfer-related email IDs.
+	 * @since 1.0.0
+	 *
+	 */
 	public static function addEmailId( $emailIds ) {
 		$wlpsEmailIds = [ 'wlps_point_transfer_receiver_email', 'wlps_point_transfer_sender_email' ];
 

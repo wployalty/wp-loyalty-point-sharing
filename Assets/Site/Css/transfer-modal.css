@@ -53,7 +53,7 @@
   box-sizing: border-box;
 }
 
-#transfer-points-error,
+#wlps-transfer-points-error,
 #wlps-alert-message {
   color: red;
   font-size: 13px;

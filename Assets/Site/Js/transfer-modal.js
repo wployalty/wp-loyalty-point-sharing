@@ -23,7 +23,7 @@ wlps = window.wlps || {};
 
     wlps.closeSharePointsModal = function () {
         const form = wlps_jquery('#wlps-transfer-form');
-        const pointsError = wlps_jquery('#transfer-points-error');
+        const pointsError = wlps_jquery('#wlps-transfer-points-error');
         wlps_jquery('#wlps-share-points-modal').hide();
         form[0].reset();
         pointsError.text('').hide();
@@ -34,7 +34,7 @@ wlps = window.wlps || {};
         if (event) event.preventDefault();
         const form = wlps_jquery('#wlps-transfer-form');
         const pointsInput = wlps_jquery('#transfer-points');
-        const pointsError = wlps_jquery('#transfer-points-error');
+        const pointsError = wlps_jquery('#wlps-transfer-points-error');
         const submitBtn = form.find('button[type="submit"]');
 
         const points = parseInt(pointsInput.val()) || 0;
@@ -139,7 +139,7 @@ wlps = window.wlps || {};
     /** Live Validation for points input while typing **/
     wlps_jquery(document).ready(function () {
         const pointsInput = wlps_jquery('#transfer-points');
-        const pointsError = wlps_jquery('#transfer-points-error');
+        const pointsError = wlps_jquery('#wlps-transfer-points-error');
         const submitBtn = wlps_jquery('#wlps-transfer-form button[type="submit"]');
 
         pointsInput.on('input', function () {

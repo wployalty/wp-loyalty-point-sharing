@@ -24,7 +24,7 @@
             <button type="submit" class="button button-primary">
 				<?php esc_html_e( 'Transfer Points', 'wp-loyalty-point-sharing' ); ?>
             </button>
-            <span id="transfer-points-error" style="color:red;"></span>
+            <span id="wlps-transfer-points-error" style="color:red;"></span>
         </form>
     </div>
 </div>

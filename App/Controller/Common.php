@@ -94,8 +94,11 @@ class Common {
 	public static function renderSharePointModal() {
 		$settings               = get_option( 'wlps_settings', [] );
 		$is_share_point_enabled = ! empty( $settings['enable_share_point'] );
-
-		if ( $is_share_point_enabled ) {
+		$user                   = wp_get_current_user();
+		$user_email             = $user->user_email;
+		$loyalty_user           = self::getLoyaltyUser( $user_email );
+		$user_points            = $loyalty_user->points;
+		if ( $is_share_point_enabled && $user_points > 0 ) {
 
 			$file_path = get_theme_file_path( 'wp-loyalty-point-sharing/Site/share-points-modal.php' );
 

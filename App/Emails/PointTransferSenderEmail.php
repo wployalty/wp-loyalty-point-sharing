@@ -11,6 +11,8 @@ require_once plugin_dir_path( WC_PLUGIN_FILE ) . 'includes/emails/class-wc-email
 class PointTransferSenderEmail extends \WC_Email {
 	use Common;
 
+	private string $template_path;
+
 	public function __construct() {
 		$this->id             = 'wlps_point_transfer_sender_email';
 		$this->customer_email = true;

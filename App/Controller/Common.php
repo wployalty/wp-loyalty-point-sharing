@@ -69,8 +69,9 @@ class Common {
 		if ( empty( $action_list ) || ! is_array( $action_list ) ) {
 			return $action_list;
 		}
-		$action_list['share_point_debit']  = __( 'Points Shared with another user', 'wp-loyalty-point-sharing' );
-		$action_list['share_point_credit'] = __( 'Points received from another user', 'wp-loyalty-point-sharing' );
+		$action_list['share_point_debit']    = __( 'Points Shared with another user', 'wp-loyalty-point-sharing' );
+		$action_list['share_point_credit']   = __( 'Points received from another user', 'wp-loyalty-point-sharing' );
+		$action_list['point_transfer_email'] = __( 'Points Transfer Email sent', 'wp-loyalty-point-sharing' );
 
 		return $action_list;
 	}

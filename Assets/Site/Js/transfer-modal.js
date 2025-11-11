@@ -11,7 +11,7 @@ wlps = window.wlps || {};
 
         if (points < 1) return wlps_frontend_translations.points_min_error;
         if (points > availableUserPoints) return wlps_frontend_translations.points_max_user_error.replace('%d', availableUserPoints);
-        if (points > maxPoints) return wlps_frontend_translations.points_max_user_error.replace('%d', maxPoints);
+        if (points > maxPoints) return wlps_frontend_translations.points_max_limit_error.replace('%d', maxPoints);
         return ''; // valid
     };
 
@@ -148,9 +148,11 @@ wlps = window.wlps || {};
 
             if (errorMsg) {
                 pointsError.text(errorMsg).show();
+                pointsInput.addClass('wlps-input-error'); // Add red outline
                 submitBtn.prop('disabled', true);
             } else {
                 pointsError.hide();
+                pointsInput.removeClass('wlps-input-error');
                 submitBtn.prop('disabled', false);
             }
         });

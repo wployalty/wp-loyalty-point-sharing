@@ -20,11 +20,12 @@
 
             <label for="transfer-points"><?php esc_html_e( 'Points to Transfer', 'wp-loyalty-point-sharing' ); ?></label>
             <input type="number" id="transfer-points" name="transfer_points" min="1" required>
-
+            <div>
+                <span id="wlps-transfer-points-error" style="color:red;"></span>
+            </div>
             <button type="submit" class="button button-primary">
 				<?php esc_html_e( 'Transfer Points', 'wp-loyalty-point-sharing' ); ?>
             </button>
-            <span id="wlps-transfer-points-error" style="color:red;"></span>
         </form>
     </div>
 </div>

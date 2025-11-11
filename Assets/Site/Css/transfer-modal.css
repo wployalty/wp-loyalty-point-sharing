@@ -59,6 +59,11 @@
   display: none;
 }
 
+.wlps-input-error {
+  border: 2px solid red !important;
+  outline: none !important;
+}
+
 .wlps-alert-buttons {
   margin-top: 15px;
 }

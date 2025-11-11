@@ -34,6 +34,22 @@ class AdminController {
 	}
 
 	/**
+	 * To hide menu.
+	 *
+	 * @return void
+	 */
+	public static function hideMenu() {
+		?>
+        <style>
+            #toplevel_page_wp-loyalty-point-sharing {
+                display: none !important;
+            }
+        </style>
+		<?php
+	}
+
+
+	/**
 	 * Render the main admin page for the WPLoyalty Point Sharing module.
 	 *
 	 * This method serves as the primary entry point for the plugin’s admin interface.

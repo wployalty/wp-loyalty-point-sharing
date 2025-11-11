@@ -31,11 +31,13 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{wlr_store_name}'      => 'shop',
 			'{wlr_sender_name}'     => 'Thomas',
 			'{wlr_recipient_name}'  => 'Judy',
+			'{wlr_sender_email}'    => 'examplesender@mail.com',
+			'{wlr_recipient_email}' => 'examplereciever@mail.com',
 			'{wlr_transfer_points}' => '10',
 			'{wlr_points_label}'    => __( 'points', 'wp-loyalty-point-sharing' ),
 			'{wlr_account_link}'    => 'https://example.com',
 			'{wlr_referral_url}'    => 'https://example.com',
-			'{wlr_user_point}'      => 0,
+			'{wlr_user_points}'     => 0,
 		] );
 		add_action( 'wlr_send_point_transfer_reciever_email', [ $this, 'trigger' ], 10, 3 );
 		parent::__construct();
@@ -84,6 +86,8 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{site_url}'            => home_url(),
 			'{store_email}'         => get_option( 'admin_email' ),
 			'{wlr_recipient_name}'  => $this->getUserDisplayName( $recipient_email ) ?: $recipient_email,
+			'{wlr_sender_email}'    => $sender_email,
+			'{wlr_recipient_email}' => $recipient_email,
 			'{wlr_referral_url}'    => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_sender_name}'     => $this->getUserDisplayName( $sender_email ),
 			'{wlr_store_name}'      => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
@@ -91,7 +95,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{wlr_account_link}'    => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
 			'{wlr_points_label}'    => $point_label,
 			'{wlr_shop_url}'        => get_permalink( wc_get_page_id( 'shop' ) ),
-			'{wlr_user_point}'      => $loyalUser->points ?? 0
+			'{wlr_user_points}'     => $loyalUser->points ?? 0
 		];
 
 		$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );
@@ -132,7 +136,7 @@ class PointTransferReceiverEmail extends WC_Email {
 				$points_amount,
 				$recipient_email
 			);
-		$log_data['action_type']   = sprintf( __( 'Point Transfer Email', 'wp-loyalty-point-sharing' ) );
+		$log_data['action_type']   = sprintf( __( 'point_transfer_email', 'wp-loyalty-point-sharing' ) );
 		$log_data['customer_note'] = $log_data['note'];
 
 		Rewards::getInstance()->add_note( $log_data );
@@ -156,13 +160,15 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{wlr_transfer_points}' => __( 'The number of points that are going to transfer', 'wp-loyalty-point-sharing' ),
 			'{wlr_recipient_name}'  => __( 'The Recipient who is recieved the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_sender_name}'     => __( 'The Sender who sends the points', 'wp-loyalty-point-sharing' ),
+			'{wlr_sender_email}'    => __( 'The Sender email who sends the points', 'wp-loyalty-point-sharing' ),
+			'{wlr_recipient_email}' => __( 'The Recipient email who receives the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_points_label}'    => __( 'The label for points (e.g., points, credits)', 'wp-loyalty-point-sharing' ),
 			'{wlr_shop_url}'        => __( 'The URL to the shop page of the website', 'wp-loyalty-point-sharing' ),
 			'{wlr_account_link}'    => __( 'The URL to access the account page', 'wp-loyalty-point-sharing' ),
 
 			//loyalty common
 			'{wlr_referral_url}'    => __( 'The referral URL for the customer to share with friends', 'wp-loyalty-point-sharing' ),
-			'{wlr_user_point}'      => __( 'The current points balance of the customer', 'wp-loyalty-point-sharing' ),
+			'{wlr_user_points}'     => __( 'The current points balance of the customer', 'wp-loyalty-point-sharing' ),
 			'{wlr_user_name}'       => __( 'The display name of the customer', 'wp-loyalty-point-sharing' ),
 			'{wlr_store_name}'      => __( 'The name of the store or website', 'wp-loyalty-point-sharing' ),
 			// common

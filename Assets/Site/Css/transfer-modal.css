@@ -37,11 +37,22 @@
 .wlps-close-modal,
 .wlps-close-alert-modal {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 16px;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Plain look - no filled background */
+  background: transparent;
+  color: #333; /* change color if needed */
   border: none;
+  padding: 4px 8px;
+  font-size: 20px;
+  line-height: 1;
   cursor: pointer;
+  /* remove default focus outline but keep accessibility via custom focus */
+  outline: none;
+  border-radius: 4px;
 }
 
 #wlps-transfer-form input,

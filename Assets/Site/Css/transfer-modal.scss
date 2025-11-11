@@ -65,11 +65,22 @@ $transition-speed: 0.3s;
 .wlps-close-modal,
 .wlps-close-alert-modal {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 16px;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  color: #333;
   border: none;
+  padding: 4px 8px;
+  font-size: 20px;
+  line-height: 1;
   cursor: pointer;
+
+  outline: none;
+  border-radius: 4px;
 }
 
 // ==========================

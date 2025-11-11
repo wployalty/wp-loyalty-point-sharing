@@ -152,5 +152,17 @@ class WlpsUtil {
 		return wp_timezone_string();
 	}
 
+	public static function getDefaults( $key = null ) {
+		$defaults = [
+			'max_transfer_points' => 10,
+			'enable_share_points' => 'no',
+		];
+		if ( $key == null ) {
+			return $defaults;
+		}
+
+		return $defaults[ $key ] ?? null;
+	}
+
 
 }

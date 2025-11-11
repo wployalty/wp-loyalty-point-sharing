@@ -10,7 +10,7 @@ use Wlr\App\Helpers\Base;
 
 class PointTransferController {
 	const TRANSFER_LINK_EXPIRY = 15;
-	const REQUEST_PER_MINUTE = 2;
+	const TRANSFER_REQUEST_PER_MINUTE = 2;
 	const COMPLETED = "completed";
 	const FAILED = "failed";
 	const EXPIRED = "expired";
@@ -77,14 +77,15 @@ class PointTransferController {
 		$ip_key    = 'wlps_rate_limit_ip' . md5( $ip );
 		$email_key = 'wlps_rate_limit_email' . md5( $email );
 
-		$ip_count    = get_transient( $ip_key );
-		$email_count = get_transient( $email_key );
+		$ip_count     = get_transient( $ip_key );
+		$email_count  = get_transient( $email_key );
+		$max_requests = apply_filters( "wlps_rate_limit_max_requests", self::TRANSFER_REQUEST_PER_MINUTE, $sender );
 
-		if ( $ip_count && $ip_count >= self::REQUEST_PER_MINUTE ) {
+		if ( $ip_count && $ip_count >= $max_requests ) {
 			return false;
 		}
 
-		if ( $email_count && $email_count >= self::REQUEST_PER_MINUTE ) {
+		if ( $email_count && $email_count >= $max_requests ) {
 			return false;
 		}
 
@@ -242,8 +243,8 @@ class PointTransferController {
 
 			return false;
 		}
-
-		if ( strtotime( gmdate( "Y-m-d H:i:s" ) ) > intval( $transfer->created_at ) + PointTransferController::TRANSFER_LINK_EXPIRY * MINUTE_IN_SECONDS ) {
+		$expiry_time_in_minutes = apply_filters( "wlps_transfer_link_expiry_minutes", self::TRANSFER_LINK_EXPIRY, $transfer );
+		if ( strtotime( gmdate( "Y-m-d H:i:s" ) ) > intval( $transfer->created_at ) + $expiry_time_in_minutes * MINUTE_IN_SECONDS ) {
 			$pointTransfers = new PointTransfers();
 			$pointTransfers->updateStatus( $transfer->id, PointTransferController::EXPIRED, sprintf( __( 'Transfer failed due to expired confirmation link.', 'wp-loyalty-point-sharing' ) ) );
 

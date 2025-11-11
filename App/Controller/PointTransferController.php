@@ -72,24 +72,24 @@ class PointTransferController {
 	}
 
 	public static function validateRateLimit( $sender ): bool {
-		$ip       = $_SERVER['REMOTE_ADDR'];
-		$email    = $sender->user_email;
-		$ipKey    = 'wlps_rate_limit_ip' . md5( $ip );
-		$emailKey = 'wlps_rate_limit_email' . md5( $email );
+		$ip        = $_SERVER['REMOTE_ADDR'];
+		$email     = $sender->user_email;
+		$ip_key    = 'wlps_rate_limit_ip' . md5( $ip );
+		$email_key = 'wlps_rate_limit_email' . md5( $email );
 
-		$ipCount    = get_transient( $ipKey );
-		$emailCount = get_transient( $emailKey );
+		$ip_count    = get_transient( $ip_key );
+		$email_count = get_transient( $email_key );
 
-		if ( $ipCount && $ipCount >= self::REQUEST_PER_MINUTE ) {
+		if ( $ip_count && $ip_count >= self::REQUEST_PER_MINUTE ) {
 			return false;
 		}
 
-		if ( $emailCount && $emailCount >= self::REQUEST_PER_MINUTE ) {
+		if ( $email_count && $email_count >= self::REQUEST_PER_MINUTE ) {
 			return false;
 		}
 
-		set_transient( $ipKey, ( $ipCount ? $ipCount + 1 : 1 ), 60 );
-		set_transient( $emailKey, ( $emailCount ? $emailCount + 1 : 1 ), 60 );
+		set_transient( $ip_key, ( $ip_count ? $ip_count + 1 : 1 ), 60 );
+		set_transient( $email_key, ( $email_count ? $email_count + 1 : 1 ), 60 );
 
 		return true;
 	}

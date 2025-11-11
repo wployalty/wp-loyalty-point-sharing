@@ -42,9 +42,9 @@ defined( 'ABSPATH' ) or die;
                             <input type="checkbox" id="wlps_enable_share_point" name="enable_share_point"
                                    value="<?php echo esc_attr( $enable_share_point ); ?>"
                                    onclick="wlps.enableSharePoint('wlps_enable_share_point');"
-								<?php echo isset( $options['enable_share_point'] ) && ! empty( $options['enable_share_point'] ) && ( $options['enable_share_point'] == 'yes' ) ?
-									'checked="checked"' : ""; ?>><label class="wlps-enable-share-point-label"
-                                                                        for="wlps_enable_share_point"><?php esc_html_e( 'Enable Points Sharing feature ?', 'wp-loyalty-point-sharing' ); ?></label>
+								<?php echo ( $enable_share_point === 'yes' ) ? 'checked="checked"' : ''; ?>><label
+                                    class="wlps-enable-share-point-label"
+                                    for="wlps_enable_share_point"><?php esc_html_e( 'Enable Points Sharing feature ?', 'wp-loyalty-point-sharing' ); ?></label>
                         </div>
                     </div>
                     <div class="wlps-field-block">

@@ -29,8 +29,9 @@ add_action( 'before_woocommerce_init', function () {
 		FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__ );
 	}
 } );
-if ( ! function_exists( 'isWLPSWoocommerceActive' ) ) {
-	function isWLPSWoocommerceActive() {
+if ( ! function_exists( 'wlps_is_woocommerce_active' ) ) {
+	function wlps_is_woocommerce_active() {
+		// This is a core WordPress filter. Ignore PHPCS here.
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
@@ -42,6 +43,7 @@ if ( ! function_exists( 'isWLPSWoocommerceActive' ) ) {
 
 if ( ! function_exists( 'isWLPSLoyaltyActive' ) ) {
 	function isWLPSLoyaltyActive() {
+		// This is a core WordPress filter. Ignore PHPCS here.
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
@@ -52,7 +54,7 @@ if ( ! function_exists( 'isWLPSLoyaltyActive' ) ) {
 	}
 }
 
-if ( ! isWLPSWoocommerceActive() || ! isWLPSLoyaltyActive() ) {
+if ( ! wlps_is_woocommerce_active() || ! isWLPSLoyaltyActive() ) {
 	return;
 }
 

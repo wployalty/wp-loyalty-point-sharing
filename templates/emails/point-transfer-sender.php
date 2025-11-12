@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * Rendered via WooCommerce email system with default WooCommerce styles.
  */
 
-// Include WooCommerce email header
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
 
@@ -42,6 +42,6 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 if ( $additional_content ) {
 	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
-// Include WooCommerce email footer
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 do_action( 'woocommerce_email_footer', $email );
 ?>

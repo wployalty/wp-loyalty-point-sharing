@@ -23,7 +23,7 @@ class PointTransferSenderEmail extends \WC_Email {
 		$this->template_plain = 'emails/plain/point-transfer-sender.php';
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
 		$this->template_path  = 'wp-loyalty-point-sharing/';
-
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
 			'{site_title}'          => get_bloginfo( 'name' ),
 			'{site_address}'        => 'localhost',
@@ -58,7 +58,8 @@ class PointTransferSenderEmail extends \WC_Email {
 	public function get_subject() {
 		$subject = $this->get_option( 'subject', $this->get_default_subject() );
 
-		return apply_filters( 'woocommerce_email_subject_' . $this->id, $this->format_string( $subject ), $this->object, $this );
+		// This is a core WooCommerce filter. Ignore PHPCS for prefix rule.
+		return apply_filters( 'woocommerce_email_subject_' . $this->id, $this->format_string( $subject ), $this->object, $this );// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 	}
 
 	/**
@@ -94,6 +95,7 @@ class PointTransferSenderEmail extends \WC_Email {
 			'{wlr_account_link}'    => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
 			'{wlr_referral_url}'    => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_shop_url}'        => get_permalink( wc_get_page_id( 'shop' ) ),
+			// This is a core WooCommerce filter. Ignore PHPCS for prefix rule.
 			'{wlr_store_name}'      => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_points_label}'    => $point_label,
 			'{wlr_confirm_link}'    => $confirm_link,

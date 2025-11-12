@@ -58,7 +58,7 @@ class PointTransferController {
 		self::validateTransferRequest( $sender, $recipient_email, $transfer_points );
 		$rateLimitCheck = self::validateRateLimit( $sender );
 		if ( ! $rateLimitCheck ) {
-			wp_send_json_error( [ 'message' => __( 'Too many requests from this IP/Email try again after a minute', 'wp-loyalty-point-sharing' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Too many requests please try again after a minute', 'wp-loyalty-point-sharing' ) ] );
 		}
 		$transfer = self::createTransferRecord( $sender_email, $recipient_email, $transfer_points );
 
@@ -70,6 +70,30 @@ class PointTransferController {
 
 		wp_send_json_success( [ 'message' => __( 'Confirmation email sent. Please check your inbox.', 'wp-loyalty-point-sharing' ) ] );
 	}
+
+	/**
+	 * Validate and enforce a per-minute rate limit for transfer requests.
+	 *
+	 * Builds a rate-limit key from the request IP and the provided sender's email,
+	 * reads the current count from a WordPress transient, increments it (or creates
+	 * it) and returns whether the request is allowed.
+	 *
+	 * Side effects:
+	 * - Calls `get_transient()` and `set_transient()` to persist the request count.
+	 * - Applies the `wlps_rate_limit_max_requests` filter to allow altering the
+	 *   maximum allowed requests per minute.
+	 *
+	 * @param \WP_User|object $sender Current logged-in user object (must provide `user_email`).
+	 *
+	 * @return bool True if the sender is allowed to proceed (count incremented), false if limit exceeded.
+	 *
+	 * @global array $_SERVER Uses `$_SERVER['REMOTE_ADDR']` to include client IP in the rate-limit key.
+	 *
+	 * @uses get_transient() Read the current request count for the IP+email key.
+	 * @uses set_transient() Persist the incremented request count with a 60-second TTL.
+	 * @uses apply_filters() Apply `wlps_rate_limit_max_requests` to allow adjusting the max requests.
+	 *
+	 */
 
 	public static function validateRateLimit( $sender ): bool {
 		$ip           = $_SERVER['REMOTE_ADDR'];

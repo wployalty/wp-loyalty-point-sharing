@@ -42,15 +42,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* Plain look - no filled background */
   background: transparent;
-  color: #333; /* change color if needed */
+  color: #333;
   border: none;
   padding: 4px 8px;
   font-size: 20px;
   line-height: 1;
   cursor: pointer;
-  /* remove default focus outline but keep accessibility via custom focus */
   outline: none;
   border-radius: 4px;
 }
@@ -61,6 +59,13 @@
   padding: 8px;
   margin-bottom: 10px;
   box-sizing: border-box;
+  border-radius: 7px 7px 7px 7px;
+}
+
+button.button.button-primary {
+  background-color: #4F47EB;
+  color: #ffffff;
+  border-radius: 7px;
 }
 
 #wlps-transfer-points-error,

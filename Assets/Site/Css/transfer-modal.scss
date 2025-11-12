@@ -92,6 +92,13 @@ $transition-speed: 0.3s;
   padding: 8px;
   margin-bottom: 10px;
   box-sizing: border-box;
+  border-radius: 7px 7px 7px 7px;
+}
+
+button.button.button-primary {
+  background-color: #4F47EB;
+  color: #ffffff;
+  border-radius: 7px;
 }
 
 // ==========================

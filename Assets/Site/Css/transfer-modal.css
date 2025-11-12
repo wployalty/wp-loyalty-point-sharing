@@ -84,4 +84,31 @@ button.button.button-primary {
   margin-top: 15px;
 }
 
+/* Center modal content when visible */
+.wlps-modal {
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bounce animation */
+@keyframes wlps-bounce-in {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.bounce-in {
+  animation: wlps-bounce-in 0.4s ease-out;
+}
+
 /*# sourceMappingURL=transfer-modal.css.map */

@@ -18,7 +18,13 @@ wlps = window.wlps || {};
     /** Open / Close Modal Functions **/
     wlps.openSharePointsModal = function (event) {
         if (event) event.preventDefault();
-        wlps_jquery('#wlps-share-points-modal').show();
+        const modal = wlps_jquery('#wlps-share-points-modal');
+        const modalContent = modal.find('.wlps-modal-content');
+
+        modal.css('display', 'flex');
+        modalContent.removeClass('bounce-in');
+        void modalContent[0].offsetWidth;
+        modalContent.addClass('bounce-in');
     };
 
     wlps.closeSharePointsModal = function () {

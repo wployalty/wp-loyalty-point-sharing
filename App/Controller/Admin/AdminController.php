@@ -5,7 +5,7 @@ namespace Wlps\App\Controller\Admin;
 use Wlps\App\Helpers\Input;
 use Wlps\App\Helpers\Pagination;
 use Wlps\App\Helpers\Validation;
-use Wlps\App\Helpers\WlpsUtil;
+use Wlps\App\Helpers\Util;
 
 class AdminController {
 	/**
@@ -13,7 +13,7 @@ class AdminController {
 	 *
 	 * This method adds a new menu item to the WordPress admin sidebar for managing
 	 * the Point Sharing functionality. The menu is only visible to users with
-	 * administrative privileges (checked via `WlpsUtil::hasAdminPrivilege()`).
+	 * administrative privileges (checked via `Util::hasAdminPrivilege()`).
 	 *
 	 * It uses the `add_menu_page()` function to create the top-level menu item,
 	 * which links to the main admin page rendered by the `renderMainPage()` method.
@@ -25,7 +25,7 @@ class AdminController {
 	 *
 	 */
 	public static function addMenu() {
-		if ( WlpsUtil::hasAdminPrivilege() ) {
+		if ( Util::hasAdminPrivilege() ) {
 			add_menu_page( __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), 'manage_woocommerce', WLPS_PLUGIN_SLUG, [
 				self::class,
 				'renderMainPage'
@@ -56,7 +56,7 @@ class AdminController {
 	 * It determines which view (tab) to render based on the `view` query parameter —
 	 * such as the Point Sharing activity view or the Settings page.
 	 *
-	 * It performs an admin privilege check using `WlpsUtil::hasAdminPrivilege()` to
+	 * It performs an admin privilege check using `Util::hasAdminPrivilege()` to
 	 * ensure only authorized users can access this page. If unauthorized, the request
 	 * terminates with a permission error message.
 	 *
@@ -70,7 +70,7 @@ class AdminController {
 	 */
 
 	public static function renderMainPage() {
-		if ( ! WlpsUtil::hasAdminPrivilege() ) {
+		if ( ! Util::hasAdminPrivilege() ) {
 			wp_die( esc_html__( "You don't have permission to access this page.", 'wp-loyalty-point-sharing' ) );
 		}
 
@@ -97,7 +97,7 @@ class AdminController {
 			$file_path = WLPS_VIEW_PATH . '/Admin/main.php';
 		}
 
-		return WlpsUtil::renderTemplate( $file_path, $params );
+		return Util::renderTemplate( $file_path, $params );
 	}
 
 	/**
@@ -175,7 +175,7 @@ class AdminController {
 
 
 		foreach ( $items as $item ) {
-			$item->created_at = isset( $item->created_at ) && $item->created_at > 0 ? WlpsUtil::beforeDisplayDate( $item->created_at ) : '';
+			$item->created_at = isset( $item->created_at ) && $item->created_at > 0 ? Util::beforeDisplayDate( $item->created_at ) : '';
 		}
 
 		// Pagination parameters
@@ -226,7 +226,7 @@ class AdminController {
 			$file_path = WLPS_VIEW_PATH . '/Admin/point-sharing.php';
 		}
 
-		return WlpsUtil::renderTemplate( $file_path, $page_details, false );
+		return Util::renderTemplate( $file_path, $page_details, false );
 	}
 
 	/**
@@ -267,7 +267,7 @@ class AdminController {
 		}
 
 
-		return WlpsUtil::renderTemplate( $file_path, $args, false );
+		return Util::renderTemplate( $file_path, $args, false );
 	}
 
 	/**
@@ -282,7 +282,7 @@ class AdminController {
 	public static function saveSettings() {
 		// Check admin privilege & nonce
 		$wlps_nonce = (string) Input::get( 'wlps_nonce', '', 'post' );
-		if ( ! WlpsUtil::hasAdminPrivilege() || ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-setting-nonce' ) ) {
+		if ( ! Util::hasAdminPrivilege() || ! Util::verify_nonce( $wlps_nonce, 'wlps-setting-nonce' ) ) {
 			wp_send_json_error( [
 				'message' => esc_html__( 'Settings not saved!', 'wp-loyalty-point-sharing' ),
 			] );
@@ -364,7 +364,7 @@ class AdminController {
 			'ajax_url'            => admin_url( 'admin-ajax.php' ),
 			'saving_button_label' => __( "Saving...", "wp-loyalty-point-sharing" ),
 			'saved_button_label'  => __( "Save Changes", "wp-loyalty-point-sharing" ),
-			'wlps_setting_nonce'  => WlpsUtil::create_nonce( 'wlps-setting-nonce' ),
+			'wlps_setting_nonce'  => Util::create_nonce( 'wlps-setting-nonce' ),
 		];
 		wp_localize_script( WLPS_PLUGIN_SLUG . '-admin', 'wlps_localize_data', $localize );
 	}

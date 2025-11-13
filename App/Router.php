@@ -5,12 +5,12 @@ namespace Wlps\App;
 use Wlps\App\Controller\Admin\AdminController;
 use Wlps\App\Controller\Common;
 use Wlps\App\Controller\PointTransferController;
-use Wlps\App\Controller\WlpsEmailManager;
+use Wlps\App\Controller\EmailManager;
 
 
 class Router {
 	public static function init() {
-		WlpsEmailManager::init();
+		EmailManager::init();
 
 		if ( is_admin() ) {
 			add_action( 'admin_menu', [ AdminController::class, 'addMenu' ], 10 );

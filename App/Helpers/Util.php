@@ -4,7 +4,7 @@ namespace Wlps\App\Helpers;
 
 use Wlr\App\Models\Users;
 
-class WlpsUtil {
+class Util {
 	public static $banned_user, $instance;
 
 	public static function hasAdminPrivilege() {

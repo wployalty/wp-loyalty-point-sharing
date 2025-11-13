@@ -4,7 +4,7 @@ namespace Wlps\App\Controller;
 
 use Wlps\App\Helpers\Input;
 use Wlps\App\Helpers\Validation;
-use Wlps\App\Helpers\WlpsUtil;
+use Wlps\App\Helpers\Util;
 use Wlps\App\Models\PointTransfers;
 use Wlr\App\Helpers\Base;
 
@@ -29,7 +29,7 @@ class PointTransferController {
 	 */
 	public static function transferPoints() {
 		$wlps_nonce = (string) Input::get( 'wlps_transfer_points_nonce', '', 'post' );
-		if ( ! WlpsUtil::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
+		if ( ! Util::verify_nonce( $wlps_nonce, 'wlps-transfer-points-nonce' ) ) {
 			wp_send_json_error( [
 				'message' => esc_html__( 'Cannot Transfer Points nonce verification failed', 'wp-loyalty-point-sharing' ),
 			] );
@@ -120,7 +120,7 @@ class PointTransferController {
 
 		}
 
-		if ( WlpsUtil::isBannedUser( $recipient_email ) ) {
+		if ( Util::isBannedUser( $recipient_email ) ) {
 			wp_send_json_error( [ 'message' => __( 'The recipient user is banned cannot transfer points.', 'wp-loyalty-point-sharing' ) ] );
 
 		}
@@ -302,7 +302,7 @@ class PointTransferController {
 	private static function validateSenderAndRecipient( $transfer, $transferModel ) {
 		$base_helper = new Base();
 
-		if ( WlpsUtil::isBannedUser( $transfer->sender_email ) ) {
+		if ( Util::isBannedUser( $transfer->sender_email ) ) {
 			$transferModel->updateStatus( $transfer->id, PointTransferController::FAILED, sprintf( __( 'Transfer failed: sender account is banned.', 'wp-loyalty-point-sharing' ) ) );
 
 			wc_add_notice( __( 'Your account is banned due to security concerns.', 'wp-loyalty-point-sharing' ), 'error' );
@@ -310,7 +310,7 @@ class PointTransferController {
 			return false;
 		}
 
-		if ( WlpsUtil::isBannedUser( $transfer->recipient_email ) ) {
+		if ( Util::isBannedUser( $transfer->recipient_email ) ) {
 			$transferModel->updateStatus( $transfer->id, PointTransferController::FAILED, sprintf( __( 'Transfer failed: recipient account is banned.', 'wp-loyalty-point-sharing' ) ) );
 
 			wc_add_notice( __( 'This user is banned due to security concerns.', 'wp-loyalty-point-sharing' ), 'error' );

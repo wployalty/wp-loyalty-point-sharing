@@ -38,7 +38,7 @@ defined( 'ABSPATH' ) or die;
                     <div class="wlps-field-block">
                         <div>
 							<?php $wlps_enable_share_point = isset( $options['enable_share_point'] ) && ! empty( $options['enable_share_point'] ) && ( $options['enable_share_point'] === 'yes' ) ?
-								$options['enable_share_point'] : \Wlps\App\Helpers\WlpsUtil::getDefaults( 'enable_share_point' ); ?>
+								$options['enable_share_point'] : \Wlps\App\Helpers\Util::getDefaults( 'enable_share_point' ); ?>
                             <input type="checkbox" id="wlps_enable_share_point" name="enable_share_point"
                                    value="<?php echo esc_attr( $wlps_enable_share_point ); ?>"
                                    onclick="wlps.enableSharePoint('wlps_enable_share_point');"
@@ -60,7 +60,7 @@ defined( 'ABSPATH' ) or die;
                             <div class="wlps_point_share_value_block">
                                 <div class="wlps-point-share-max-points">
                                     <div class="wlps-input-field">
-										<?php $wlps_max_transfer_points = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['max_transfer_points'] ) && ! empty( $options['max_transfer_points'] ) ? $options['max_transfer_points'] : \Wlps\App\Helpers\WlpsUtil::getDefaults( 'max_transfer_points' ) ?>
+										<?php $wlps_max_transfer_points = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['max_transfer_points'] ) && ! empty( $options['max_transfer_points'] ) ? $options['max_transfer_points'] : \Wlps\App\Helpers\Util::getDefaults( 'max_transfer_points' ) ?>
                                         <input type="number" min="0" name="max_transfer_points"
                                                class="wlps-point-share-max-points-value"
                                                value="<?php echo esc_attr( $wlps_max_transfer_points ); ?>"/>

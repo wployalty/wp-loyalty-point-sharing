@@ -2,7 +2,7 @@
 
 namespace Wlps\App\Controller;
 
-use Wlps\App\Helpers\WlpsUtil;
+use Wlps\App\Helpers\Util;
 use Wlr\App\Helpers\Base;
 use Wlr\App\Models\Users;
 
@@ -19,7 +19,7 @@ class Common {
 		$base_helper  = new Base();
 		$settings     = get_option( 'wlps_settings', [] );
 		$max_transfer = isset( $settings['max_transfer_points'] ) ? (int) $settings['max_transfer_points'] : 0;
-		$user_email   = WlpsUtil::getLoginUserEmail();
+		$user_email   = Util::getLoginUserEmail();
 		$user_points  = $base_helper->getUserPoint( $user_email );
 
 		// JS
@@ -36,7 +36,7 @@ class Common {
 			'saved_button_label'         => __( "Save Changes", "wp-loyalty-point-sharing" ),
 			'max_transfer_points'        => $max_transfer,
 			'available_user_points'      => $user_points,
-			'wlps_transfer_points_nonce' => WlpsUtil::create_nonce( "wlps-transfer-points-nonce" )
+			'wlps_transfer_points_nonce' => Util::create_nonce( "wlps-transfer-points-nonce" )
 		);
 
 		$wlps_translations = [

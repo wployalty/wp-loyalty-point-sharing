@@ -185,7 +185,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   margin: 20px 25px 5px 20px;
-  padding: 20px;
+  padding: 20px 20px 20px 0px;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
@@ -212,11 +212,15 @@
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row div p {
   font-size: 14px;
 }
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .record-id {
+  padding-right: 45px;
+}
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .sender-email {
   display: flex;
   flex-direction: column;
   word-break: break-word;
   text-align: initial;
+  padding-right: 30px;
 }
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .recipient-email {
   display: flex;

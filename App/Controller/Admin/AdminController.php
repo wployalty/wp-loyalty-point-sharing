@@ -122,14 +122,14 @@ class AdminController {
 
 		global $wpdb;
 
-		$search           = (string) Input::get( 'search', '' );
-		$search           = sanitize_text_field( $search );
-		$filter_order     = (string) Input::get( 'sort_order', 'id' );
-		$filter_order_dir = (string) Input::get( 'sort_order_dir', 'ASC' );
-		$status_sort      = (string) Input::get( 'status_sort', 'all' );
+		$search           = sanitize_text_field( (string) Input::get( 'search', '' ) );
+		$filter_order     = sanitize_key( (string) Input::get( 'sort_order', 'id' ) );
+		$filter_order_dir = strtoupper( (string) Input::get( 'sort_order_dir', 'ASC' ) );
+		$status_sort      = sanitize_key( (string) Input::get( 'status_sort', 'all' ) );
 		$per_page         = (int) Input::get( 'per_page', 10 );
 		$current_page     = (int) Input::get( 'page_number', 1 );
 		$offset           = $per_page * ( $current_page - 1 );
+		$table_name       = esc_sql( $wpdb->prefix . 'wlr_point_transfers' );
 		switch ( $status_sort ) {
 			case 'pending':
 				$where = $wpdb->prepare( "status = %s AND id > 0", [ 'pending' ] );
@@ -164,7 +164,6 @@ class AdminController {
 
 		$limit_offset = $wpdb->prepare( " LIMIT %d OFFSET %d", [ $per_page, $offset ] );
 
-		$table_name = esc_sql( $wpdb->prefix . 'wlr_point_transfers' );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$total_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE $where" );
@@ -194,31 +193,31 @@ class AdminController {
 		$pagination = new Pagination( $params );
 
 		$page_details = [
-			'items'            => $items,
-			'base_url'         => admin_url( 'admin.php?' . http_build_query( [
+			'items'               => $items,
+			'base_url'            => admin_url( 'admin.php?' . http_build_query( [
 					'page' => WLPS_PLUGIN_SLUG,
 					'view' => 'point_sharing',
 				] ) ),
-			'search'           => $search,
-			'filter_order'     => $filter_order,
-			'filter_order_dir' => $filter_order_dir,
-			'pagination'       => $pagination,
-			'per_page'         => $per_page,
-			'page_number'      => $current_page,
-			'app_url'          => admin_url( 'admin.php?' . http_build_query( [ 'page' => WLR_PLUGIN_SLUG ] ) ) . '#/apps',
-			'status_sort'      => $status_sort,
-			'filter_status'    => [
+			'search'              => $search,
+			'filter_order'        => $filter_order,
+			'filter_order_dir'    => $filter_order_dir,
+			'pagination'          => $pagination,
+			'per_page'            => $per_page,
+			'page_number'         => $current_page,
+			'app_url'             => admin_url( 'admin.php?' . http_build_query( [ 'page' => WLR_PLUGIN_SLUG ] ) ) . '#/apps',
+			'status_sort'         => $status_sort,
+			'filter_status'       => [
 				'all'       => __( 'All', 'wp-loyalty-point-sharing' ),
 				'pending'   => __( 'Pending', 'wp-loyalty-point-sharing' ),
 				'completed' => __( 'Completed', 'wp-loyalty-point-sharing' ),
 				'expired'   => __( 'Expired', 'wp-loyalty-point-sharing' ),
 				'failed'    => __( 'Failed', 'wp-loyalty-point-sharing' )
 			],
-			'no_points_yet'    => WLPS_PLUGIN_URL . 'Assets/svg/no_points_yet.svg',
-			'search_email'     => WLPS_PLUGIN_URL . 'Assets/svg/search.svg',
-			'back'             => WLPS_PLUGIN_URL . 'Assets/svg/back.svg',
-			'previous'         => WLPS_PLUGIN_URL . "Assets/svg/previous.svg",
-			'wp_date_format'   => get_option( 'date_format', 'Y-m-d H:i:s' ),
+			'no_transactions_yet' => WLPS_PLUGIN_URL . 'Assets/svg/no_points_yet.svg',
+			'search_email'        => WLPS_PLUGIN_URL . 'Assets/svg/search.svg',
+			'back'                => WLPS_PLUGIN_URL . 'Assets/svg/back.svg',
+			'previous'            => WLPS_PLUGIN_URL . "Assets/svg/previous.svg",
+			'wp_date_format'      => get_option( 'date_format', 'Y-m-d H:i:s' ),
 		];
 
 		$file_path = get_theme_file_path( 'wp-loyalty-point-sharing/Admin/point-sharing.php' );
@@ -250,6 +249,7 @@ class AdminController {
 			'previous'              => WLPS_PLUGIN_URL . "Assets/svg/previous.svg",
 			'options'               => $options ?? [],
 			'save'                  => WLPS_PLUGIN_URL . 'Assets/svg/save.svg',
+			'save_key'              => 'wlps_settings',
 			'manage_sender_email'   => admin_url( 'admin.php?' . http_build_query( [
 					'page'    => 'wc-settings',
 					'tab'     => 'email',
@@ -349,15 +349,18 @@ class AdminController {
 		}
 
 		$suffix = '.min';
-		wp_enqueue_style(
-			WLPS_PLUGIN_SLUG . '-admin-style',
-			WLPS_PLUGIN_URL . 'Assets/Admin/Css/wlps-admin.css',
-			[],
-			WLPS_PLUGIN_VERSION
-		);
-		wp_enqueue_script( WLPS_PLUGIN_SLUG . '-admin', WLPS_PLUGIN_URL . 'Assets/Admin/Js/wlps-admin.js', array( 'jquery' ), WLPS_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
+
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION );
+
+		wp_enqueue_style( WLPS_PLUGIN_SLUG . '-admin-style', WLPS_PLUGIN_URL . 'Assets/Admin/Css/wlps-admin.css', [], WLPS_PLUGIN_VERSION );
+
 		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
+
+		wp_enqueue_script( WLPS_PLUGIN_SLUG . '-admin', WLPS_PLUGIN_URL . 'Assets/Admin/Js/wlps-admin.js', [
+			'jquery',
+			WLR_PLUGIN_SLUG . '-alertify'
+		], WLPS_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
+
 		$localize = [
 			'home_url'            => get_home_url(),
 			'admin_url'           => admin_url(),

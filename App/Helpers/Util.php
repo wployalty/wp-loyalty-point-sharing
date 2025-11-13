@@ -158,6 +158,7 @@ class Util {
 		$defaults = [
 			'max_transfer_points' => 10,
 			'enable_share_points' => 'no',
+			'save_key'            => 'wlps_settings',
 		];
 		if ( $key == null ) {
 			return $defaults;

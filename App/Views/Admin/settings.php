@@ -89,7 +89,7 @@ defined( 'ABSPATH' ) or die;
                     </div>
                     <input type="hidden" name="action" value="wlps_save_settings">
                     <input type="hidden" name="option_key"
-                           value="<?php echo ! empty( $save_key ) ? esc_attr( $save_key ) : 'wlps_settings' ?>">
+                           value="<?php echo ! empty( $save_key ) ? esc_attr( $save_key ) : \Wlps\App\Helpers\Util::getDefaults( 'save_key' ); ?>">
                 </div>
             </div>
         </form>

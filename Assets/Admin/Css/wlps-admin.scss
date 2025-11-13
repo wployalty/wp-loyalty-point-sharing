@@ -218,7 +218,7 @@ $border-color: #E7E7EF;
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         margin: 20px 25px 5px 20px;
-        padding: 20px;
+        padding: 20px 20px 20px 0px;
         font: {
           weight: 500;
           size: 12px;
@@ -250,11 +250,16 @@ $border-color: #E7E7EF;
           font-size: 14px;
         }
 
+        .record-id {
+          padding-right: 45px;
+        }
+
         .sender-email {
           display: flex;
           flex-direction: column;
           word-break: break-word;
           text-align: initial;
+          padding-right: 30px;
         }
 
         .recipient-email {

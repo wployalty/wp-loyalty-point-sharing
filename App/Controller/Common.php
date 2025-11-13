@@ -18,16 +18,18 @@ class Common {
 	public static function addFrontendAssets() {
 		$base_helper  = new Base();
 		$settings     = get_option( 'wlps_settings', [] );
-		$max_transfer = isset( $settings['max_transfer_points'] ) ? (int) $settings['max_transfer_points'] : 0;
+		$max_transfer = isset( $settings['max_transfer_points'] ) ? (int) $settings['max_transfer_points'] : Util::getDefaults( 'max_transfer_points' );
 		$user_email   = Util::getLoginUserEmail();
 		$user_points  = $base_helper->getUserPoint( $user_email );
+		$suffix       = '.min';
 
-		// JS
-		wp_enqueue_script( WLPS_PLUGIN_SLUG . '-frontend', WLPS_PLUGIN_URL . 'Assets/Site/Js/transfer-modal.js', array( 'jquery' ), WLPS_PLUGIN_VERSION . '&t=', true );
-		$suffix = '.min';
-		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', array(), WLR_PLUGIN_VERSION );
-		wp_enqueue_style( WLPS_PLUGIN_SLUG . '-frontend', WLPS_PLUGIN_URL . 'Assets/Site/Css/transfer-modal.css', array(), WLPS_PLUGIN_VERSION );
-		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', array(), WLR_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
+		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION );
+		wp_enqueue_style( WLPS_PLUGIN_SLUG . '-frontend', WLPS_PLUGIN_URL . 'Assets/Site/Css/transfer-modal.css', [], WLPS_PLUGIN_VERSION );
+		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . '&t=' . strtotime( gmdate( "Y-m-d H:i:s" ) ), true );
+		wp_enqueue_script( WLPS_PLUGIN_SLUG . '-frontend', WLPS_PLUGIN_URL . 'Assets/Site/Js/transfer-modal.js', [
+			'jquery',
+			WLR_PLUGIN_SLUG . '-alertify'
+		], WLPS_PLUGIN_VERSION . '&t=', true );
 		$localize = array(
 			'home_url'                   => get_home_url(),
 			'admin_url'                  => admin_url(),
@@ -88,15 +90,14 @@ class Common {
 	 *
 	 * @param array $emailIds Existing array of email IDs registered in WooCommerce or the plugin.
 	 *
-	 * @return array|false|string
+	 * @return string|null The rendered modal HTML string, or null if not applicable.
 	 * @since 1.0.0
 	 *
 	 */
 	public static function renderSharePointModal() {
 		$settings               = get_option( 'wlps_settings', [] );
 		$is_share_point_enabled = ! empty( $settings['enable_share_point'] );
-		$user                   = wp_get_current_user();
-		$user_email             = $user->user_email;
+		$user_email             = Util::getLoginUserEmail();
 		$loyalty_user           = self::getLoyaltyUser( $user_email );
 		$user_points            = $loyalty_user->points;
 		if ( $is_share_point_enabled && $user_points > 0 ) {

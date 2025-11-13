@@ -60,16 +60,16 @@ $wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $w
             <input type="hidden" name="page" value="<?php echo esc_attr( WLPS_PLUGIN_SLUG ); ?>"/>
             <input type="hidden" name="view" value="expire_points"/>
             <input type="hidden" name="sort_order" id="user_point_share_filter_order"
-                   value="<?php echo isset( $filter_order ) ? esc_attr( $filter_order ) : 'id'; ?>"/>
+                   value="<?php echo isset( $filter_order ); ?>"/>
             <input type="hidden" name="sort_order_dir" id="user_point_share_filter_order_dir"
-                   value="<?php echo isset( $filter_order_dir ) ? esc_attr( $filter_order_dir ) : 'ASC'; ?>"/>
+                   value="<?php echo isset( $filter_order_dir ); ?>"/>
         </form>
 		<?php if ( empty( $items ) ):
-			$wlps_no_points_yet = ( isset( $no_points_yet ) && ! empty( $no_points_yet ) ) ? $no_points_yet : '';
+			$wlps_no_transactions_yet = ( isset( $no_transactions_yet ) && ! empty( $no_transactions_yet ) ) ? $no_transactions_yet : '';
 			?>
             <div class="wlps-no-points">
                 <div>
-                    <img src="<?php echo esc_url( $wlps_no_points_yet ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                    <img src="<?php echo esc_url( $wlps_no_transactions_yet ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 					?>" alt="">
                 </div>
                 <div class="no-points-label">
@@ -89,27 +89,27 @@ $wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $w
 
                 <div class="wlps-body-data">
 					<?php if ( isset( $items ) && ! empty( $items ) && is_array( $items ) ): ?>
-						<?php foreach ( $items as $item ):// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound  ?>
+						<?php foreach ( $items as $wlps_item ): ?>
                             <div class="wlps-data-row">
                                 <div class="record-id">
-                                    <p><?php echo ! empty( $item->id ) ? intval( $item->id ) : '-'; ?></p>
+                                    <p><?php echo ! empty( $wlps_item->id ) ? intval( $wlps_item->id ) : '-'; ?></p>
                                 </div>
                                 <div class="sender-email">
-                                    <p><?php echo ! empty( $item->sender_email ) ? esc_html( $item->sender_email ) : '-'; ?></p>
+                                    <p><?php echo ! empty( $wlps_item->sender_email ) ? esc_html( $wlps_item->sender_email ) : '-'; ?></p>
                                 </div>
                                 <div class="recipient-email">
-                                    <p><?php echo ! empty( $item->recipient_email ) ? esc_html( $item->recipient_email ) : '-'; ?></p>
+                                    <p><?php echo ! empty( $wlps_item->recipient_email ) ? esc_html( $wlps_item->recipient_email ) : '-'; ?></p>
                                 </div>
                                 <div class="points-shared">
-                                    <p><?php echo ! empty( $item->points ) ? intval( $item->points ) : '0'; ?></p>
+                                    <p><?php echo ! empty( $wlps_item->points ) ? intval( $wlps_item->points ) : '0'; ?></p>
                                 </div>
                                 <div class="point-status">
-                                    <p class="<?php echo esc_attr( $item->status ?? '' ); ?>">
-										<?php echo ! empty( $item->status ) ? esc_html( ucfirst( $item->status ) ) : '-'; ?>
+                                    <p class="<?php echo esc_attr( $wlps_item->status ?? '' ); ?>">
+										<?php echo ! empty( $wlps_item->status ) ? esc_html( ucfirst( $wlps_item->status ) ) : '-'; ?>
                                     </p>
                                 </div>
                                 <div class="created-at">
-                                    <p><?php echo ! empty( $item->created_at ) ? esc_html( $item->created_at ) : '-'; ?></p>
+                                    <p><?php echo ! empty( $wlps_item->created_at ) ? esc_html( $wlps_item->created_at ) : '-'; ?></p>
                                 </div>
                             </div>
 						<?php endforeach; ?>

@@ -55,13 +55,6 @@ class PointTransferSenderEmail extends \WC_Email {
 		return __( 'Confirm sending {wlr_transfer_points} {wlr_points_label} to {wlr_recipient_name}', 'wp-loyalty-point-sharing' );
 	}
 
-	public function get_subject() {
-		$subject = $this->get_option( 'subject', $this->get_default_subject() );
-
-		// This is a core WooCommerce filter. Ignore PHPCS for prefix rule.
-		return apply_filters( 'woocommerce_email_subject_' . $this->id, $this->format_string( $subject ), $this->object, $this );// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-	}
-
 	/**
 	 * Trigger this email
 	 */
@@ -123,7 +116,6 @@ class PointTransferSenderEmail extends \WC_Email {
 			$log_data['customer_note'] = sprintf( __( 'Point transfer email sent successfully', 'wp-loyalty-point-sharing' ) );
 		}
 
-		$reward_helper = Rewards::getInstance();
 		$reward_helper->add_note( $log_data );
 	}
 

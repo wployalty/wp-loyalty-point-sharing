@@ -29,8 +29,9 @@ add_action( 'before_woocommerce_init', function () {
 		FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__ );
 	}
 } );
-if ( ! function_exists( 'wlps_is_woocommerce_active' ) ) {
-	function wlps_is_woocommerce_active() {
+if ( ! function_exists( 'isWLPSWoocommerceActive' ) ) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+	function isWLPSWoocommerceActive() {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
@@ -55,7 +56,7 @@ if ( ! function_exists( 'isWLPSLoyaltyActive' ) ) {
 	}
 }
 
-if ( ! wlps_is_woocommerce_active() || ! isWLPSLoyaltyActive() ) {
+if ( ! isWLPSWoocommerceActive() || ! isWLPSLoyaltyActive() ) {
 	return;
 }
 

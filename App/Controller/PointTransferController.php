@@ -71,6 +71,13 @@ class PointTransferController {
 		wp_send_json_success( [ 'message' => __( 'Confirmation email sent. Please check your inbox.', 'wp-loyalty-point-sharing' ) ] );
 	}
 
+	/**
+	 * Validate Rate limit allows only certain request per minute for an ip+email.
+	 *
+	 * @param $sender
+	 * return bool
+	 */
+
 	public static function validateRateLimit( $sender ): bool {
 		$ip           = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) );
 		$email        = $sender->user_email;

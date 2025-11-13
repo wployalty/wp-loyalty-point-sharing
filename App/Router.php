@@ -14,7 +14,7 @@ class Router {
 
 		if ( is_admin() ) {
 			add_action( 'admin_menu', [ AdminController::class, 'addMenu' ], 10 );
-//			add_action( 'admin_footer', [ AdminController::class, 'hideMenu' ] );
+			add_action( 'admin_footer', [ AdminController::class, 'hideMenu' ] );
 			add_action( "admin_enqueue_scripts", [ AdminController::class, 'addAssets' ] );
 			add_filter( "wlr_allowed_email_ids", [ Common::class, 'addEmailId' ] );
 			if ( wp_doing_ajax() ) {

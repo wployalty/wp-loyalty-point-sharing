@@ -88,7 +88,7 @@ class Common {
 	 *
 	 * @param array $emailIds Existing array of email IDs registered in WooCommerce or the plugin.
 	 *
-	 * @return array The merged array containing both existing and point transfer-related email IDs.
+	 * @return array|false|string
 	 * @since 1.0.0
 	 *
 	 */
@@ -109,7 +109,7 @@ class Common {
 			}
 
 			if ( file_exists( $file_path ) ) {
-				include $file_path;
+				return Util::renderTemplate( $file_path );
 			}
 		}
 	}

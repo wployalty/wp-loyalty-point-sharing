@@ -305,7 +305,7 @@ class AdminController {
 		}
 
 		// Validate settings tab
-		$validate_data = Validation::validateSettingsTab( $data ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$validate_data = Validation::validateSettingsTab( $data );
 		if ( is_array( $validate_data ) && ! empty( $validate_data ) ) {
 			$first_field_errors  = reset( $validate_data );
 			$first_error_message = current( $first_field_errors );

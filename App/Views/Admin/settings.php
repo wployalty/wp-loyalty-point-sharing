@@ -37,12 +37,12 @@ defined( 'ABSPATH' ) or die;
                 <div class="wlps-settings-body-content">
                     <div class="wlps-field-block">
                         <div>
-							<?php $enable_share_point = isset( $options['enable_share_point'] ) && ! empty( $options['enable_share_point'] ) && ( $options['enable_share_point'] === 'yes' ) ?
+							<?php $wlps_enable_share_point = isset( $options['enable_share_point'] ) && ! empty( $options['enable_share_point'] ) && ( $options['enable_share_point'] === 'yes' ) ?
 								$options['enable_share_point'] : \Wlps\App\Helpers\WlpsUtil::getDefaults( 'enable_share_point' ); ?>
                             <input type="checkbox" id="wlps_enable_share_point" name="enable_share_point"
-                                   value="<?php echo esc_attr( $enable_share_point ); ?>"
+                                   value="<?php echo esc_attr( $wlps_enable_share_point ); ?>"
                                    onclick="wlps.enableSharePoint('wlps_enable_share_point');"
-								<?php echo ( $enable_share_point === 'yes' ) ? 'checked="checked"' : ''; ?>><label
+								<?php echo ( $wlps_enable_share_point === 'yes' ) ? 'checked="checked"' : ''; ?>><label
                                     class="wlps-enable-share-point-label"
                                     for="wlps_enable_share_point"><?php esc_html_e( 'Enable Points Sharing feature ?', 'wp-loyalty-point-sharing' ); ?></label>
                         </div>
@@ -60,10 +60,10 @@ defined( 'ABSPATH' ) or die;
                             <div class="wlps_point_share_value_block">
                                 <div class="wlps-point-share-max-points">
                                     <div class="wlps-input-field">
-										<?php $max_transfer_points = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['max_transfer_points'] ) && ! empty( $options['max_transfer_points'] ) ? $options['max_transfer_points'] : \Wlps\App\Helpers\WlpsUtil::getDefaults( 'max_transfer_points' ) ?>
+										<?php $wlps_max_transfer_points = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['max_transfer_points'] ) && ! empty( $options['max_transfer_points'] ) ? $options['max_transfer_points'] : \Wlps\App\Helpers\WlpsUtil::getDefaults( 'max_transfer_points' ) ?>
                                         <input type="number" min="0" name="max_transfer_points"
                                                class="wlps-point-share-max-points-value"
-                                               value="<?php echo esc_attr( $max_transfer_points ); ?>"/>
+                                               value="<?php echo esc_attr( $wlps_max_transfer_points ); ?>"/>
                                     </div>
                                 </div>
                             </div>

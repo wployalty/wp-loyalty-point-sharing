@@ -160,14 +160,13 @@ class AdminController {
 		// Sorting
 		$order_by_sql = sanitize_sql_orderby( "$filter_order $filter_order_dir" );
 		$order_by     = ! empty( $order_by_sql ) ? " ORDER BY $order_by_sql" : '';
-		$limit        = absint( $per_page );
-		$offset       = absint( $offset );
-		$limit_offset = $wpdb->prepare( 'LIMIT %d OFFSET %d', $limit, $offset );
+
+		$limit_offset = $wpdb->prepare( " LIMIT %d OFFSET %d", [ $per_page, $offset ] );
 
 		$table_name = esc_sql( $wpdb->prefix . 'wlr_point_transfers' );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$total_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE $where" );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$total_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE $where" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$items = $wpdb->get_results( "SELECT * FROM $table_name WHERE $where $order_by $limit_offset" );

@@ -1,7 +1,7 @@
 <!-- Share Points Button -->
-<?php $theme_color = \Wlr\App\Helpers\Settings::get( 'theme_color', '#4F47EB' ); ?>
+<?php $wlps_theme_color = \Wlr\App\Helpers\Settings::get( 'theme_color', '#4F47EB' ); ?>
 <a href="#" id="wlps-open-share-modal" class="wlps-open-share"
-   style="text-decoration: none; font-weight: bold; color: <?php echo esc_attr( $theme_color ); ?>; margin-left: 10px"
+   style="text-decoration: none; font-weight: bold; color: <?php echo esc_attr( $wlps_theme_color ); ?>; margin-left: 10px"
    onclick="wlps.openSharePointsModal(event);">
 	<?php esc_html_e( 'Share Points', 'wp-loyalty-point-sharing' ); ?>
 </a>

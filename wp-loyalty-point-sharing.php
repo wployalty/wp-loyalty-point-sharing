@@ -31,7 +31,7 @@ add_action( 'before_woocommerce_init', function () {
 } );
 if ( ! function_exists( 'wlps_is_woocommerce_active' ) ) {
 	function wlps_is_woocommerce_active() {
-		// This is a core WordPress filter. Ignore PHPCS here.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
@@ -42,8 +42,9 @@ if ( ! function_exists( 'wlps_is_woocommerce_active' ) ) {
 }
 
 if ( ! function_exists( 'isWLPSLoyaltyActive' ) ) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	function isWLPSLoyaltyActive() {
-		// This is a core WordPress filter. Ignore PHPCS here.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );

@@ -38,7 +38,7 @@ class PointTransferSenderEmail extends \WC_Email {
 			'{wlr_referral_url}'    => 'http:example.com',
 			'{wlr_user_points}'     => 0,
 		] );
-		add_action( 'wlr_send_point_transfer_sender_email', [ $this, 'trigger' ], 10, 2 );
+		add_action( 'wlps_send_point_transfer_sender_email', [ $this, 'trigger' ], 10, 2 );
 		parent::__construct();
 
 		$this->heading    = $this->get_option( 'heading', $this->get_default_heading() );

@@ -75,6 +75,7 @@ class WlpsUtil {
 		}
 		$user    = get_user_by( 'email', $user_email );
 		$user_id = isset( $user->ID ) && ! empty( $user->ID ) ? $user->ID : 0;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		if ( ! apply_filters( 'wlr_before_add_to_loyalty_customer', true,
 			$user_id, $user_email ) ) {
 			return true;
@@ -102,6 +103,7 @@ class WlpsUtil {
 		}
 
 		$converted_time = self::convert_utc_to_wp_time( gmdate( 'Y-m-d H:i:s', $date ), $format );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		if ( apply_filters( 'wlr_translate_display_date', true ) ) {
 			$datetime = \DateTime::createFromFormat( $format, $converted_time );
 			if ( $datetime !== false ) {

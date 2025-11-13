@@ -95,7 +95,7 @@ class PointTransferSenderEmail extends \WC_Email {
 			'{wlr_account_link}'    => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
 			'{wlr_referral_url}'    => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_shop_url}'        => get_permalink( wc_get_page_id( 'shop' ) ),
-			// This is a core WooCommerce filter. Ignore PHPCS for prefix rule.
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			'{wlr_store_name}'      => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_points_label}'    => $point_label,
 			'{wlr_confirm_link}'    => $confirm_link,

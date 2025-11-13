@@ -6,14 +6,12 @@
  * */
 
 defined( 'ABSPATH' ) or die;
-$wlps_base_url = isset( $base_url ) ? $base_url : '';
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-$wlr_app_url       = isset( $app_url ) ? $app_url : '#';
+$wlps_base_url     = isset( $base_url ) ? $base_url : '';
+$wlr_app_url       = isset( $app_url ) ? $app_url : '#'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $wlps_back         = ( isset( $back ) && ! empty( $back ) ) ? $back : '';
 $wlps_search       = isset( $search ) && ! empty( $search ) ? $search : '';
 $wlps_search_email = ( isset( $search_email ) && ! empty( $search_email ) ) ? $search_email : '';
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-$wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_date_format : 'Y-m-d';
+$wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_date_format : 'Y-m-d'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 ?>
 
 <div id="wlps-point-sharing">
@@ -67,15 +65,15 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                    value="<?php echo isset( $filter_order_dir ) ? esc_attr( $filter_order_dir ) : 'ASC'; ?>"/>
         </form>
 		<?php if ( empty( $items ) ):
-			$no_points_yet = ( isset( $no_points_yet ) && ! empty( $no_points_yet ) ) ? $no_points_yet : '';
+			$wlps_no_points_yet = ( isset( $no_points_yet ) && ! empty( $no_points_yet ) ) ? $no_points_yet : '';
 			?>
             <div class="wlps-no-points">
                 <div>
-                    <img src="<?php echo esc_url( $no_points_yet ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                    <img src="<?php echo esc_url( $wlps_no_points_yet ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 					?>" alt="">
                 </div>
                 <div class="no-points-label">
-					<?php esc_html_e( 'No transactions yet. You will see points and their expiry here after you have enabled this feature.', 'wp-loyalty-point-sharing' ) ?>
+					<?php esc_html_e( 'No transactions yet. You will see points and their transactions here after you have enabled this feature.', 'wp-loyalty-point-sharing' ) ?>
                 </div>
             </div>
 		<?php else: ?>
@@ -91,7 +89,7 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
 
                 <div class="wlps-body-data">
 					<?php if ( isset( $items ) && ! empty( $items ) && is_array( $items ) ): ?>
-						<?php foreach ( $items as $item ): ?>
+						<?php foreach ( $items as $item ):// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound  ?>
                             <div class="wlps-data-row">
                                 <div class="record-id">
                                     <p><?php echo ! empty( $item->id ) ? intval( $item->id ) : '-'; ?></p>

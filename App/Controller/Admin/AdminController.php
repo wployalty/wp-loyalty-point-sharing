@@ -157,7 +157,8 @@ class AdminController {
 			] );
 		}
 
-		// Sorting
+
+		// Sorting - sanitize_sql_orderby returns false if invalid, otherwise sanitized string
 		$order_by_sql = sanitize_sql_orderby( "$filter_order $filter_order_dir" );
 		$order_by     = ! empty( $order_by_sql ) ? " ORDER BY $order_by_sql" : '';
 
@@ -166,9 +167,10 @@ class AdminController {
 		$table_name = esc_sql( $wpdb->prefix . 'wlr_point_transfers' );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$total_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE $where" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$total_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE $where" );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// $order_by is sanitized via sanitize_sql_orderby() which validates and escapes the ORDER BY clause
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 		$items = $wpdb->get_results( "SELECT * FROM $table_name WHERE $where $order_by $limit_offset" );
 
 

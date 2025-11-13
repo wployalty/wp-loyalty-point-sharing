@@ -24,7 +24,8 @@ class PointTransferReceiverEmail extends WC_Email {
 		$this->template_plain = 'emails/plain/point-transfer-receiver.php';
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
 		$this->template_path  = 'wp-loyalty-point-sharing/';
-		$this->placeholders   = apply_filters( $this->id . "_short_codes_list", [
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
+		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
 			'{site_title}'          => get_bloginfo( 'name' ),
 			'{site_address}'        => 'localhost',
 			'{wlr_shop_url}'        => 'https://example.com',
@@ -59,6 +60,7 @@ class PointTransferReceiverEmail extends WC_Email {
 	public function get_subject() {
 		$subject = $this->get_option( 'subject', $this->get_default_subject() );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		return apply_filters( 'woocommerce_email_subject_' . $this->id, $this->format_string( $subject ), $this->object, $this );
 	}
 
@@ -90,6 +92,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{wlr_recipient_email}' => $recipient_email,
 			'{wlr_referral_url}'    => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_sender_name}'     => $this->getUserDisplayName( $sender_email ),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			'{wlr_store_name}'      => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_transfer_points}' => $points_amount,
 			'{wlr_account_link}'    => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),

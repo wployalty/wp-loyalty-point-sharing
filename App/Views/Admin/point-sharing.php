@@ -61,13 +61,13 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                 </div>
             </div>
             <input type="hidden" name="status_sort"
-                   value="<?php echo isset( $status_sort ) ? esc_attr( $status_sort ) : 'all'; ?>"/>
+                   value="<?php echo isset( $status_sort ) ? esc_attr( $status_sort ) : \Wlps\App\Helpers\Util::getDefaults( 'all' ); ?>"/>
             <input type="hidden" name="page" value="<?php echo esc_attr( WLPS_PLUGIN_SLUG ); ?>"/>
             <input type="hidden" name="view" value="expire_points"/>
             <input type="hidden" name="sort_order" id="user_point_share_filter_order"
-                   value="<?php echo isset( $filter_order ) ? esc_attr( $filter_order ) : ''; ?>"/>
+                   value="<?php echo isset( $filter_order ) ? esc_attr( $filter_order ) : \Wlps\App\Helpers\Util::getDefaults( 'filter_order' ); ?>"/>
             <input type="hidden" name="sort_order_dir" id="user_point_share_filter_order_dir"
-                   value="<?php echo isset( $filter_order_dir ) ? esc_attr( $filter_order_dir ) : ''; ?>"/>
+                   value="<?php echo isset( $filter_order_dir ) ? esc_attr( $filter_order_dir ) : \Wlps\App\Helpers\Util::getDefaults( 'filter_order_dir' ); ?>"/>
         </form>
 		<?php if ( empty( $items ) ):
 			$wlps_no_transactions_yet = ( isset( $no_transactions_yet ) && ! empty( $no_transactions_yet ) )

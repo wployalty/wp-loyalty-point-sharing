@@ -1,5 +1,5 @@
 if (typeof wlps_jquery === 'undefined') {
-    var wlps_jquery = jQuery.noConflict();
+    wlps_jquery = jQuery.noConflict();
 }
 wlps = window.wlps || {};
 (function (wlps) {

@@ -6,7 +6,7 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-$wc_email->email_header( $email_heading );
+Wc_Emails::instance()->email_header( $email_heading );
 ?>
 
 <p>
@@ -38,5 +38,5 @@ if ( $additional_content ) {
 	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
 
-$wc_email->email_footer();
+Wc_Emails::instance()->email_footer();
 ?>

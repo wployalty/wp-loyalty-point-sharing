@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * Rendered via WooCommerce email system with default WooCommerce styles.
  */
 
-$wc_email->email_header( $email_heading );
+Wc_Emails::instance()->email_header( $email_heading );
 ?>
 
 <p><?php esc_html_e( "Hi {wlr_sender_name}", 'wp-loyalty-point-sharing' ); ?>,</p>
@@ -42,5 +42,5 @@ if ( $additional_content ) {
 	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
 
-$wc_email->email_footer();
+WC_Emails::instance()->email_footer();
 ?>

@@ -322,7 +322,6 @@ class AdminController {
 		$updated = update_option( $key, $data, true );
 
 		if ( $updated !== false || get_option( $key ) === $data ) {
-			do_action( 'wlps_after_save_settings', $data, $key );
 
 			wp_send_json_success( [
 				'message' => esc_html__( 'Settings saved successfully!', 'wp-loyalty-point-sharing' ),

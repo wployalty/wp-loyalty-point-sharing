@@ -98,7 +98,7 @@ class PointTransferSenderEmail extends \WC_Email {
 		$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );
 		$log_data   = [
 			'user_email'          => $transfer->sender_email,
-			'action_type'         => 'point_transfer',
+			'action_type'         => 'point_transfer_email',
 			'points'              => (int) $transfer->points,
 			'action_process_type' => 'email_notification',
 			'created_at'          => $created_at,

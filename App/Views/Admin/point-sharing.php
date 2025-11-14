@@ -6,12 +6,14 @@
  * */
 
 defined( 'ABSPATH' ) or die;
-$wlps_base_url     = isset( $base_url ) ? $base_url : '';
-$wlr_app_url       = isset( $app_url ) ? $app_url : '#'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$wlps_base_url = isset( $base_url ) ? $base_url : '';
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$wlr_app_url       = isset( $app_url ) ? $app_url : '#';
 $wlps_back         = ( isset( $back ) && ! empty( $back ) ) ? $back : '';
 $wlps_search       = isset( $search ) && ! empty( $search ) ? $search : '';
 $wlps_search_email = ( isset( $search_email ) && ! empty( $search_email ) ) ? $search_email : '';
-$wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_date_format : 'Y-m-d'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_date_format : 'Y-m-d';
 ?>
 
 <div id="wlps-point-sharing">
@@ -26,7 +28,8 @@ $wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $w
                     <div class="wlps-back-to-apps">
                         <a class="button" target="_self"
                            href="<?php echo esc_url( $wlr_app_url ); ?>">
-                            <img src="<?php echo esc_url( $wlps_back ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage?>"
+							<?php //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+                            <img src="<?php echo esc_url( $wlps_back ); ?>"
                                  alt="<?php esc_attr_e( "Back", "wp-loyalty-point-sharing" ); ?>">
 							<?php esc_html_e( 'Back to WPLoyalty', 'wp-loyalty-point-sharing' ); ?></a>
                     </div>
@@ -36,7 +39,8 @@ $wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $w
                                value="<?php echo esc_attr( $wlps_search ); ?>"/>
                         <a onclick="wlps_jquery('#manage_customer_point_sharing_form').submit();"
                            class="wlps-email-search">
-                            <img src="<?php echo esc_url( $wlps_search_email ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage?>"
+							<?php //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+                            <img src="<?php echo esc_url( $wlps_search_email ); ?>"
                                  alt="search">
                         </a>
                     </div>
@@ -47,7 +51,8 @@ $wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $w
                                     <button
                                             type="button" <?php echo $wlps_key === $status_sort ? 'class="active-filter"' : '' ?>
                                             onclick="wlps.filterPoints('#wlps-main #manage_customer_point_sharing_form','<?php echo esc_js( $wlps_key ); ?>')"
-                                            value="<?php echo esc_attr( $wlps_key ); ?>"><?php esc_html_e( $status, 'wp-loyalty-point-sharing' ) //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
+										<?php //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
+                                            value="<?php echo esc_attr( $wlps_key ); ?>"><?php esc_html_e( $status, 'wp-loyalty-point-sharing' ) ?>
                                     </button>
                                 </div>
 							<?php endforeach; ?>
@@ -71,7 +76,9 @@ $wp_date_format    = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $w
 			?>
             <div class="wlps-no-points">
                 <div>
-                    <img src="<?php echo esc_url( $wlps_no_transactions_yet ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+					<?php //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+					?>
+                    <img src="<?php echo esc_url( $wlps_no_transactions_yet );
 					?>" alt="">
                 </div>
                 <div class="no-points-label">

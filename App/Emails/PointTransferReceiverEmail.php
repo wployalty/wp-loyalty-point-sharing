@@ -3,6 +3,7 @@
 namespace Wlps\App\Emails;
 
 use WC_Email;
+use WC_Emails;
 use Wlr\App\Emails\Traits\Common;
 use Wlr\App\Helpers\Rewards;
 
@@ -175,6 +176,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this,
+			'wc_email'           => Wc_Emails::instance()
 		], $this->template_path, $this->template_base ) );
 	}
 

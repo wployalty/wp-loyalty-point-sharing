@@ -7,8 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * Rendered via WooCommerce email system with default WooCommerce styles.
  */
 
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-do_action( 'woocommerce_email_header', $email_heading, $email );
+$wc_email->email_header( $email_heading );
 ?>
 
 <p><?php esc_html_e( "Hi {wlr_sender_name}", 'wp-loyalty-point-sharing' ); ?>,</p>
@@ -42,6 +41,6 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 if ( $additional_content ) {
 	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-do_action( 'woocommerce_email_footer', $email );
+
+$wc_email->email_footer();
 ?>

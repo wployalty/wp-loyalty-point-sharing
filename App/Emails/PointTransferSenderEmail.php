@@ -165,6 +165,7 @@ class PointTransferSenderEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this,
+			'wc_email'           => \WC_Emails::instance(),
 		], $this->template_path, $this->template_base ) );
 	}
 

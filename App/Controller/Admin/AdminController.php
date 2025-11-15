@@ -25,12 +25,12 @@ class AdminController {
 	 *
 	 */
 	public static function addMenu() {
-		if ( Util::hasAdminPrivilege() ) {
-			add_menu_page( __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), 'manage_woocommerce', WLPS_PLUGIN_SLUG, [
-				self::class,
-				'renderMainPage'
-			], 'dashicons-megaphone', 58 );
-		}
+//		if ( Util::hasAdminPrivilege() ) {
+//			add_menu_page( __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), __( 'WPLoyalty: Point Sharing', 'wp-loyalty-point-sharing' ), 'manage_woocommerce', WLPS_PLUGIN_SLUG, [
+//				self::class,
+//				'renderMainPage'
+//			], 'dashicons-megaphone', 58 );
+//		}
 	}
 
 	/**

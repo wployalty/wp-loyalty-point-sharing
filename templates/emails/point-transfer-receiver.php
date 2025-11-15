@@ -7,7 +7,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-do_action( 'woocommerce_email_header', $email_heading, $email );
+WC_Emails::instance()->email_header($email_heading);
 ?>
 
 <p>
@@ -39,5 +39,5 @@ if ( $additional_content ) {
 	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-do_action( 'woocommerce_email_footer', $email );
+WC_Emails::instance()->email_footer();
 ?>

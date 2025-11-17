@@ -12,6 +12,7 @@ class EmailManager {
 	}
 
 	public static function addEmailClass( $emails ) {
+		require_once plugin_dir_path( WC_PLUGIN_FILE ) . 'includes/emails/class-wc-email.php';
 		if ( class_exists( 'Wlps\App\Emails\PointTransferSenderEmail' ) ) {
 			$emails['WlpsSenderEmail'] = new PointTransferSenderEmail();
 		}

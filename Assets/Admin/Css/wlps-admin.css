@@ -183,7 +183,7 @@
 }
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-body-header {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 0.5fr 1fr 1fr 0.8fr 0.8fr 1fr;
   margin: 20px 25px 5px 20px;
   padding: 20px 20px 20px 0px;
   font-weight: 500;
@@ -195,6 +195,11 @@
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-body-header div {
   text-align: center;
 }
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-body-header .wlps-sender-email,
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-body-header .wlps-recipient-email {
+  text-align: left;
+  padding-left: 20px;
+}
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row {
   background: #FFFFFF;
   border: 1px solid #E7E7EF;
@@ -203,7 +208,7 @@
   height: auto;
   padding: 10px 20px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 0.5fr 1fr 1fr 0.8fr 0.8fr 1fr;
   margin: 10px 25px;
   color: #161F31;
   grid-gap: 2px;
@@ -215,18 +220,12 @@
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .record-id {
   padding-right: 45px;
 }
-#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .sender-email {
-  display: flex;
-  flex-direction: column;
-  word-break: break-word;
-  text-align: initial;
-  padding-right: 30px;
-}
+#wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .sender-email,
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .recipient-email {
   display: flex;
   flex-direction: column;
   word-break: break-word;
-  text-align: initial;
+  text-align: left; /* SAME ALIGN AS HEADER */
 }
 #wlps-main #wlps-point-sharing .wlps-body-content .wlps-data-row .point-status {
   border-radius: 4px;

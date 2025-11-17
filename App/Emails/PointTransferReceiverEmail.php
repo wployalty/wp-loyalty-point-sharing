@@ -15,7 +15,7 @@ class PointTransferReceiverEmail extends WC_Email {
 	private string $template_path;
 
 	public function __construct() {
-		$this->id             = 'wlps_point_transfer_receiver_email';
+		$this->id             = 'point_transfer_receiver_email';
 		$this->customer_email = true;
 		$this->title          = __( 'Point Transfer (Receiver)', 'wp-loyalty-point-sharing' );
 		$this->description    = __( 'This email is sent to the recipient when they receive loyalty points.', 'wp-loyalty-point-sharing' );
@@ -24,8 +24,7 @@ class PointTransferReceiverEmail extends WC_Email {
 		$this->template_plain = 'emails/plain/point-transfer-receiver.php';
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
 		$this->template_path  = 'wp-loyalty-point-sharing/';
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
-		$this->placeholders = apply_filters( $this->id . "_short_codes_list", [
+		$this->placeholders = apply_filters( "wlps_{$this->id}_short_codes_list", [
 			'{site_title}'          => get_bloginfo( 'name' ),
 			'{site_address}'        => 'localhost',
 			'{wlr_shop_url}'        => 'https://example.com',

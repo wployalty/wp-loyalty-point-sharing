@@ -1,6 +1,8 @@
 <?php
 
-namespace Wlps\App\Helper;
+namespace Wlps\App\Helpers;
+
+
 defined( 'ABSPATH' ) || exit;
 
 class Plugin {
@@ -70,7 +72,7 @@ class Plugin {
 	 * @return bool
 	 */
 	public static function isActive( string $plugin_path ): bool {
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
+		$active_plugins = apply_filters( 'wlps_active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
 		}

@@ -2,15 +2,34 @@
 
 namespace Wlps\App;
 
+use Wlps\App\Controller\Admin\AdminController;
 use Wlps\App\Controller\Common;
+use Wlps\App\Controller\PointTransferController;
+use Wlps\App\Controller\EmailManager;
+
 
 class Router {
 	public static function init() {
-		if ( is_admin() ) {
-			add_action( 'admin_menu', [ Common::class, 'addMenu' ], 11 );
-//			add_action( 'admin_footer', [ Common::class, 'hideMenu' ] );
-			add_action( 'admin_enqueue_scripts', [ Common::class, 'addAssets' ] );
+		EmailManager::init();
 
+		if ( is_admin() ) {
+			add_action( 'admin_menu', [ AdminController::class, 'addMenu' ], 10 );
+			add_action( 'admin_footer', [ AdminController::class, 'hideMenu' ] );
+			add_action( "admin_enqueue_scripts", [ AdminController::class, 'addAssets' ] );
+			add_filter( "wlr_allowed_email_ids", [ Common::class, 'addEmailId' ] );
+			if ( wp_doing_ajax() ) {
+				add_action( "wp_ajax_wlps_save_settings", [ AdminController::class, 'saveSettings' ] );
+			}
 		}
+		add_action( "wlr_after_customer_reward_page_available_points_content", [
+			Common::class,
+			'renderSharePointModal'
+		] );
+		add_action( "wp_enqueue_scripts", [ Common::class, 'addFrontendAssets' ] );
+		add_filter( "wlr_extra_action_list", [ Common::class, 'addExtraAction' ], 10, 1 );
+		add_action( "wp_ajax_wlps_transfer_points", [ PointTransferController::class, 'transferPoints' ], 10 );
+		add_action( "init", [ PointTransferController::class, 'handleConfirmTransfer' ] );
+
 	}
+
 }

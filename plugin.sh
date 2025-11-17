@@ -4,6 +4,20 @@ current_dir="$PWD"
 plugin_name="wp-loyalty-point-sharing"
 pack_folder=$current_dir"/../compressed_pack"
 plugin_compress_folder=$pack_folder"/"$plugin_name
+compile_scss() {
+  echo "Compiling SCSS..."
+
+  # Path change if needed
+  sass "$current_dir/Assets/Admin/Css/wlps-admin.scss" \
+       "$current_dir/Assets/Admin/Css/wlps-admin.css" \
+       --no-source-map --style=compressed
+
+  sass "$current_dir/Assets/Site/Css/transfer-modal.scss" \
+        "$current_dir/Assets/Site/Css/transfer-modal.css" \
+        --no-source-map --style=compressed
+
+  echo "SCSS compiled ✔"
+}
 composer_run() {
   # shellcheck disable=SC2164
   cd "$current_dir"
@@ -39,6 +53,8 @@ zip_folder() {
   zip -d "$plugin_name".zip __MACOSX/\*
   zip -d "$plugin_name".zip \*/.DS_Store
 }
+echo "Scss Compiled:"
+compile_scss
 echo "Composer Run:"
 composer_run
 echo "Update ini"

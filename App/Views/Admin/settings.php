@@ -71,7 +71,7 @@ defined( 'ABSPATH' ) or die;
                             </div>
                         </div>
                     </div>
-                    <div class="wlps-email-expiry-email wlps-share-point-email-editor">
+                    <div class="wlps-email-editor wlps-share-point-email-editor">
                         <div class="wlps-share-point-email-template">
                             <label
                                     for="wlps-share-point-email-template-label"><?php esc_html_e( 'Points Sharing Email Template Content', 'wp-loyalty-point-sharing' ); ?></label>

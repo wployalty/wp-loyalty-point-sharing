@@ -82,12 +82,12 @@ $wlps_search_email = ( isset( $search_email ) && ! empty( $search_email ) ) ? $s
 		<?php else: ?>
             <div class="wlps-body-content">
                 <div class="wlps-body-header">
-                    <div><b><?php esc_html_e( 'No', 'wp-loyalty-point-sharing' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Senders Email', 'wp-loyalty-point-sharing' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Recipient Email', 'wp-loyalty-point-sharing' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Points Shared', 'wp-loyalty-point-sharing' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Status', 'wp-loyalty-point-sharing' ); ?></b></div>
-                    <div><b><?php esc_html_e( 'Created At', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div class = "wlps-no"><b><?php esc_html_e( 'No', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div class = "wlps-sender-email"><b><?php esc_html_e( 'Senders Email', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div class="wlps-recipient-email"><b><?php esc_html_e( 'Recipient Email', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div class="wlps-points"><b><?php esc_html_e( 'Points Shared', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div class="wlps-status"><b><?php esc_html_e( 'Status', 'wp-loyalty-point-sharing' ); ?></b></div>
+                    <div class="wlps-created-at"><b><?php esc_html_e( 'Created At', 'wp-loyalty-point-sharing' ); ?></b></div>
                 </div>
 
                 <div class="wlps-body-data">

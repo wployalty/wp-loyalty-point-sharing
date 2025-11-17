@@ -216,7 +216,13 @@ $border-color: #E7E7EF;
 
       .wlps-body-header {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns:
+            0.5fr
+            1fr
+            1fr
+            0.8fr
+            0.8fr
+            1fr;
         margin: 20px 25px 5px 20px;
         padding: 20px 20px 20px 0px;
         font: {
@@ -230,6 +236,12 @@ $border-color: #E7E7EF;
         div {
           text-align: center;
         }
+        .wlps-sender-email,
+        .wlps-recipient-email {
+          text-align: left;
+          padding-left: 20px;
+        }
+
       }
 
       .wlps-data-row {
@@ -240,7 +252,13 @@ $border-color: #E7E7EF;
         height: auto;
         padding: 10px 20px;
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns:
+            0.5fr
+            1fr
+            1fr
+            0.8fr
+            0.8fr
+            1fr;
         margin: 10px 25px;
         color: #161F31;
         grid-gap: 2px;
@@ -254,19 +272,13 @@ $border-color: #E7E7EF;
           padding-right: 45px;
         }
 
-        .sender-email {
-          display: flex;
-          flex-direction: column;
-          word-break: break-word;
-          text-align: initial;
-          padding-right: 30px;
-        }
 
+        .sender-email,
         .recipient-email {
           display: flex;
           flex-direction: column;
           word-break: break-word;
-          text-align: initial;
+          text-align: left;   /* SAME ALIGN AS HEADER */
         }
 
         .point-status {

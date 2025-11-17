@@ -23,6 +23,7 @@ defined( 'ABSPATH' ) or die();
     </div>
     <div>
 		<?php echo wp_kses_post(apply_filters( 'wlps_extra_content', ( isset( $extra ) ? $extra : null ) )); ?>
-		<?php echo isset( $tab_content ) ? $tab_content : null; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo isset( $tab_content ) ? $tab_content : null; ?>
     </div>
 </div>

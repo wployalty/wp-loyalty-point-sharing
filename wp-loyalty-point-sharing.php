@@ -31,8 +31,7 @@ add_action( 'before_woocommerce_init', function () {
 } );
 if ( ! function_exists( 'wlpsIsWoocommerceActive' ) ) {
 	function wlpsIsWoocommerceActive() {
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
+		$active_plugins = apply_filters( 'wlps_active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
 		}
@@ -43,8 +42,7 @@ if ( ! function_exists( 'wlpsIsWoocommerceActive' ) ) {
 
 if ( ! function_exists( 'wlpsIsLoyaltyActive' ) ) {
 	function wlpsIsLoyaltyActive() {
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
+		$active_plugins = apply_filters( 'wlps_active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
 		}

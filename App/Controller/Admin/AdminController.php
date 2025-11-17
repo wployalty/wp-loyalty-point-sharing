@@ -307,14 +307,10 @@ class AdminController {
 		// Validate settings tab
 		$validate_data = Validation::validateSettingsTab( $data );
 		if ( is_array( $validate_data ) && ! empty( $validate_data ) ) {
-			$field_errors = [];
-			foreach ( $validate_data as $key => $errors ) {
-				$field_errors[ $key ] = implode( ', ', $errors );
-			}
-
+			$first_field_errors  = reset( $validate_data );
+			$first_error_message = current( $first_field_errors );
 			wp_send_json_error( [
-				'field_error' => $field_errors,
-				'message'     => implode( ' ', $field_errors ),
+				'message' => $first_error_message,
 			] );
 		}
 

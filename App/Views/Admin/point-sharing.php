@@ -59,7 +59,6 @@ $wlps_search_email = ( isset( $search_email ) && ! empty( $search_email ) ) ? $s
             <input type="hidden" name="status_sort"
                    value="<?php echo isset( $status_sort ) ? esc_attr( $status_sort ) : 'all'; ?>"/>
             <input type="hidden" name="page" value="<?php echo esc_attr( WLPS_PLUGIN_SLUG ); ?>"/>
-            <input type="hidden" name="view" value="expire_points"/>
             <input type="hidden" name="sort_order" id="user_point_share_filter_order"
                    value="<?php echo isset( $filter_order ) ? esc_attr( $filter_order ) : ''; ?>"/>
             <input type="hidden" name="sort_order_dir" id="user_point_share_filter_order_dir"

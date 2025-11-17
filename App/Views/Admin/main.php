@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) or die();
         ><i class="wlr wlps-settings"></i><?php esc_html_e( 'Settings', 'wp-loyalty-point-sharing' ) ?></a>
     </div>
     <div>
-		<?php echo apply_filters( 'wlps_extra_content', ( isset( $extra ) ? $extra : null ) );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo wp_kses_post(apply_filters( 'wlps_extra_content', ( isset( $extra ) ? $extra : null ) )); ?>
 		<?php echo isset( $tab_content ) ? $tab_content : null; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
     </div>
 </div>

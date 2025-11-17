@@ -20,13 +20,15 @@ defined( 'ABSPATH' ) or die;
                     <div class="wlps-back-to-apps">
                         <a class="button" target="_self"
                            href="<?php echo isset( $back_to_apps_url ) ? esc_url( $back_to_apps_url ) : '#'; ?>">
-                            <img src="<?php echo ( isset( $back ) && ! empty( $back ) ) ? esc_url( $back ) : ''; //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>"
+                            <?php //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+                            <img src="<?php echo ( isset( $back ) && ! empty( $back ) ) ? esc_url( $back ) : ''; ?>"
                                  alt="<?php esc_html_e( "Back", "wp-loyalty-point-sharing" ); ?>">
 							<?php esc_html_e( 'Back to WPLoyalty', 'wp-loyalty-point-sharing' ); ?></a>
                     </div>
                     <div class="wlps-save-changes">
                         <button type="button" id="wlps-setting-submit-button" onclick="wlps.saveSettings();">
-                            <img src="<?php echo ( isset( $save ) && ! empty( $save ) ) ? esc_url( $save ) : '';//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>">
+                            <?php //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+                            <img src="<?php echo ( isset( $save ) && ! empty( $save ) ) ? esc_url( $save ) : ''; ?>">
                             <span><?php esc_html_e( 'Save Changes', 'wp-loyalty-point-sharing' ) ?></span>
                         </button>
                     </div>

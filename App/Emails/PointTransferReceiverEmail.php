@@ -57,13 +57,6 @@ class PointTransferReceiverEmail extends WC_Email {
 		return __( '{wlr_sender_name} sent you {wlr_transfer_points} {wlr_points_label}', 'wp-loyalty-point-sharing' );
 	}
 
-	public function get_subject() {
-		$subject = $this->get_option( 'subject', $this->get_default_subject() );
-
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-		return apply_filters( 'woocommerce_email_subject_' . $this->id, $this->format_string( $subject ), $this->object, $this );
-	}
-
 	/**
 	 * Trigger this email
 	 */
@@ -92,8 +85,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{wlr_recipient_email}' => $recipient_email,
 			'{wlr_referral_url}'    => $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '',
 			'{wlr_sender_name}'     => $this->getUserDisplayName( $sender_email ),
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-			'{wlr_store_name}'      => apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) ),
+			'{wlr_store_name}'      => apply_filters( 'wlps_before_display_store_name', get_option( 'blogname' ) ),
 			'{wlr_transfer_points}' => $points_amount,
 			'{wlr_account_link}'    => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
 			'{wlr_points_label}'    => $point_label,

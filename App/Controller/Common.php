@@ -20,7 +20,7 @@ class Common {
 		$settings     = get_option( 'wlps_settings', [] );
 		$max_transfer = isset( $settings['max_transfer_points'] ) ? (int) $settings['max_transfer_points'] : Util::getDefaults( 'max_transfer_points' );
 		$user_email   = Util::getLoginUserEmail();
-		$user_points  = $base_helper->getUserPoint( $user_email );
+		$user_points  = (int)$base_helper->getUserPoint( $user_email );
 		$suffix       = '.min';
 
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION );

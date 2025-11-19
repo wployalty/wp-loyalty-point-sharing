@@ -151,17 +151,17 @@ wlps = window.wlps || {};
         const submitBtn = wlps_jquery('#wlps-transfer-form button[type="submit"]');
 
         pointsInput.on('input', function () {
-            const points = pointsInput.val() || 0;
+            const points = Number(pointsInput.val()) || 0;
             const errorMsg = wlps.validatePoints(points);
             if (errorMsg) {
                 pointsError.text(errorMsg).show();
                 pointsInput.addClass('wlps-input-error');
                 submitBtn.prop('disabled', true);
-                return;
-            }
+            }else {
                 pointsError.hide();
                 pointsInput.removeClass('wlps-input-error');
                 submitBtn.prop('disabled', false);
+            }
         });
     });
 

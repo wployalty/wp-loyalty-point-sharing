@@ -38,7 +38,7 @@ class PointTransferReceiverEmail extends \WC_Email {
 			'{wlr_points_label}'    => __( 'points', 'wp-loyalty-point-sharing' ),
 			'{wlr_account_link}'    => 'https://example.com',
 			'{wlr_referral_url}'    => 'https://example.com',
-			'{wlr_user_points}'     => 0,
+			'{wlr_user_points}'     => 10,
 		] );
 		add_action( 'wlps_send_point_transfer_reciever_email', [ $this, 'trigger' ], 10, 3 );
 		parent::__construct();

@@ -8,7 +8,7 @@ wlps = window.wlps || {};
     wlps.validatePoints = function (points) {
         const availableUserPoints = wlps_frontend_data.available_user_points;
         const maxPoints = wlps_frontend_data.max_transfer_points;
-
+        if(!/^[0-9]+$/.test(points)) return wlps_frontend_translations.points_type_error;
         if (points < 1) return wlps_frontend_translations.points_min_error;
         if (points > availableUserPoints) return wlps_frontend_translations.points_max_user_error.replace('%d', availableUserPoints);
         if (points > maxPoints) return wlps_frontend_translations.points_max_limit_error.replace('%d', maxPoints);
@@ -151,18 +151,17 @@ wlps = window.wlps || {};
         const submitBtn = wlps_jquery('#wlps-transfer-form button[type="submit"]');
 
         pointsInput.on('input', function () {
-            const points = parseInt(pointsInput.val()) || 0;
+            const points = pointsInput.val() || 0;
             const errorMsg = wlps.validatePoints(points);
-
             if (errorMsg) {
                 pointsError.text(errorMsg).show();
-                pointsInput.addClass('wlps-input-error'); // Add red outline
+                pointsInput.addClass('wlps-input-error');
                 submitBtn.prop('disabled', true);
-            } else {
+                return;
+            }
                 pointsError.hide();
                 pointsInput.removeClass('wlps-input-error');
                 submitBtn.prop('disabled', false);
-            }
         });
     });
 

@@ -30,9 +30,11 @@ wlps = window.wlps || {};
     wlps.closeSharePointsModal = function () {
         const form = wlps_jquery('#wlps-transfer-form');
         const pointsError = wlps_jquery('#wlps-transfer-points-error');
+        const pointsInput = wlps_jquery('#transfer-points');
         wlps_jquery('#wlps-share-points-modal').hide();
         form[0].reset();
         pointsError.text('').hide();
+        pointsInput.removeClass('wlps-input-error');
     };
 
     /** Form Submission Handler **/

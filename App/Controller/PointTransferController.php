@@ -40,7 +40,8 @@ class PointTransferController {
 		$sender_email    = $sender->user_email;
 		$recipient_email = Input::get( 'transfer_email', '', 'post' );
 		$transfer_points = Input::get( 'transfer_points', '', 'post' );
-
+		$transfer_points = ltrim($transfer_points, '0');
+		$transfer_points = $transfer_points === '' ? '0' : $transfer_points;
 		$validation_result = Validation::validateTransferPointsInput( $recipient_email, $transfer_points );
 
 		if ( is_array( $validation_result ) && ! empty( $validation_result ) ) {

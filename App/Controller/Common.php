@@ -47,7 +47,7 @@ class Common {
 			'points_max_user_error'  => __( 'You only have %d points available.', 'wp-loyalty-point-sharing' ),
 			/* translators: %d is the maximum points allowed */
 			'points_max_limit_error' => __( 'Maximum is %d points.', 'wp-loyalty-point-sharing' ),
-			'points_type_error'      => __('Points must be a number', 'wp-loyalty-point-sharing'),
+			'points_type_error'      => __('Points must be a whole number', 'wp-loyalty-point-sharing'),
 			'confirm_modal_message'  => __( 'Type CONFIRM to proceed with points transfer:', 'wp-loyalty-point-sharing' ),
 			'confirm_modal_error'    => __( 'You must type CONFIRM to proceed.', 'wp-loyalty-point-sharing' ),
 			'ajax_error'             => __( 'Something went wrong. Please try again.', 'wp-loyalty-point-sharing' ),

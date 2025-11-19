@@ -137,7 +137,7 @@ class PointTransferReceiverEmail extends \WC_Email {
 	protected function getShortCodeDescription( $short_code ) {
 		$short_code_descriptions = [
 			'{wlr_transfer_points}' => __( 'The number of points that are going to transfer', 'wp-loyalty-point-sharing' ),
-			'{wlr_recipient_name}'  => __( 'The Recipient who is recieved the points', 'wp-loyalty-point-sharing' ),
+			'{wlr_recipient_name}'  => __( 'The Recipient who is received the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_sender_name}'     => __( 'The Sender who sends the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_sender_email}'    => __( 'The Sender email who sends the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_recipient_email}' => __( 'The Recipient email who receives the points', 'wp-loyalty-point-sharing' ),

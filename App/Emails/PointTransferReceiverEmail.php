@@ -107,7 +107,7 @@ class PointTransferReceiverEmail extends \WC_Email {
 			/* translators: %1$s: email not sent */
 			$log_data['note']          = sprintf( __( 'Email not sent — recipient (%1$s) opted out of notifications', 'wp-loyalty-point-sharing' ), $recipient_email );
 			$log_data['customer_note'] = $log_data['note'];
-			Rewards::getInstance()->add_note( $log_data );
+			$reward_helper->add_note( $log_data );
 
 			return;
 		}
@@ -118,7 +118,7 @@ class PointTransferReceiverEmail extends \WC_Email {
 			$log_data['customer_note'] = sprintf( __( 'Point transfer email sent successfully', 'wp-loyalty-point-sharing' ) );
 		}
 
-		Rewards::getInstance()->add_note( $log_data );
+		$reward_helper->add_note( $log_data );
 	}
 
 	public function getShortCodesList() {

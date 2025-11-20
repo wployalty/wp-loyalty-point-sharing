@@ -303,6 +303,9 @@ class AdminController {
 		foreach ( $fields_to_remove as $field ) {
 			unset( $data[ $field ] );
 		}
+		if ( isset( $data['max_transfer_points'] ) ) {
+			$data['max_transfer_points'] = (int) $data['max_transfer_points'];
+		}
 
 		// Validate settings tab
 		$validate_data = Validation::validateSettingsTab( $data );

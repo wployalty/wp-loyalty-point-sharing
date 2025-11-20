@@ -20,7 +20,7 @@ class Common {
 		$settings     = get_option( 'wlps_settings', [] );
 		$max_transfer = isset( $settings['max_transfer_points'] ) ? (int) $settings['max_transfer_points'] : Util::getDefaults( 'max_transfer_points' );
 		$user_email   = Util::getLoginUserEmail();
-		$user_points  = $base_helper->getUserPoint( $user_email );
+		$user_points  = (int)$base_helper->getUserPoint( $user_email );
 		$suffix       = '.min';
 
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION );
@@ -47,6 +47,7 @@ class Common {
 			'points_max_user_error'  => __( 'You only have %d points available.', 'wp-loyalty-point-sharing' ),
 			/* translators: %d is the maximum points allowed */
 			'points_max_limit_error' => __( 'Maximum is %d points.', 'wp-loyalty-point-sharing' ),
+			'points_type_error'      => __('Points must be a whole number', 'wp-loyalty-point-sharing'),
 			'confirm_modal_message'  => __( 'Type CONFIRM to proceed with points transfer:', 'wp-loyalty-point-sharing' ),
 			'confirm_modal_error'    => __( 'You must type CONFIRM to proceed.', 'wp-loyalty-point-sharing' ),
 			'ajax_error'             => __( 'Something went wrong. Please try again.', 'wp-loyalty-point-sharing' ),

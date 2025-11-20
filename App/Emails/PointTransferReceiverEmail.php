@@ -7,15 +7,15 @@ use Wlr\App\Emails\Traits\Common;
 use Wlr\App\Helpers\Rewards;
 
 defined( "ABSPATH" ) or die();
-require_once plugin_dir_path( WC_PLUGIN_FILE ) . 'includes/emails/class-wc-email.php';
 
-class PointTransferReceiverEmail extends WC_Email {
+
+class PointTransferReceiverEmail extends \WC_Email {
 	use Common;
 
 	private string $template_path;
 
 	public function __construct() {
-		$this->id             = 'point_transfer_receiver_email';
+		$this->id             = 'wlps_point_transfer_receiver_email';
 		$this->customer_email = true;
 		$this->title          = __( 'Point Transfer (Receiver)', 'wp-loyalty-point-sharing' );
 		$this->description    = __( 'This email is sent to the recipient when they receive loyalty points.', 'wp-loyalty-point-sharing' );
@@ -24,7 +24,8 @@ class PointTransferReceiverEmail extends WC_Email {
 		$this->template_plain = 'emails/plain/point-transfer-receiver.php';
 		$this->template_base  = WLPS_PLUGIN_PATH . 'templates/';
 		$this->template_path  = 'wp-loyalty-point-sharing/';
-		$this->placeholders = apply_filters( "wlps_{$this->id}_short_codes_list", [
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
+		$this->placeholders = apply_filters($this->id.'_short_codes_list', [
 			'{site_title}'          => get_bloginfo( 'name' ),
 			'{site_address}'        => 'localhost',
 			'{wlr_shop_url}'        => 'https://example.com',
@@ -37,7 +38,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			'{wlr_points_label}'    => __( 'points', 'wp-loyalty-point-sharing' ),
 			'{wlr_account_link}'    => 'https://example.com',
 			'{wlr_referral_url}'    => 'https://example.com',
-			'{wlr_user_points}'     => 0,
+			'{wlr_user_points}'     => 10,
 		] );
 		add_action( 'wlps_send_point_transfer_reciever_email', [ $this, 'trigger' ], 10, 3 );
 		parent::__construct();
@@ -106,7 +107,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			/* translators: %1$s: email not sent */
 			$log_data['note']          = sprintf( __( 'Email not sent — recipient (%1$s) opted out of notifications', 'wp-loyalty-point-sharing' ), $recipient_email );
 			$log_data['customer_note'] = $log_data['note'];
-			Rewards::getInstance()->add_note( $log_data );
+			$reward_helper->add_note( $log_data );
 
 			return;
 		}
@@ -117,7 +118,7 @@ class PointTransferReceiverEmail extends WC_Email {
 			$log_data['customer_note'] = sprintf( __( 'Point transfer email sent successfully', 'wp-loyalty-point-sharing' ) );
 		}
 
-		Rewards::getInstance()->add_note( $log_data );
+		$reward_helper->add_note( $log_data );
 	}
 
 	public function getShortCodesList() {
@@ -136,7 +137,7 @@ class PointTransferReceiverEmail extends WC_Email {
 	protected function getShortCodeDescription( $short_code ) {
 		$short_code_descriptions = [
 			'{wlr_transfer_points}' => __( 'The number of points that are going to transfer', 'wp-loyalty-point-sharing' ),
-			'{wlr_recipient_name}'  => __( 'The Recipient who is recieved the points', 'wp-loyalty-point-sharing' ),
+			'{wlr_recipient_name}'  => __( 'The Recipient who is received the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_sender_name}'     => __( 'The Sender who sends the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_sender_email}'    => __( 'The Sender email who sends the points', 'wp-loyalty-point-sharing' ),
 			'{wlr_recipient_email}' => __( 'The Recipient email who receives the points', 'wp-loyalty-point-sharing' ),

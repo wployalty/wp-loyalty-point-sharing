@@ -77,6 +77,12 @@ if ( class_exists( Setup::class ) ) {
 	Setup::init();
 }
 add_action( 'plugins_loaded', function () {
+	$myUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+		'https://github.com/wployalty/wp-loyalty-point-sharing',
+		__FILE__,
+		'wp-loyalty-point-sharing'
+	);
+	$myUpdateChecker->getVcsApi()->enableReleaseAssets();
 	if ( ! class_exists( '\Wlps\App\Router' ) || ! class_exists( '\Wlps\App\Helpers\Plugin' ) ) {
 
 		return;

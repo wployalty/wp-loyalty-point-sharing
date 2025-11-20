@@ -39,9 +39,7 @@ class PointTransferController {
 		$sender          = wp_get_current_user();
 		$sender_email    = $sender->user_email;
 		$recipient_email = Input::get( 'transfer_email', '', 'post' );
-		$transfer_points = Input::get( 'transfer_points', '', 'post' );
-
-		$transfer_points = ltrim($transfer_points, '0');
+		$transfer_points = (int)Input::get( 'transfer_points', '', 'post' );
 
 		$validation_result = Validation::validateTransferPointsInput( $recipient_email, $transfer_points );
 

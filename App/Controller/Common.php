@@ -80,26 +80,31 @@ class Common {
 	}
 
 	/**
-	 * Add custom email IDs related to point transfers.
+	 * Render the Share Points modal for the logged-in user.
 	 *
-	 * This method appends the plugin's custom email identifiers to the existing
-	 * list of WooCommerce email IDs. These identifiers correspond to the
-	 * sender and receiver point transfer email notifications.
+	 * This method checks whether the Share Points feature is enabled and
+	 * whether the logged-in loyalty user has a positive points balance.
+	 * If both conditions are met, it loads and returns the Share Points
+	 * modal template HTML.
 	 *
-	 * Typically hooked into a filter like `woocommerce_email_classes` or
-	 * a custom plugin email registration process.
+	 * The template is first checked in the active theme directory under:
+	 * `wp-loyalty-point-sharing/Site/share-points-modal.php`
+	 * If not found, the default plugin template path is used.
 	 *
-	 * @param array $emailIds Existing array of email IDs registered in WooCommerce or the plugin.
+	 * @return string|null The rendered modal HTML string, or null if the modal
+	 *                     should not be displayed (e.g., feature disabled, user
+	 *                     not found, or insufficient points).
 	 *
-	 * @return string|null The rendered modal HTML string, or null if not applicable.
 	 * @since 1.0.0
-	 *
 	 */
 	public static function renderSharePointModal() {
 		$settings               = get_option( 'wlps_settings', [] );
 		$is_share_point_enabled = ! empty( $settings['enable_share_point'] );
 		$user_email             = Util::getLoginUserEmail();
 		$loyalty_user           = self::getLoyaltyUser( $user_email );
+		if ( empty($loyalty_user) || ! isset($loyalty_user->points) ) {
+			return;
+		}
 		$user_points            = $loyalty_user->points;
 		if ( $is_share_point_enabled && $user_points > 0 ) {
 
@@ -114,6 +119,7 @@ class Common {
 				return Util::renderTemplate( $file_path );
 			}
 		}
+		return null;
 	}
 
 	/**

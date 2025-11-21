@@ -37,6 +37,11 @@ class PointTransferController {
 
 
 		$sender          = wp_get_current_user();
+		if ( ! $sender || empty( $sender->ID ) ) {
+			wp_send_json_error([
+				'message' => __( 'You must be logged in to transfer points.', 'wp-loyalty-point-sharing' ),
+			]);
+		}
 		$sender_email    = $sender->user_email;
 		$recipient_email = Input::get( 'transfer_email', '', 'post' );
 		$transfer_points = (int)Input::get( 'transfer_points', '', 'post' );

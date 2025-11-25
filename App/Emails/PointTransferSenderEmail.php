@@ -168,7 +168,7 @@ class PointTransferSenderEmail extends \WC_Email {
 	}
 
 	public function get_content_plain() {
-		return $this->format_string( wc_get_template_html( $this->template_html, [
+		return $this->format_string( wc_get_template_html( $this->template_plain, [
 			'email_heading'      => $this->get_heading(),
 			'additional_content' => $this->get_additional_content(),
 			'sent_to_admin'      => false,
